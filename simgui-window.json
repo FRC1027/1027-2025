@@ -1,0 +1,88 @@
+{
+  "Docking": {
+    "Data": [
+      "DockNode      ID=0x00000001 Pos=780,71 Size=700,400 Split=X",
+      "DockNode    ID=0x00000004 Parent=0x00000001 SizeRef=282,400 Selected=0xC8493FD8",
+      "DockNode    ID=0x00000005 Parent=0x00000001 SizeRef=416,400 Split=Y",
+      "DockNode  ID=0x00000002 Parent=0x00000005 SizeRef=700,149 Selected=0xD58031C5",
+      "DockNode  ID=0x00000003 Parent=0x00000005 SizeRef=700,249 Selected=0x3E90CA91"
+    ]
+  },
+  "MainWindow": {
+    "GLOBAL": {
+      "fps": "120",
+      "height": "1017",
+      "maximized": "1",
+      "style": "0",
+      "userScale": "2",
+      "width": "1920",
+      "xpos": "1920",
+      "ypos": "23"
+    }
+  },
+  "Window": {
+    "###/SmartDashboard/Field": {
+      "Collapsed": "0",
+      "Pos": "160,528",
+      "Size": "1006,522"
+    },
+    "###/SmartDashboard/field": {
+      "Collapsed": "0",
+      "Pos": "62,532",
+      "Size": "918,465"
+    },
+    "###FMS": {
+      "Collapsed": "0",
+      "DockId": "0x00000004,0",
+      "Pos": "780,71",
+      "Size": "282,400"
+    },
+    "###Joysticks": {
+      "Collapsed": "0",
+      "Pos": "1080,735",
+      "Size": "796,240"
+    },
+    "###NetworkTables": {
+      "Collapsed": "0",
+      "Pos": "15,22",
+      "Size": "750,500"
+    },
+    "###NetworkTables Info": {
+      "Collapsed": "0",
+      "Pos": "250,130",
+      "Size": "750,145"
+    },
+    "###Other Devices": {
+      "Collapsed": "0",
+      "Pos": "1645,28",
+      "Size": "250,695"
+    },
+    "###Plot <0>": {
+      "Collapsed": "0",
+      "DockId": "0x00000003,0",
+      "Pos": "469,435",
+      "Size": "700,249"
+    },
+    "###System Joysticks": {
+      "Collapsed": "0",
+      "Pos": "1361,496",
+      "Size": "192,218"
+    },
+    "###Timing": {
+      "Collapsed": "0",
+      "DockId": "0x00000002,0",
+      "Pos": "1064,71",
+      "Size": "416,400"
+    },
+    "Debug##Default": {
+      "Collapsed": "0",
+      "Pos": "60,60",
+      "Size": "400,400"
+    },
+    "Robot State": {
+      "Collapsed": "0",
+      "Pos": "1539,305",
+      "Size": "92,116"
+    }
+  }
+}

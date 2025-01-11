@@ -1,0 +1,11 @@
+[
+  {
+    "name": "/SmartDashboard/Auto Selector",
+    "type": "string",
+    "value": "Taxi",
+    "properties": {
+      "persistent": true,
+      "retained": true
+    }
+  }
+]
