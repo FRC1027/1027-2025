@@ -193,7 +193,7 @@ public class RevSwerveModule implements SwerveModule
             ;
         
         mAngleMotor.configure(config, null, null);
-        mAngleMotor
+        
 
 
     }
