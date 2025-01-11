@@ -246,7 +246,7 @@ public class RobotContainer {
         //BButton.onFalse(new InstantCommand(() -> shooter.stopShooter()));
         //BButton.onTrue(m_driveHeading);
         
-        //DRY CODED!!!!!
+        //DRY CODED!!!!
         //Test Phrase commands PLATFORM
         YButton.onTrue(new HighRowCommand());
         XButton.onTrue(new FetalPositionCommand());
