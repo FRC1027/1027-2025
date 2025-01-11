@@ -37,7 +37,7 @@ public class platform extends SubsystemBase {
     solenoid3.set(clamped ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
   }
 */
-  //public CommandBase setClampedCommand(boolean clamped) {
+  //public Command setClampedCommand(boolean clamped) {
   //  return run(() -> setClampedSolenoid1(clamped));
   //}
 }

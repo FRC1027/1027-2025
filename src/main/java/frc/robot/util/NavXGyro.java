@@ -9,7 +9,8 @@ import java.util.Optional;
 import org.opencv.photo.CalibrateCRF;
 
 import com.fasterxml.jackson.databind.JsonSerializable.Base;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -23,7 +24,9 @@ public class NavXGyro extends AHRS{
 
     /** Creates a new NavXGyro. */
     private NavXGyro() {
-        super(SPI.Port.kMXP);
+        //super(SPI.Port.kMXP);
+        super(NavXComType.kMXP_SPI);  //ML Drycoded must test
+        // super(NavXComType.kI2C);  //ML kMXP_SPI value is 0, kI2C value is 4, original code uses SPI.Port.kMXP which is 4
         reset();
 
         double angle = -90;

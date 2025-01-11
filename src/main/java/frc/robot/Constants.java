@@ -2,7 +2,9 @@ package frc.robot;
 
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -17,8 +19,10 @@ public final class Constants {
     public static final class Swerve {
 
         // Spark Max Idle Modes
-        public static final CANSparkMax.IdleMode driveIdleMode = CANSparkMax.IdleMode.kCoast;
-        public static final CANSparkMax.IdleMode angleIdleMode = CANSparkMax.IdleMode.kCoast;
+        // public static final CANSparkMax.IdleMode driveIdleMode = CANSparkMax.IdleMode.kCoast;
+        // public static final CANSparkMax.IdleMode angleIdleMode = CANSparkMax.IdleMode.kCoast;
+        public static final SparkMaxConfig.IdleMode driveIdleMode = SparkMaxConfig.IdleMode.kCoast; //ML Drycoded must test
+        public static final SparkMaxConfig.IdleMode angleIdleMode = SparkMaxConfig.IdleMode.kCoast; //ML Drycoded must test
 
         // Max Output Powers
         public static final double drivePower = 1;

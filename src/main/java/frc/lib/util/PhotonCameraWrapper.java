@@ -36,10 +36,10 @@ public class PhotonCameraWrapper {
             // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the
             // field.
             AprilTagFieldLayout fieldLayout =
-                AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+                AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
             // Create pose estimator
-            photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO,
-                photonCamera, robotToCam);
+            //photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, photonCamera, robotToCam);
+            photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, robotToCam);  //ML Drycoded must test
             photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_CAMERA_HEIGHT);
         } catch (Exception e) {
             // The AprilTagFieldLayout failed to load. We won't be able to estimate poses if we
@@ -103,6 +103,7 @@ public class PhotonCameraWrapper {
             return Optional.empty();
         }
         photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-        return photonPoseEstimator.update();
+        //return photonPoseEstimator.update();
+        return photonPoseEstimator.update(res); //ML Drycoded must test
     }
 }

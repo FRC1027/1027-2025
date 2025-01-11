@@ -2,14 +2,28 @@
 package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.FaultID;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+
+ //ML Drycoded must test
+//import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
+//import com.revrobotics.CANSparkBase;
+import com.revrobotics.spark.SparkBase;
+//import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.ControlType;
+//import com.revrobotics.CANSparkBase.FaultID;
+import com.revrobotics.spark.SparkBase.Faults;
+//import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkPIDController;
+//import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.spark.SparkMaxAlternateEncoder;
+//import com.revrobotics.SparkPIDController;
+import com.revrobotics.spark.SparkClosedLoopController;
+
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -32,8 +46,10 @@ public class RevSwerveModule implements SwerveModule
     private Rotation2d angleOffset;
     // private Rotation2d lastAngle;
 
-    private CANSparkMax mAngleMotor;
-    private CANSparkMax mDriveMotor;
+    //private CANSparkMax mAngleMotor;
+    //private CANSparkMax mDriveMotor;
+    private SparkMax mAngleMotor;
+    private SparkMax mDriveMotor;
 
     private CANcoder angleEncoder;
     private RelativeEncoder relAngleEncoder;
@@ -52,16 +68,19 @@ public class RevSwerveModule implements SwerveModule
 
 
         /* Angle Motor Config */
-        mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
+        //mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
+        mAngleMotor = new SparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
         configAngleMotor();
 
         /* Drive Motor Config */
-        mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID,  MotorType.kBrushless);
+        //mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID,  MotorType.kBrushless);
+        mDriveMotor = new SparkMax(moduleConstants.driveMotorID,  MotorType.kBrushless);
         configDriveMotor();
 
         /* Angle Encoder Config */
 
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
+
         configEncoders();
 
 
@@ -79,15 +98,42 @@ public class RevSwerveModule implements SwerveModule
         // We need this feature when using path planner & Trajectory
         // Need solution????
        // relDriveEncoder.setPositionConversionFactor(Constants.Swerve.driveRevToMeters);
-        relDriveEncoder.setVelocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond);
-
+        //relDriveEncoder.setVelocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond);
+        
+        //ML New format to configure SparkMax for 2025 DRYCODED
+        SparkMaxConfig config = new SparkMaxConfig();
+        //config
+        //.inverted(true)
+        //.idleMode(IdleMode.kBrake);
+        config.encoder
+            //.positionConversionFactor(Constants.Swerve.driveRevToMeters)
+            .velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond);
+        //config.closedLoop
+        //    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        //    .pid(1.0, 0.0, 0.0);
+        
+        mDriveMotor.configure(config, null, null);
 
         relAngleEncoder = mAngleMotor.getEncoder();
 
         // Comment out because we could not get smartMotion work with conversion value
         //relAngleEncoder.setPositionConversionFactor(Constants.Swerve.DegreesPerTurnRotation);
         // in degrees/sec
-        relAngleEncoder.setVelocityConversionFactor(Constants.Swerve.DegreesPerTurnRotation / 60);
+        //relAngleEncoder.setVelocityConversionFactor(Constants.Swerve.DegreesPerTurnRotation / 60);
+
+        //ML New format to configure SparkMax for 2025 DRYCODED
+        SparkMaxConfig config2 = new SparkMaxConfig();
+        //config2
+        //.inverted(true)
+        //.idleMode(IdleMode.kBrake);
+        config2.encoder
+            //.positionConversionFactor(Constants.Swerve.driveRevToMeters)
+            .velocityConversionFactor(Constants.Swerve.DegreesPerTurnRotation / 60);
+        //config2.closedLoop
+        //    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        //    .pid(1.0, 0.0, 0.0);
+        
+        mAngleMotor.configure(config2, null, null);
 
 
         synchronizeEncoders();
@@ -102,38 +148,61 @@ public class RevSwerveModule implements SwerveModule
 
     private void configAngleMotor()
     {
-        mAngleMotor.restoreFactoryDefaults();
-        SparkPIDController controller = mAngleMotor.getPIDController();
-        controller.setP(Constants.Swerve.angleKP, 0);
-        controller.setI(Constants.Swerve.angleKI,0);
-        controller.setD(Constants.Swerve.angleKD,0);
-        controller.setFF(Constants.Swerve.angleKFF,0);
-        controller.setOutputRange(-Constants.Swerve.anglePower, Constants.Swerve.anglePower);
-        mAngleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
+        // mAngleMotor.restoreFactoryDefaults();
+        // SparkPIDController controller = mAngleMotor.getPIDController();
+        
+        // controller.setP(Constants.Swerve.angleKP, 0);
+        // controller.setI(Constants.Swerve.angleKI,0);
+        // controller.setD(Constants.Swerve.angleKD,0);
+        // controller.setFF(Constants.Swerve.angleKFF,0);
+        // controller.setOutputRange(-Constants.Swerve.anglePower, Constants.Swerve.anglePower);
+        // mAngleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
 
-        mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
-        mAngleMotor.setIdleMode(Constants.Swerve.angleIdleMode);
-        mAngleMotor.setClosedLoopRampRate(Constants.Swerve.angleRampRate);
+        // mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
+        // mAngleMotor.setIdleMode(Constants.Swerve.angleIdleMode);
+        // mAngleMotor.setClosedLoopRampRate(Constants.Swerve.angleRampRate);
 
-        controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 0);
-        controller.setSmartMotionMaxVelocity(Constants.Swerve.maxAngleVel, 0);
-        controller.setSmartMotionMaxAccel(Constants.Swerve.maxAngleAccVel, 0);
-        controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedAngleErrVel, 0);
+        // controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 0);
+        // controller.setSmartMotionMaxVelocity(Constants.Swerve.maxAngleVel, 0);
+        // controller.setSmartMotionMaxAccel(Constants.Swerve.maxAngleAccVel, 0);
+        // controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedAngleErrVel, 0);
 
-        controller.setP(Constants.Swerve.angleKP, 1);
-        controller.setI(Constants.Swerve.angleKI,1);
-        controller.setD(Constants.Swerve.angleKD,1);
-        controller.setFF(Constants.Swerve.angleKFF,1);
-        controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 1);
-        controller.setSmartMotionMaxVelocity(Constants.Swerve.maxAnglePos, 1);
-        controller.setSmartMotionMaxAccel(Constants.Swerve.maxAngleAccPos, 1);
-        controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedAngleErrPos, 1);
+        // controller.setP(Constants.Swerve.angleKP, 1);
+        // controller.setI(Constants.Swerve.angleKI,1);
+        // controller.setD(Constants.Swerve.angleKD,1);
+        // controller.setFF(Constants.Swerve.angleKFF,1);
+        // controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 1);
+        // controller.setSmartMotionMaxVelocity(Constants.Swerve.maxAnglePos, 1);
+        // controller.setSmartMotionMaxAccel(Constants.Swerve.maxAngleAccPos, 1);
+        // controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedAngleErrPos, 1);
+
+
+        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
+        SparkMaxConfig config = new SparkMaxConfig();
+        config
+        .inverted(Constants.Swerve.angleMotorInvert)
+        .idleMode(Constants.Swerve.angleIdleMode);
+        config.encoder
+            .positionConversionFactor(Constants.Swerve.driveRevToMeters)
+            .velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond);
+        config.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            .pid(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD)
+            .velocityFF(Constants.Swerve.angleKFF)
+            .outputRange(-Constants.Swerve.anglePower, Constants.Swerve.anglePower)
+            ;
+        
+        mAngleMotor.configure(config, null, null);
+        mAngleMotor
+
+
     }
 
     private void configDriveMotor()
     {
          mDriveMotor.restoreFactoryDefaults();
-        SparkPIDController controller = mDriveMotor.getPIDController();
+        //SparkPIDController controller = mDriveMotor.getPIDController();
+        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
         controller.setOutputRange(-Constants.Swerve.drivePower, Constants.Swerve.drivePower);
         mDriveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
         mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
@@ -170,12 +239,14 @@ public class RevSwerveModule implements SwerveModule
         // Set the isOpenLoop to false so we can trigger the PID control for the velocity
         setSpeed(this.desiredState, false);
 
-        if(mDriveMotor.getFault(FaultID.kSensorFault))
+        //if(mDriveMotor.getFault(FaultID.kSensorFault))
+        if(mDriveMotor.getFaults() != null)
         {
             DriverStation.reportWarning("Sensor Fault on Drive Motor ID:"+mDriveMotor.getDeviceId(), false);
         }
 
-        if(mAngleMotor.getFault(FaultID.kSensorFault))
+        //if(mAngleMotor.getFault(FaultID.kSensorFault))
+        if(mAngleMotor.getFaults() != null)
         {
             DriverStation.reportWarning("Sensor Fault on Angle Motor ID:"+mAngleMotor.getDeviceId(), false);
         }
@@ -192,12 +263,14 @@ public class RevSwerveModule implements SwerveModule
 
         //setPositionOtpimized(angleDegree);
 
-        if(mDriveMotor.getFault(FaultID.kSensorFault))
+        //if(mDriveMotor.getFault(FaultID.kSensorFault))
+        if(mDriveMotor.getFaults() != null)
         {
             DriverStation.reportWarning("Sensor Fault on Drive Motor ID:"+mDriveMotor.getDeviceId(), false);
         }
 
-        if(mAngleMotor.getFault(FaultID.kSensorFault))
+        //if(mAngleMotor.getFault(FaultID.kSensorFault))
+        if(mAngleMotor.getFaults() != null)
         {
             DriverStation.reportWarning("Sensor Fault on Angle Motor ID:"+mAngleMotor.getDeviceId(), false);
         }
@@ -215,11 +288,12 @@ public class RevSwerveModule implements SwerveModule
 
         double velocity = desiredState.speedMetersPerSecond;
 
-        SparkPIDController controller = mDriveMotor.getPIDController();
+        //SparkPIDController controller = mDriveMotor.getPIDController();
+        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
         // Enable the smart Velocity control, which can give us manageable acceleration
         // Otherwise, the motor start/stop abruptly, will damage the motor/gear
-        controller.setReference(velocity, ControlType.kSmartVelocity, 0);
-
+        //controller.setReference(velocity, ControlType.kSmartVelocity, 0);
+        controller.setReference(velocity, ControlType.kSmartVelocity);
     }
 
 
@@ -244,7 +318,8 @@ public class RevSwerveModule implements SwerveModule
         synchronizeEncoders();
         Rotation2d angle = desiredState.angle;
        
-        SparkPIDController controller = mAngleMotor.getPIDController();
+        //SparkPIDController controller = mAngleMotor.getPIDController();
+        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
         // Calculate in degree
         setAngle = angle.getDegrees();
         if(setAngle >=360) setAngle = setAngle - 360;
@@ -273,7 +348,8 @@ public class RevSwerveModule implements SwerveModule
         // input angle is degree (0~360), need to convert back to encoder raw position
         // /15 is a experience value from the reading. Need to fine tuning this value
 
-        controller.setReference (finalAngle / Constants.Swerve.DegreesPerTurnRotation, ControlType.kSmartMotion, 1);
+        //controller.setReference (finalAngle / Constants.Swerve.DegreesPerTurnRotation, ControlType.kSmartMotion, 1);
+        controller.setReference(finalAngle / Constants.Swerve.DegreesPerTurnRotation, ControlType.kSmartMotion);
         SmartDashboard.putNumber("Angle Counter",angleCounter++);
          SmartDashboard.putNumber("set angle" + this.moduleNumber,setAngle);
          SmartDashboard.putNumber("currentangle"+ this.moduleNumber,currentAngle);
@@ -375,12 +451,14 @@ public class RevSwerveModule implements SwerveModule
     {
         // Not sure if we need this sync
         //synchronizeEncoders();
-        SparkPIDController controller = mDriveMotor.getPIDController();
+        //SparkPIDController controller = mDriveMotor.getPIDController();
+        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
         double encoderDelta = position / Constants.Swerve.driveRevToMeters;
         // Use raw encode position
         double currentPosition = mDriveMotor.getEncoder().getPosition();
         // Try to match the joystick direction
-        controller.setReference (currentPosition - encoderDelta, ControlType.kSmartMotion,1);
+        //controller.setReference (currentPosition - encoderDelta, ControlType.kSmartMotion,1);
+        controller.setReference(currentPosition -encoderDelta, ControlType.kSmartMotion);
         SmartDashboard.putNumber("SetPosition",encoderDelta);
 
     }
@@ -393,7 +471,8 @@ public class RevSwerveModule implements SwerveModule
     {
         // Not sure if we need this sync
         //synchronizeEncoders();
-        SparkPIDController controller = mDriveMotor.getPIDController();
+        //SparkPIDController controller = mDriveMotor.getPIDController();
+        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
         if (desiredState.speedMetersPerSecond < 0) { 
             position = -position;
         }
@@ -402,7 +481,8 @@ public class RevSwerveModule implements SwerveModule
         double currentPosition = mDriveMotor.getEncoder().getPosition();
         // Try to match the joystick direction
         
-            controller.setReference (currentPosition - encoderDelta, ControlType.kSmartMotion,1);
+            //controller.setReference (currentPosition - encoderDelta, ControlType.kSmartMotion,1);
+            controller.setReference(currentPosition -encoderDelta, ControlType.kSmartMotion);
         
         
         SmartDashboard.putNumber("SetPosition",encoderDelta);
