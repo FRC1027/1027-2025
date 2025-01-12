@@ -6,16 +6,24 @@ import com.ctre.phoenix6.hardware.CANcoder;
  //ML Drycoded must test
 //import com.revrobotics.CANSparkMax;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.ClosedLoopSlot;
 //import com.revrobotics.CANSparkBase;
 import com.revrobotics.spark.SparkBase;
 //import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.ControlType;
 //import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.spark.SparkBase.Faults;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 //import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.config.BaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.ClosedLoopConfig;
+import com.revrobotics.spark.config.MAXMotionConfig;
+import com.revrobotics.spark.config.SmartMotionConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.SparkMaxPIDController;
@@ -50,6 +58,7 @@ public class RevSwerveModule implements SwerveModule
     //private CANSparkMax mDriveMotor;
     private SparkMax mAngleMotor;
     private SparkMax mDriveMotor;
+    private SparkMaxConfig config;
 
     private CANcoder angleEncoder;
     private RelativeEncoder relAngleEncoder;
@@ -112,7 +121,7 @@ public class RevSwerveModule implements SwerveModule
         //    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         //    .pid(1.0, 0.0, 0.0);
         
-        mDriveMotor.configure(config, null, null);
+        mDriveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         relAngleEncoder = mAngleMotor.getEncoder();
 
@@ -133,7 +142,7 @@ public class RevSwerveModule implements SwerveModule
         //    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         //    .pid(1.0, 0.0, 0.0);
         
-        mAngleMotor.configure(config2, null, null);
+        mAngleMotor.configure(config2, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
         synchronizeEncoders();
@@ -177,57 +186,114 @@ public class RevSwerveModule implements SwerveModule
         // controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedAngleErrPos, 1);
 
 
-        SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
-        SparkMaxConfig config = new SparkMaxConfig();
+        SparkClosedLoopController controller = mAngleMotor.getClosedLoopController();
+        config = new SparkMaxConfig();
+        
         config
         .inverted(Constants.Swerve.angleMotorInvert)
-        .idleMode(Constants.Swerve.angleIdleMode);
-        config.encoder
-            .positionConversionFactor(Constants.Swerve.driveRevToMeters)
-            .velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond);
+        .idleMode(Constants.Swerve.angleIdleMode)
+        .smartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit)
+        .closedLoopRampRate(Constants.Swerve.angleRampRate)
+        ;
+        //config.encoder  // Not sure if needed
+            //.positionConversionFactor(Constants.Swerve.driveRevToMeters)
+            //.velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond)
+            //;
         config.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            .pid(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD)
+            //ML - NEED TO FIGURE OUT HOW TO SPECIFY SLOT
+            //.feedbackSensor(FeedbackSensor.kPrimaryEncoder) // Not sure if needed
+            .p(Constants.Swerve.angleKP)
+            .i(Constants.Swerve.angleKI)
+            .d(Constants.Swerve.angleKD)
             .velocityFF(Constants.Swerve.angleKFF)
             .outputRange(-Constants.Swerve.anglePower, Constants.Swerve.anglePower)
+            //.p(Constants.Swerve.angleKP,1)
+            //.i(Constants.Swerve.angleKI,1)
+            //.d(Constants.Swerve.angleKD,1)
+            //.velocityFF(Constants.Swerve.angleKFF,1)
+            .maxMotion
+                //.minOutputVelocity(Constants.Swerve.minVel) // Not available in maxMotion
+                .maxVelocity(Constants.Swerve.maxAngleVel)
+                .maxAcceleration(Constants.Swerve.maxAngleAccVel)
+                .allowedClosedLoopError(Constants.Swerve.allowedAngleErrVel)
+                //.maxVelocity(Constants.Swerve.maxAngleVel,1)
+                //.maxAcceleration(Constants.Swerve.maxAngleAccVel,1)
+                //.allowedClosedLoopError(Constants.Swerve.allowedAngleErrPos,1)
             ;
         
-        mAngleMotor.configure(config, null, null);
-        
-
+        mAngleMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
 
     private void configDriveMotor()
     {
-         mDriveMotor.restoreFactoryDefaults();
+         //mDriveMotor.restoreFactoryDefaults();
         //SparkPIDController controller = mDriveMotor.getPIDController();
         SparkClosedLoopController controller = mDriveMotor.getClosedLoopController();
-        controller.setOutputRange(-Constants.Swerve.drivePower, Constants.Swerve.drivePower);
-        mDriveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
-        mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
-        mDriveMotor.setIdleMode(Constants.Swerve.driveIdleMode);
+        //controller.setOutputRange(-Constants.Swerve.drivePower, Constants.Swerve.drivePower);
+        //mDriveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
+        //mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
+        //mDriveMotor.setIdleMode(Constants.Swerve.driveIdleMode);
 
         // Speed control parameter is on slot 0
-        controller.setP(Constants.Swerve.driveKP_v,0);
-        controller.setI(Constants.Swerve.driveKI,0);
-        controller.setD(Constants.Swerve.driveKD,0);
-        controller.setFF(Constants.Swerve.driveKFF,0);
-        controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 0);
-        controller.setSmartMotionMaxVelocity(Constants.Swerve.maxDriveVel, 0);
-        controller.setSmartMotionMaxAccel(Constants.Swerve.maxDriveAccVel, 0);
-        controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedDriveErrVel, 0);
+        //controller.setP(Constants.Swerve.driveKP_v,0);
+        //controller.setI(Constants.Swerve.driveKI,0);
+        //controller.setD(Constants.Swerve.driveKD,0);
+        //controller.setFF(Constants.Swerve.driveKFF,0);
+        //controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 0);
+        //controller.setSmartMotionMaxVelocity(Constants.Swerve.maxDriveVel, 0);
+        //controller.setSmartMotionMaxAccel(Constants.Swerve.maxDriveAccVel, 0);
+        //controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedDriveErrVel, 0);
     
         // position control is on PID parameter slot 1
 
-        controller.setP(Constants.Swerve.driveKP_p,1);
-        controller.setI(Constants.Swerve.driveKI,1);
-        controller.setD(Constants.Swerve.driveKD,1);
-        controller.setFF(Constants.Swerve.driveKFF,1);
-        controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 1);
-        controller.setSmartMotionMaxVelocity(Constants.Swerve.maxDrivePos, 1);
-        controller.setSmartMotionMaxAccel(Constants.Swerve.maxDriveAccPos, 1);
-        controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedDriveErrPos, 1);
+        //controller.setP(Constants.Swerve.driveKP_p,1);
+        //controller.setI(Constants.Swerve.driveKI,1);
+        //controller.setD(Constants.Swerve.driveKD,1);
+        //controller.setFF(Constants.Swerve.driveKFF,1);
+        //controller.setSmartMotionMinOutputVelocity(Constants.Swerve.minVel, 1);
+        //controller.setSmartMotionMaxVelocity(Constants.Swerve.maxDrivePos, 1);
+        //controller.setSmartMotionMaxAccel(Constants.Swerve.maxDriveAccPos, 1);
+        //controller.setSmartMotionAllowedClosedLoopError(Constants.Swerve.allowedDriveErrPos, 1);
+
+        config = new SparkMaxConfig();
+        
+        config
+        .inverted(Constants.Swerve.driveMotorInvert)
+        .idleMode(Constants.Swerve.driveIdleMode)
+        .smartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit)
+        ;
+        //config.encoder  // Not sure if needed
+            //.positionConversionFactor(Constants.Swerve.driveRevToMeters)
+            //.velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond)
+            //;
+        config.closedLoop
+            //ML - NEED TO FIGURE OUT HOW TO SPECIFY SLOT
+            //.feedbackSensor(FeedbackSensor.kPrimaryEncoder) // Not sure if needed
+            // Speed control parameter is on slot 0
+            .p(Constants.Swerve.driveKP_v)
+            .i(Constants.Swerve.driveKI)
+            .d(Constants.Swerve.driveKD)
+            .velocityFF(Constants.Swerve.driveKFF)
+            .outputRange(-Constants.Swerve.drivePower, Constants.Swerve.drivePower)
+            // position control is on PID parameter slot 1
+            //.p(Constants.Swerve.driveKP_p,1)
+            //.i(Constants.Swerve.driveKI,1)
+            //.d(Constants.Swerve.driveKD,1)
+            //.velocityFF(Constants.Swerve.driveKFF,1)
+            .maxMotion
+                //.minOutputVelocity(Constants.Swerve.minVel) // Not available in maxMotion
+                .maxVelocity(Constants.Swerve.maxDriveVel)
+                .maxAcceleration(Constants.Swerve.maxDriveAccVel)
+                .allowedClosedLoopError(Constants.Swerve.allowedDriveErrVel)
+                //.maxVelocity(Constants.Swerve.maxDrivePos,1)
+                //.maxAcceleration(Constants.Swerve.maxDriveAccPos,1)
+                //.allowedClosedLoopError(Constants.Swerve.allowedDriveErrPos,1)
+            ;
+        
+        mDriveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop)
@@ -293,7 +359,7 @@ public class RevSwerveModule implements SwerveModule
         // Enable the smart Velocity control, which can give us manageable acceleration
         // Otherwise, the motor start/stop abruptly, will damage the motor/gear
         //controller.setReference(velocity, ControlType.kSmartVelocity, 0);
-        controller.setReference(velocity, ControlType.kSmartVelocity);
+        controller.setReference(velocity, ControlType.kMAXMotionVelocityControl);
     }
 
 
@@ -349,7 +415,7 @@ public class RevSwerveModule implements SwerveModule
         // /15 is a experience value from the reading. Need to fine tuning this value
 
         //controller.setReference (finalAngle / Constants.Swerve.DegreesPerTurnRotation, ControlType.kSmartMotion, 1);
-        controller.setReference(finalAngle / Constants.Swerve.DegreesPerTurnRotation, ControlType.kSmartMotion);
+        controller.setReference(finalAngle / Constants.Swerve.DegreesPerTurnRotation, ControlType.kMAXMotionPositionControl);
         SmartDashboard.putNumber("Angle Counter",angleCounter++);
          SmartDashboard.putNumber("set angle" + this.moduleNumber,setAngle);
          SmartDashboard.putNumber("currentangle"+ this.moduleNumber,currentAngle);
@@ -458,7 +524,7 @@ public class RevSwerveModule implements SwerveModule
         double currentPosition = mDriveMotor.getEncoder().getPosition();
         // Try to match the joystick direction
         //controller.setReference (currentPosition - encoderDelta, ControlType.kSmartMotion,1);
-        controller.setReference(currentPosition -encoderDelta, ControlType.kSmartMotion);
+        controller.setReference(currentPosition -encoderDelta, ControlType.kMAXMotionPositionControl);
         SmartDashboard.putNumber("SetPosition",encoderDelta);
 
     }
@@ -482,7 +548,7 @@ public class RevSwerveModule implements SwerveModule
         // Try to match the joystick direction
         
             //controller.setReference (currentPosition - encoderDelta, ControlType.kSmartMotion,1);
-            controller.setReference(currentPosition -encoderDelta, ControlType.kSmartMotion);
+            controller.setReference(currentPosition -encoderDelta, ControlType.kMAXMotionPositionControl);
         
         
         SmartDashboard.putNumber("SetPosition",encoderDelta);
