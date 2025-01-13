@@ -200,25 +200,24 @@ public class RevSwerveModule implements SwerveModule
             //.velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond)
             //;
         config.closedLoop
-            //ML - NEED TO FIGURE OUT HOW TO SPECIFY SLOT
             //.feedbackSensor(FeedbackSensor.kPrimaryEncoder) // Not sure if needed
             .p(Constants.Swerve.angleKP)
             .i(Constants.Swerve.angleKI)
             .d(Constants.Swerve.angleKD)
             .velocityFF(Constants.Swerve.angleKFF)
             .outputRange(-Constants.Swerve.anglePower, Constants.Swerve.anglePower)
-            //.p(Constants.Swerve.angleKP,1)
-            //.i(Constants.Swerve.angleKI,1)
-            //.d(Constants.Swerve.angleKD,1)
-            //.velocityFF(Constants.Swerve.angleKFF,1)
+            .p(Constants.Swerve.angleKP,ClosedLoopSlot.kSlot1)
+            .i(Constants.Swerve.angleKI,ClosedLoopSlot.kSlot1)
+            .d(Constants.Swerve.angleKD,ClosedLoopSlot.kSlot1)
+            .velocityFF(Constants.Swerve.angleKFF,ClosedLoopSlot.kSlot1)
             .maxMotion
                 //.minOutputVelocity(Constants.Swerve.minVel) // Not available in maxMotion
                 .maxVelocity(Constants.Swerve.maxAngleVel)
                 .maxAcceleration(Constants.Swerve.maxAngleAccVel)
                 .allowedClosedLoopError(Constants.Swerve.allowedAngleErrVel)
-                //.maxVelocity(Constants.Swerve.maxAngleVel,1)
-                //.maxAcceleration(Constants.Swerve.maxAngleAccVel,1)
-                //.allowedClosedLoopError(Constants.Swerve.allowedAngleErrPos,1)
+                .maxVelocity(Constants.Swerve.maxAngleVel,ClosedLoopSlot.kSlot1)
+                .maxAcceleration(Constants.Swerve.maxAngleAccVel,ClosedLoopSlot.kSlot1)
+                .allowedClosedLoopError(Constants.Swerve.allowedAngleErrPos,ClosedLoopSlot.kSlot1)
             ;
         
         mAngleMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -268,7 +267,6 @@ public class RevSwerveModule implements SwerveModule
             //.velocityConversionFactor(Constants.Swerve.driveRpmToMetersPerSecond)
             //;
         config.closedLoop
-            //ML - NEED TO FIGURE OUT HOW TO SPECIFY SLOT
             //.feedbackSensor(FeedbackSensor.kPrimaryEncoder) // Not sure if needed
             // Speed control parameter is on slot 0
             .p(Constants.Swerve.driveKP_v)
@@ -277,18 +275,18 @@ public class RevSwerveModule implements SwerveModule
             .velocityFF(Constants.Swerve.driveKFF)
             .outputRange(-Constants.Swerve.drivePower, Constants.Swerve.drivePower)
             // position control is on PID parameter slot 1
-            //.p(Constants.Swerve.driveKP_p,1)
-            //.i(Constants.Swerve.driveKI,1)
-            //.d(Constants.Swerve.driveKD,1)
-            //.velocityFF(Constants.Swerve.driveKFF,1)
+            .p(Constants.Swerve.driveKP_p,ClosedLoopSlot.kSlot1)
+            .i(Constants.Swerve.driveKI,ClosedLoopSlot.kSlot1)
+            .d(Constants.Swerve.driveKD,ClosedLoopSlot.kSlot1)
+            .velocityFF(Constants.Swerve.driveKFF,ClosedLoopSlot.kSlot1)
             .maxMotion
                 //.minOutputVelocity(Constants.Swerve.minVel) // Not available in maxMotion
                 .maxVelocity(Constants.Swerve.maxDriveVel)
                 .maxAcceleration(Constants.Swerve.maxDriveAccVel)
                 .allowedClosedLoopError(Constants.Swerve.allowedDriveErrVel)
-                //.maxVelocity(Constants.Swerve.maxDrivePos,1)
-                //.maxAcceleration(Constants.Swerve.maxDriveAccPos,1)
-                //.allowedClosedLoopError(Constants.Swerve.allowedDriveErrPos,1)
+                .maxVelocity(Constants.Swerve.maxDrivePos,ClosedLoopSlot.kSlot1)
+                .maxAcceleration(Constants.Swerve.maxDriveAccPos,ClosedLoopSlot.kSlot1)
+                .allowedClosedLoopError(Constants.Swerve.allowedDriveErrPos,ClosedLoopSlot.kSlot1)
             ;
         
         mDriveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
