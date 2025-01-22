@@ -298,11 +298,18 @@ public class RevSwerveModule implements SwerveModule
     {
         /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
         // CTREModuleState actually works for any type of motor.
+
+        System.out.println("Start of setDesiredState");
+
         this.desiredState = CTREModuleState.optimize(desiredState, getState().angle);
+        System.out.println("passed this.desiredState = CTREModuleState.optimize(desiredState, getState().angle);");
         setAngle(this.desiredState);
+        
+        System.out.println("setAngle(this.desiredState);");
         // Set the isOpenLoop to false so we can trigger the PID control for the velocity
         setSpeed(this.desiredState, false);
-
+        System.out.println("setSpeed(this.desiredState, false);");
+        System.out.println("End of setDesiredState");
         //if(mDriveMotor.getFault(FaultID.kSensorFault))
         if(mDriveMotor.getFaults() != null)
         {
