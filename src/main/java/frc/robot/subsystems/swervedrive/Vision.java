@@ -43,14 +43,24 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
 
-//Libraries for Limelight cameras (In an attempt to switch this code to limelight from photonvision)
-import frc.robot.LimelightHelpers.LimelightResults;
-import frc.robot.LimelightHelpers.PoseEstimate;
+//Libraries for LimelightHelper (Added in an attempt to switch from PhotonVision to LimelightHelper)
+
+import frc.robot.LimelightHelpers.IMUData; //Encapsulates the state of an internal Limelight IMU
+import frc.robot.LimelightHelpers.LimelightResults; //Limelight Results object, parsed from a Limelight's JSON results output
+import frc.robot.LimelightHelpers.LimelightTarget_Barcode; //Represents a Barcode Target Result extracted from JSON Output
+import frc.robot.LimelightHelpers.LimelightTarget_Classifier; //Represents a Neural Classifier Pipeline Result extracted from JSON Output
+import frc.robot.LimelightHelpers.LimelightTarget_Detector; //Represents a Neural Detector Pipeline Result extracted from JSON Output
+import frc.robot.LimelightHelpers.LimelightTarget_Fiducial; //Represents an AprilTag/Fiducial Target Result extracted from JSON Output
+import frc.robot.LimelightHelpers.LimelightTarget_Retro; //Represents a Color/Retroreflective Target Result extracted from JSON Output
+import frc.robot.LimelightHelpers.PoseEstimate; //Represents a 3D Pose Estimate
+import frc.robot.LimelightHelpers.RawDetection; //Represents a Limelight Raw Neural Detector result from Limelight's NetworkTables output
+import frc.robot.LimelightHelpers.RawFiducial; //Represents a Limelight Raw Fiducial result from Limelight's NetworkTables output
 
 /**
  * Example PhotonVision class to aid in the pursuit of accurate odometry. Taken from
  * https://gitlab.com/ironclad_code/ironclad-2024/-/blob/master/src/main/java/frc/robot/vision/Vision.java?ref_type=heads
  */
+
 public class Vision
 {
 
