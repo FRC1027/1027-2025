@@ -55,6 +55,7 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 
 //Libraries for LimelightHelper (Added in an attempt to switch from PhotonVision to LimelightHelper)
 
+import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.IMUData; //Encapsulates the state of an internal Limelight IMU
 import frc.robot.LimelightHelpers.LimelightResults; //Limelight Results object, parsed from a Limelight's JSON results output
 import frc.robot.LimelightHelpers.LimelightTarget_Barcode; //Represents a Barcode Target Result extracted from JSON Output
