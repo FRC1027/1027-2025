@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-
+/*
 import org.photonvision.EstimatedRobotPose;
 //- An estimated pose based on pipeline result
 import org.photonvision.PhotonCamera;
@@ -49,7 +49,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 //- Represents a pipeline result from a PhotonCamera.
 import org.photonvision.targeting.PhotonTrackedTarget;
 //- Contains information about each target from a pipeline result, including yaw, pitch, area, and robot relative pose.
-
+*/
 import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
 
@@ -70,9 +70,10 @@ import frc.robot.LimelightHelpers.RawFiducial; //Represents a Limelight Raw Fidu
 /**
  * Example PhotonVision class to aid in the pursuit of accurate odometry. Taken from
  * https://gitlab.com/ironclad_code/ironclad-2024/-/blob/master/src/main/java/frc/robot/vision/Vision.java?ref_type=heads
+ * @param <EstimatedRobotPose>
  */
 
-public class Vision
+public class Vision<EstimatedRobotPose>
 {
 
   /**
@@ -87,7 +88,7 @@ public class Vision
   /**
    * Photon Vision Simulation
    */
-  public              VisionSystemSim     visionSim;
+  public              LimelightHelpers     visionSim; /* UNSURE OF FUNCTIONALITY */
   /**
    * Count of times that the odom thinks we're more than 10meters away from the april tag.
    */
@@ -115,8 +116,8 @@ public class Vision
 
     if (Robot.isSimulation())
     {
-      visionSim = new VisionSystemSim();
-      visionSim.addAprilTags(fieldLayout);
+      visionSim = new LimelightHelpers("Vision"); /* UNSURE OF FUNCTIONALITY */
+      visionSim.addAprilTags(fieldLayout); /* UNSURE OF FUNCTIONALITY */
 
       for (Cameras c : Cameras.values())
       {
@@ -164,11 +165,11 @@ public class Vision
        * (This is why teams implement vision system to correct odometry.)
        * Therefore, we must ensure that the actual robot pose is provided in the simulator when updating the vision simulation during the simulation.
        */
-      visionSim.update(swerveDrive.getSimulationDriveTrainPose().get());
+      visionSim.update(swerveDrive.getSimulationDriveTrainPose().get()); /* UNSURE OF FUNCTIONALITY */
     }
     for (Cameras camera : Cameras.values())
     {
-      Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(camera);
+      Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(camera); /* UNSURE OF FUNCTIONALITY */
       if (poseEst.isPresent())
       {
         var pose = poseEst.get();
@@ -194,7 +195,7 @@ public class Vision
     Optional<EstimatedRobotPose> poseEst = camera.getEstimatedGlobalPose();
     if (Robot.isSimulation())
     {
-      Field2d debugField = visionSim.getDebugField();
+      Field2d debugField = visionSim.getDebugField(); /* UNSURE OF FUNCTIONALITY */
       // Uncomment to enable outputting of vision targets in sim.
       poseEst.ifPresentOrElse(
           est ->
@@ -300,7 +301,7 @@ public class Vision
    *
    * @return Vision Simulation
    */
-  public VisionSystemSim getVisionSim()
+  public LimelightHelpers getVisionSim() /* UNSURE OF FUNCTIONALITY */
   {
     return visionSim;
   }
