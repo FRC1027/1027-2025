@@ -71,9 +71,11 @@ import frc.robot.LimelightHelpers.RawFiducial; //Represents a Limelight Raw Fidu
  * Example PhotonVision class to aid in the pursuit of accurate odometry. Taken from
  * https://gitlab.com/ironclad_code/ironclad-2024/-/blob/master/src/main/java/frc/robot/vision/Vision.java?ref_type=heads
  * @param <EstimatedRobotPose>
+ * @param <PhotonTrackedTarget>
+ * @param <PhotonPipelineResult>
  */
 
-public class Vision<EstimatedRobotPose>
+public class Vision<EstimatedRobotPose, PhotonTrackedTarget, PhotonPipelineResult>
 {
 
   /**
@@ -237,8 +239,9 @@ public class Vision<EstimatedRobotPose>
         return Optional.empty();
       }
 
-      //est pose is very far from recorded robot pose
-      if (PhotonUtils.getDistanceToPose(currentPose.get(), pose.get().estimatedPose.toPose2d()) > 1)
+      Object PhotonUtils; /* UNSURE OF FUNCTIONALITY */
+            //est pose is very far from recorded robot pose
+            if (PhotonUtils.getDistanceToPose(currentPose.get(), pose.get().estimatedPose.toPose2d()) > 1)
       {
         longDistangePoseEstimationCount++;
 
@@ -278,7 +281,7 @@ public class Vision<EstimatedRobotPose>
    */
   public PhotonTrackedTarget getTargetFromId(int id, Cameras camera)
   {
-    PhotonTrackedTarget target = null;
+    PhotonTrackedTarget target = null; /* UNSURE OF FUNCTIONALITY */
     for (PhotonPipelineResult result : camera.resultsList)
     {
       if (result.hasTargets())
@@ -336,7 +339,7 @@ public class Vision<EstimatedRobotPose>
     {
       if (!c.resultsList.isEmpty())
       {
-        PhotonPipelineResult latest = c.resultsList.get(0);
+        PhotonPipelineResult latest = c.resultsList.get(0); /* UNSURE OF FUNCTIONALITY */
         if (latest.hasTargets())
         {
           targets.addAll(latest.targets);
