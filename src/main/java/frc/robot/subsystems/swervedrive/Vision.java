@@ -28,44 +28,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-/*
+
 import org.photonvision.EstimatedRobotPose;
-- An estimated pose based on pipeline result
+//- An estimated pose based on pipeline result
 import org.photonvision.PhotonCamera;
-- Allows a user to interact with a camera connected to hardware running PhotonVision.
+//- Allows a user to interact with a camera connected to hardware running PhotonVision.
 import org.photonvision.PhotonPoseEstimator;
-- Filters or combines readings from all fiducials visible at a given timestamp present on the field in order to produce a single robot in field pose.
+//- Filters or combines readings from all fiducials visible at a given timestamp present on the field in order to produce a single robot in field pose.
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-- Position estimation strategies that can be used by the PhotonPoseEstimator class.
+//- Position estimation strategies that can be used by the PhotonPoseEstimator class.
 import org.photonvision.PhotonUtils;
-- Provides common calculations for using AprilTag data to get a robot's positional information relevant to a target and the field.
+//- Provides common calculations for using AprilTag data to get a robot's positional information relevant to a target and the field.
 import org.photonvision.simulation.PhotonCameraSim;
-- A handle for simulating PhotonCamera values, processing simulated targets within the class changes associated results in PhotonCamera.
+//- A handle for simulating PhotonCamera values, processing simulated targets within the class changes associated results in PhotonCamera.
 import org.photonvision.simulation.SimCameraProperties;
-- Reads camera properties from a photonvision file, provides only resolution, camera intrinsics, distortion coefficients, and average dev. pixel error.
+//- Reads camera properties from a photonvision file, provides only resolution, camera intrinsics, distortion coefficients, and average dev. pixel error.
 import org.photonvision.simulation.VisionSystemSim;
- - Detects targets placed on the field, not necessarily AprilTags
+// - Detects targets placed on the field, not necessarily AprilTags
 import org.photonvision.targeting.PhotonPipelineResult;
-- Represents a pipeline result from a PhotonCamera.
+//- Represents a pipeline result from a PhotonCamera.
 import org.photonvision.targeting.PhotonTrackedTarget;
-- Contains information about each target from a pipeline result, including yaw, pitch, area, and robot relative pose.
-*/
+//- Contains information about each target from a pipeline result, including yaw, pitch, area, and robot relative pose.
+
 import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
 
-//Libraries for LimelightHelper (Added in an attempt to switch from PhotonVision to LimelightHelper)
-
-import frc.robot.LimelightHelpers;
-import frc.robot.LimelightHelpers.IMUData; //Encapsulates the state of an internal Limelight IMU
-import frc.robot.LimelightHelpers.LimelightResults; //Limelight Results object, parsed from a Limelight's JSON results output
-import frc.robot.LimelightHelpers.LimelightTarget_Barcode; //Represents a Barcode Target Result extracted from JSON Output
-import frc.robot.LimelightHelpers.LimelightTarget_Classifier; //Represents a Neural Classifier Pipeline Result extracted from JSON Output
-import frc.robot.LimelightHelpers.LimelightTarget_Detector; //Represents a Neural Detector Pipeline Result extracted from JSON Output
-import frc.robot.LimelightHelpers.LimelightTarget_Fiducial; //Represents an AprilTag/Fiducial Target Result extracted from JSON Output
-import frc.robot.LimelightHelpers.LimelightTarget_Retro; //Represents a Color/Retroreflective Target Result extracted from JSON Output
-import frc.robot.LimelightHelpers.PoseEstimate; //Represents a 3D Pose Estimate
-import frc.robot.LimelightHelpers.RawDetection; //Represents a Limelight Raw Neural Detector result from Limelight's NetworkTables output
-import frc.robot.LimelightHelpers.RawFiducial; //Represents a Limelight Raw Fiducial result from Limelight's NetworkTables output
 
 /**
  * Example PhotonVision class to aid in the pursuit of accurate odometry. Taken from
