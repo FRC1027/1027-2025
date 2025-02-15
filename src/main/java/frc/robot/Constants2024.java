@@ -182,7 +182,7 @@ public final class Constants2024 {
                         Units.inchesToMeters(22.125)),
                 new Rotation3d(ROLL, PITCH, YAW)).inverse();
 
-        public static final String CAMERA_NAME = "CSI";
+        public static final String CAMERA_NAME = "photonvision";
         
         public static final double LARGEST_DISTANCE = 0.1;
     }
