@@ -36,7 +36,8 @@ public class PhotonCameraWrapper {
             // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the
             // field.
             AprilTagFieldLayout fieldLayout =
-                AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
+                AprilTagFields.k2025ReefscapeAndyMark.loadAprilTagLayoutField();
+                //AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
             // Create pose estimator
             //photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, photonCamera, robotToCam);
             photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, robotToCam);  //ML Drycoded must test

@@ -66,7 +66,8 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * AprilTag field layout.
    */
-  private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+  private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
+  //private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
   /**
    * Enable vision odometry updates while driving.
    */
