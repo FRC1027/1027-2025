@@ -3,12 +3,21 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+<<<<<<< Updated upstream
     "Blue2Coral",
     "Red2Coral"
   ],
   "autoFolders": [
     "Blue2CoralAuto",
     "Red2CoralAuto"
+=======
+    "Blue3Coral",
+    "Red3Coral"
+  ],
+  "autoFolders": [
+    "Blue3CoralAuto",
+    "Red3CoralAuto"
+>>>>>>> Stashed changes
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

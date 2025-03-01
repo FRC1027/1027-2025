@@ -7,17 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Red3OOTW"
+            "pathName": "Red3Coral5"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2Coral6Auto.auto
-  "folder": "Blue2CoralAuto",
-========
   "folder": "Red3CoralAuto",
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
   "choreoAuto": false
 }
