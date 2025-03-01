@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.390448717948717,
-        "y": 2.115705128205128
+        "x": 15.4635,
+        "y": 5.897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.018910256410258,
-        "y": 1.971217948717949
+        "x": 15.091961538461542,
+        "y": 5.7525128205128215
       },
       "isLocked": false,
       "linkedName": "RedStartingPoint3"
@@ -45,7 +45,7 @@
     "rotation": 123.14699583225587
   },
   "reversed": false,
-  "folder": "Red3Coral",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
