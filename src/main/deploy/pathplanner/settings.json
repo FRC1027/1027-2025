@@ -4,14 +4,18 @@
   "holonomicMode": true,
   "pathFolders": [
     "Blue2Coral",
-    "Red2Coral",
     "Blue3Coral",
+    "Blue1Coral",
+    "Red1Coral",
+    "Red2Coral",
     "Red3Coral"
   ],
   "autoFolders": [
+    "Blue1CoralAuto",
     "Blue2CoralAuto",
-    "Red2CoralAuto",
     "Blue3CoralAuto",
+    "Red1CoralAuto",
+    "Red2CoralAuto",
     "Red3CoralAuto"
   ],
   "defaultMaxVel": 3.0,

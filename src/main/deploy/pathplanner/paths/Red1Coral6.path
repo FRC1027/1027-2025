@@ -20,8 +20,8 @@
         "y": 2.2894999999958374
       },
       "prevControl": {
-        "x": 15.728515983151297,
-        "y": 6.152984336862508
+        "x": 16.224,
+        "y": 3.5179999999999993
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 118.44292862436328
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Red1Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 178.93908830973584

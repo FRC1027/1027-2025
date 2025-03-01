@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 1.2453642667682823
+    "rotation": 1.2453642667682825
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Blue1Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
