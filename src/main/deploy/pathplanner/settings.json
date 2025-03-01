@@ -3,66 +3,16 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> parent of de3ecb2 (New Path Autos)
     "Blue2Coral",
-    "Red2Coral"
-  ],
-  "autoFolders": [
-    "Blue2CoralAuto",
-    "Red2CoralAuto"
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> parent of de3ecb2 (New Path Autos)
+    "Red2Coral",
     "Blue3Coral",
     "Red3Coral"
   ],
   "autoFolders": [
+    "Blue2CoralAuto",
+    "Red2CoralAuto",
     "Blue3CoralAuto",
     "Red3CoralAuto"
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
-=======
->>>>>>> parent of de3ecb2 (New Path Autos)
->>>>>>> Stashed changes
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
