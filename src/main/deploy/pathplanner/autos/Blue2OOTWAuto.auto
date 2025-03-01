@@ -7,13 +7,21 @@
         {
           "type": "path",
           "data": {
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2OOTWAuto.auto
             "pathName": "Blue2OOTW"
+========
+            "pathName": "Red3OOTW"
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
           }
         }
       ]
     }
   },
   "resetOdom": true,
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2OOTWAuto.auto
   "folder": "Blue2CoralAuto",
+========
+  "folder": "Red3CoralAuto",
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
   "choreoAuto": false
 }
