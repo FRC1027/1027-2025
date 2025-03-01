@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "Blue2Coral",
     "Red2Coral"
   ],
@@ -11,12 +12,17 @@
     "Blue2CoralAuto",
     "Red2CoralAuto"
 =======
+=======
+>>>>>>> Stashed changes
     "Blue3Coral",
     "Red3Coral"
   ],
   "autoFolders": [
     "Blue3CoralAuto",
     "Red3CoralAuto"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   ],
   "defaultMaxVel": 3.0,
