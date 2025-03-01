@@ -2,8 +2,22 @@
   "robotWidth": 0.9,
   "robotLength": 0.9,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "Blue1Coral",
+    "Blue2Coral",
+    "Blue3Coral",
+    "Red1Coral",
+    "Red2Coral",
+    "Red3Coral"
+  ],
+  "autoFolders": [
+    "Blue1CoralAuto",
+    "Blue2CoralAuto",
+    "Blue3CoralAuto",
+    "Red1CoralAuto",
+    "Red2CoralAuto",
+    "Red3CoralAuto"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

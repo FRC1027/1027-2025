@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 15.488114754098358,
+        "y": 4.007
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 12.77889344262295,
+        "y": 7.87902868852459
+      },
+      "isLocked": false,
+      "linkedName": "Red2Waypoint"
+    },
+    {
+      "anchor": {
+        "x": 11.35235655737705,
+        "y": 4.030993852459016
+      },
+      "prevControl": {
+        "x": 11.088627049180326,
+        "y": 5.589395491803279
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Red2Coral",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
