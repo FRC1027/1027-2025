@@ -10,6 +10,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             "pathName": "Red3OOTW"
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2OOTWAuto.auto
@@ -32,12 +33,20 @@
             "pathName": "Red3OOTW"
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
 >>>>>>> Stashed changes
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral1Auto.auto
+            "pathName": "Red2Coral1"
+========
+            "pathName": "Red3OOTW"
+>>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
+>>>>>>> Stashed changes
           }
         }
       ]
     }
   },
   "resetOdom": true,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -54,6 +63,10 @@
 =======
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue3OOTWAuto.auto
   "folder": "Blue3CoralAuto",
+>>>>>>> Stashed changes
+=======
+<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral1Auto.auto
+  "folder": "Red2CoralAuto",
 >>>>>>> Stashed changes
 ========
   "folder": "Red3CoralAuto",

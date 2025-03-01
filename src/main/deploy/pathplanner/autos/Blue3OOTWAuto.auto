@@ -7,21 +7,29 @@
         {
           "type": "path",
           "data": {
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue3OOTWAuto.auto
             "pathName": "Blue3OOTW"
 ========
             "pathName": "Red3OOTW"
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
+=======
+            "pathName": "Blue3OOTW"
+>>>>>>> Stashed changes
           }
         }
       ]
     }
   },
   "resetOdom": true,
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue3OOTWAuto.auto
   "folder": "Blue3CoralAuto",
 ========
   "folder": "Red3CoralAuto",
 >>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
+=======
+  "folder": "Blue3CoralAuto",
+>>>>>>> Stashed changes
   "choreoAuto": false
 }
