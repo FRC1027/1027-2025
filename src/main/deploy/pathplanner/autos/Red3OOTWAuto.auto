@@ -7,104 +7,13 @@
         {
           "type": "path",
           "data": {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
             "pathName": "Red3OOTW"
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2OOTWAuto.auto
-            "pathName": "Red2OOTW"
-========
-            "pathName": "Red3OOTW"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2OOTWAuto.auto
-            "pathName": "Blue2OOTW"
-========
-            "pathName": "Red3OOTW"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue3OOTWAuto.auto
-            "pathName": "Blue3OOTW"
-========
-            "pathName": "Red3OOTW"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral1Auto.auto
-            "pathName": "Red2Coral1"
-========
-            "pathName": "Red3OOTW"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral2Auto.auto
-            "pathName": "Red2Coral2"
-========
-            "pathName": "Red3OOTW"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral3Auto.auto
-            "pathName": "Red2Coral3"
-========
-            "pathName": "Red3OOTW"
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
->>>>>>> Stashed changes
-=======
-            "pathName": "Red3OOTW"
->>>>>>> parent of de3ecb2 (New Path Autos)
           }
         }
       ]
     }
   },
   "resetOdom": true,
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2Coral6Auto.auto
-  "folder": "Blue2CoralAuto",
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2OOTWAuto.auto
-  "folder": "Red2CoralAuto",
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2OOTWAuto.auto
-  "folder": "Blue2CoralAuto",
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue3OOTWAuto.auto
-  "folder": "Blue3CoralAuto",
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral1Auto.auto
-  "folder": "Red2CoralAuto",
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral2Auto.auto
-  "folder": "Red2CoralAuto",
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Red2Coral3Auto.auto
-  "folder": "Red2CoralAuto",
->>>>>>> Stashed changes
-=======
-<<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/Blue2Coral6Auto.auto
-  "folder": "Blue2CoralAuto",
->>>>>>> parent of de3ecb2 (New Path Autos)
-========
   "folder": "Red3CoralAuto",
->>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/Red3OOTWAuto.auto
   "choreoAuto": false
 }
