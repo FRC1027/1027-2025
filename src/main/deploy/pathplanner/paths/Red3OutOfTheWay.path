@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.390448717948717,
-        "y": 2.115705128205128
+        "x": 15.4635,
+        "y": 5.897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.483333333333333,
-        "y": 0.4644230769230775
+        "x": 15.556384615384616,
+        "y": 4.2457179487179495
       },
       "isLocked": false,
       "linkedName": "RedStartingPoint3"
