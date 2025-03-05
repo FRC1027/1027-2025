@@ -105,7 +105,7 @@ public class RobotContainer
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   //SendableChooser<String> AutonomousChooser;
 
-  private final Command m_autoBalance = AutoBalanceCommand(drivebase);
+  private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
   //AutoBalanceCommand twonote = new AutoBalanceCommand(s_Swerve);
 
 
@@ -208,7 +208,7 @@ public class RobotContainer
     return m_chooser.getSelected();
 
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    //return drivebase.getAutonomousCommand("New Auto");
   }
 
   public void setMotorBrake(boolean brake)
