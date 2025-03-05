@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.commands2024.Auto_TwoNote;
 import frc.robot.commands.swervedrive.auto.AutoBalanceCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -101,15 +102,16 @@ public class RobotContainer
   /**
    * DRY CODED: Autonomous Chooser for Robot Commands
    */
-  private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
-  //AutoBalanceCommand twonote = new AutoBalanceCommand(s_Swerve);
-  
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   //SendableChooser<String> AutonomousChooser;
 
+  private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
+  //AutoBalanceCommand twonote = new AutoBalanceCommand(s_Swerve);
+
+
   public RobotContainer()
   {
-    //DRY CODED: Adding Commmad to Smart Dashboard
+    //Adding commmad to smart dashboard
     m_chooser.setDefaultOption("Auto Balance", m_autoBalance);
     SmartDashboard.putData(m_chooser);
 
@@ -206,7 +208,7 @@ public class RobotContainer
     return m_chooser.getSelected();
 
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    //return drivebase.getAutonomousCommand("New Auto");
   }
 
   public void setMotorBrake(boolean brake)
