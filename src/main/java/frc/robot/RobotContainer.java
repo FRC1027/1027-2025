@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AutoPathCommand;
 import frc.robot.commands.swervedrive.auto.AutoBalanceCommand;
+import frc.robot.commands.swervedrive.auto.AutoPathCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -115,6 +115,7 @@ public class RobotContainer
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
     m_chooser.addOption("Auto Balance", m_autoBalance);
+    m_chooser.addOption("Auto Path", m_autoPath);
     m_chooser.setDefaultOption("Auto Path", m_autoPath);
     SmartDashboard.putData(m_chooser);
 
