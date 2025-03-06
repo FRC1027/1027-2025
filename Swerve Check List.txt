@@ -94,3 +94,14 @@ Back Right (BR)		|	x
 Step 5: Input Data into the YAGSL Configuration Web Page
 Open the following webpage and import your data into the config files:
 https://broncbotz3481.github.io/YAGSL-Example/
+
+
+
+~~~
+0-9 swerve FR d1 a2, BR d3 a4, BL d5 a6, FL d7 a8
+10-19 CANCoders FR 11, BR 12, BL 13, FL 14
+20-29 intake
+30-39 indexer/turntable
+40-49 placement thing
+50-59 elevator
+60-69 hang thing
