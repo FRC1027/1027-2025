@@ -114,8 +114,8 @@ public class RobotContainer
     /**
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
-    m_chooser.setDefaultOption("Auto Balance", m_autoBalance);
-    m_chooser.addOption("Auto Path", m_autoPath);
+    m_chooser.addOption("Auto Balance", m_autoBalance);
+    m_chooser.setDefaultOption("Auto Path", m_autoPath);
     SmartDashboard.putData(m_chooser);
 
     // Configure the trigger bindings
