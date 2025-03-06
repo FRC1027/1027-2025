@@ -108,7 +108,7 @@ public class RobotContainer
 
 
   public RobotContainer()
-  {
+    {
     /**
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
