@@ -103,15 +103,15 @@ public class RobotContainer
    * DRY CODED: Autonomous Chooser for Robot Commands
    */
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  //SendableChooser<String> AutonomousChooser;
 
   private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
-  //AutoBalanceCommand twonote = new AutoBalanceCommand(s_Swerve);
 
 
   public RobotContainer()
   {
-    //Adding commmad to smart dashboard
+    /**
+     * DRY CODED: Adding Commmad to Smart Dashboard
+     */
     m_chooser.setDefaultOption("Auto Balance", m_autoBalance);
     SmartDashboard.putData(m_chooser);
 
