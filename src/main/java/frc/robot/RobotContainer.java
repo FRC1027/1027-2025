@@ -14,11 +14,15 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.commands2024.Auto_TwoNote;
+import frc.robot.commands.swervedrive.auto.AutoBalanceCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -93,8 +97,24 @@ public class RobotContainer
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
+
+
+  /**
+   * DRY CODED: Autonomous Chooser for Robot Commands
+   */
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
+
+
   public RobotContainer()
-  {
+    {
+    /**
+     * DRY CODED: Adding Commmad to Smart Dashboard
+     */
+    m_chooser.setDefaultOption("Auto Balance", m_autoBalance);
+    SmartDashboard.putData(m_chooser);
+
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -184,8 +204,11 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
+
+    return m_chooser.getSelected();
+
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    //return drivebase.getAutonomousCommand("New Auto");
   }
 
   public void setMotorBrake(boolean brake)
