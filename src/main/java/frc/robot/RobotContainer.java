@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.AutoBalanceCommand;
 import frc.robot.commands.swervedrive.auto.AutoPathCommand;
+import frc.robot.commands.swervedrive.auto.FollowPathCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -109,12 +110,16 @@ public class RobotContainer
 
   private final Command m_autoPath = new AutoPathCommand();
 
+  private final Command m_followPathCommand = new FollowPathCommand(null, null, driveAngularVelocity, null, null, null, null, null);
 
   public RobotContainer()
     {
     /**
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
+    m_chooser.addOption("Follow Path", m_followPathCommand);
+    SmartDashboard.putData("Follow Path", m_followPathCommand);
+
     m_chooser.addOption("Auto Balance", m_autoBalance);
     SmartDashboard.putData("Auto Balance", m_autoBalance);
 
