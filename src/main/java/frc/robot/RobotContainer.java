@@ -110,15 +110,19 @@ public class RobotContainer
 
   private final Command m_autoPath = new AutoPathCommand();
 
-  private final Command m_followPathCommand = new FollowPathCommand(null, null, driveAngularVelocity, null, null, null, null, null);
+  /**
+   * Unsure of the functionality
+   * private final Command m_followPathCommand = new FollowPathCommand(null, null, driveAngularVelocity, null, null, null, null, null);
+   */
+
 
   public RobotContainer()
     {
     /**
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
-    m_chooser.addOption("Follow Path", m_followPathCommand);
-    SmartDashboard.putData("Follow Path", m_followPathCommand);
+    //m_chooser.addOption("Follow Path", m_followPathCommand);
+    //SmartDashboard.putData("Follow Path", m_followPathCommand);
 
     m_chooser.addOption("Auto Balance", m_autoBalance);
     SmartDashboard.putData("Auto Balance", m_autoBalance);
