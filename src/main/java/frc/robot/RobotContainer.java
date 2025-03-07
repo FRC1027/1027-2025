@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -115,9 +116,14 @@ public class RobotContainer
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
     m_chooser.addOption("Auto Balance", m_autoBalance);
+    SmartDashboard.putData("Auto Balance", m_autoBalance);
+
     m_chooser.addOption("Auto Path", m_autoPath);
     m_chooser.setDefaultOption("Auto Path", m_autoPath);
+    SmartDashboard.putData("Auto Path", m_autoPath);
+
     SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData(CommandScheduler.getInstance());
 
     // Configure the trigger bindings
     configureBindings();
