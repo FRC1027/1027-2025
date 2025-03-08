@@ -116,12 +116,6 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousPeriodic()
   {
-    /** 
-     * DRY CODED: 
-     * This will run the scheduler every driver station update period 
-     * (about every 20ms) and cause the selected autonomous command to run.
-     */
-    CommandScheduler.getInstance().run();
   }
 
   @Override
