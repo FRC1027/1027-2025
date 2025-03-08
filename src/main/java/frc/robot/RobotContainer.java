@@ -108,13 +108,13 @@ public class RobotContainer
    * private final Command m_insertNameHere = new CommandFileName(); 
    */ 
   
-   // Constructs a SendableChooser variable that allows auto command to be sent to the Smart Dashboard 
+   // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
    private final SendableChooser<Command> autoChooser; 
    
    // Add Variables Here:
 
    
-   
+
  /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -242,8 +242,6 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     return autoChooser.getSelected();
-
-    //return m_chooser.getSelected();
 
     // An example command will be run in autonomous
     //return drivebase.getAutonomousCommand("New Auto");
