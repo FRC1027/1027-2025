@@ -97,55 +97,47 @@ public class RobotContainer
                                                                                .translationHeadingOffset(Rotation2d.fromDegrees(
                                                                                    0));
 
+  
   /**
-   * Autonomous Chooser for Robot Commands and PathPlanner Auto Paths
-   * 
-   * In order to add a new command to the Smart Dashboard, establish a new variable that 
-   * references the desired command file and give it a name with the following format: m_insertNameHere
-   * 
-   * Variable Format: private final Command m_insertNameHere = new CommandFileName();
+   * DRY CODED: Autonomous Chooser for Robot Commands
    */
-
-  // Constructs a SendableChooser variable that allows auto command to be sent to the Smart Dashboard
   private final SendableChooser<Command> autoChooser;
 
-  // Add Variables Here:
+  private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
 
+  private final Command m_autoPath = new AutoPathCommand();
 
+   
  /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
     {
     /**
-     * Creates a SendableChooser with all PathPlanner Autos Automatically Added
+     * DRY CODED: Create a SendableChooser with all autos in project
      */
 
+    // Build an auto chooser. This will use Commands.none() as the default option.
     autoChooser = AutoBuilder.buildAutoChooser();
 
-    // This option allows you to specify the default PlathPlanner Auto by its name. If this code
-    // is used, comment out the above line of code.
+    // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-    // Adds all of the PathPlanner Autos to the SendableChooser in the Smart Dashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
 
     /**
-     * Adding Individual Commmads to Smart Dashboard (Not PathPlanner Related)
-     * 
-     * Add the command to the Smart Dashboard with the following lines of code:
-     * 
-     * autoChooser.addOption("Name of Command", m_insertNameHere);
-     * SmartDashboard.putData("Insert Name Here", autoChooser)
-     * 
-     * If you want to set a command as the default, use the following line of code
-     * in addition to the two above:
-     * 
-     * autoChooser.setDefaultOption("Name of Command", m_insertNameHere);
+     * DRY CODED: Adding Commmad to Smart Dashboard
      */
+    autoChooser.addOption("Auto Balance", m_autoBalance);
+    SmartDashboard.putData("Auto Balance", m_autoBalance);
 
-    //SmartDashboard.putData(CommandScheduler.getInstance());
+    autoChooser.addOption("Auto Path", m_autoPath);
+    autoChooser.setDefaultOption("Auto Path", m_autoPath);
+    SmartDashboard.putData("Auto Path", m_autoPath);
+
+    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData(CommandScheduler.getInstance());
 
     // Configure the trigger bindings
     configureBindings();
@@ -221,6 +213,7 @@ public class RobotContainer
     {
       driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+      driverXbox.y().onTrue(Commands.runOnce(drivebase::centerModulesCommand));
       driverXbox.start().whileTrue(Commands.none());
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
@@ -237,6 +230,8 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     return autoChooser.getSelected();
+
+    //return m_chooser.getSelected();
 
     // An example command will be run in autonomous
     //return drivebase.getAutonomousCommand("New Auto");
