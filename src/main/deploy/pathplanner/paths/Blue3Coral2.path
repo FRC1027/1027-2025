@@ -9,19 +9,35 @@
       "prevControl": null,
       "nextControl": {
         "x": 5.223910256410257,
-        "y": 0.5622435897435902
+        "y": 0.5622435897435905
       },
       "isLocked": false,
       "linkedName": "BlueStartingPoint3"
     },
     {
       "anchor": {
-        "x": 7.20628205128205,
-        "y": 4.148846153846153
+        "x": 6.9276282051282045,
+        "y": 4.489423076923077
       },
       "prevControl": {
-        "x": 7.173385416666665,
-        "y": 2.3234054487179483
+        "x": 7.49525641025641,
+        "y": 2.34275641025641
+      },
+      "nextControl": {
+        "x": 6.616263453034409,
+        "y": 5.666947957568705
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.5631410256410248,
+        "y": 5.6866025641025635
+      },
+      "prevControl": {
+        "x": 5.090576923076923,
+        "y": 7.10051282051282
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +58,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.70863782901577
+    "rotation": -60.572543596810235
   },
   "reversed": false,
   "folder": "Blue3Coral",
