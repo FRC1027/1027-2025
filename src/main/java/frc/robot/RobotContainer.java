@@ -96,11 +96,7 @@ public class RobotContainer
                                                                                .translationHeadingOffset(Rotation2d.fromDegrees(
                                                                                    0));
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-
-
+  
   /**
    * DRY CODED: Autonomous Chooser for Robot Commands
    */
@@ -115,7 +111,10 @@ public class RobotContainer
    * private final Command m_followPathCommand = new FollowPathCommand(null, null, driveAngularVelocity, null, null, null, null, null);
    */
 
-
+   
+ /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer()
     {
     /**
