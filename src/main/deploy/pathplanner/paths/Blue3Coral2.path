@@ -23,47 +23,6 @@
         "x": 7.173385416666665,
         "y": 2.3234054487179483
       },
-      "nextControl": {
-        "x": 7.239178685897434,
-        "y": 5.9742868589743585
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.5653688524590157,
-        "y": 4.221120928109797
-      },
-      "isLocked": false,
-      "linkedName": "Blue2Waypoint"
-    },
-    {
-      "anchor": {
-        "x": 2.19375,
-        "y": 3.3237192622950817
-      },
-      "prevControl": {
-        "x": 1.2684710297897435,
-        "y": 3.888825448561016
-      },
-      "nextControl": {
-        "x": 2.718695931308181,
-        "y": 3.003113042129963
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.573461538461538,
-        "y": 5.6866025641025635
-      },
-      "prevControl": {
-        "x": 5.782051282051283,
-        "y": 7.348205128205128
-      },
-      "prevControl": {
-        "x": 2.733196721311475,
-        "y": 3.000051229508196
-      },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
@@ -87,10 +46,6 @@
   },
   "reversed": false,
   "folder": "Blue3Coral",
-    "rotation": 56.976132444203394
-  },
-  "reversed": false,
-  "folder": "Blue2",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
