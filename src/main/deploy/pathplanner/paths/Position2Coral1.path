@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6372950819672125,
-        "y": 5.529438524590163
+        "x": 3.1218237704918037,
+        "y": 4.007
       },
       "isLocked": false,
       "linkedName": "Blue2Waypoint"
     },
     {
       "anchor": {
-        "x": 5.322540983606557,
-        "y": 5.42156762295082
+        "x": 2.9130122950819675,
+        "y": 4.00701844262295
       },
       "prevControl": {
-        "x": 4.3035860655737705,
-        "y": 5.973002049180327
+        "x": 1.9130122950819675,
+        "y": 4.00701844262295
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.35775354279123
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Blue2Coral",
+  "folder": "Position2Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

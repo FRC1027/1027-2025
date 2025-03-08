@@ -8,32 +8,27 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.1306601783649395,
-        "y": 6.766254965430519
+        "x": 6.454500000000001,
+        "y": 7.5642499999999995
       },
       "isLocked": false,
       "linkedName": "Blue1"
     },
     {
       "anchor": {
-        "x": 5.372250000000957,
-        "y": 5.555750000003895
+        "x": 5.440499999999999,
+        "y": 2.377249999999999
       },
       "prevControl": {
-        "x": 4.905681827228369,
-        "y": 6.611066991943178
+        "x": 9.1065,
+        "y": 3.8689999999999993
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6414937759336019,
-      "rotationDegrees": -46.090895133265484
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -124.69515353123387
+    "rotation": 122.38067770656929
   },
   "reversed": false,
-  "folder": "Blue1Coral",
+  "folder": "Position1Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

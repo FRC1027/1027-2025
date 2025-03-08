@@ -3,9 +3,9 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue1Coral",
-    "Blue2Coral",
-    "Blue3Coral"
+    "Position1Coral",
+    "Position2Coral",
+    "Position3Coral"
   ],
   "autoFolders": [
     "Blue1CoralAuto",
