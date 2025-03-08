@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Position3Coral1"
+            "pathName": "Position2Coral6"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Blue3CoralAuto",
+  "folder": "Position2CoralAuto",
   "choreoAuto": false
 }
