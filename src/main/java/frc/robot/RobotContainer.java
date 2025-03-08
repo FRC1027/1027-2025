@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -100,16 +101,11 @@ public class RobotContainer
   /**
    * DRY CODED: Autonomous Chooser for Robot Commands
    */
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  private final SendableChooser<Command> autoChooser;
 
   private final Command m_autoBalance = new AutoBalanceCommand(drivebase);
 
   private final Command m_autoPath = new AutoPathCommand();
-
-  /**
-   * Unsure of the functionality
-   * private final Command m_followPathCommand = new FollowPathCommand(null, null, driveAngularVelocity, null, null, null, null, null);
-   */
 
    
  /**
@@ -118,19 +114,29 @@ public class RobotContainer
   public RobotContainer()
     {
     /**
+     * DRY CODED: Create a SendableChooser with all autos in project
+     */
+
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    // Another option that allows you to specify the default auto by its name
+    // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
+
+    /**
      * DRY CODED: Adding Commmad to Smart Dashboard
      */
-    //m_chooser.addOption("Follow Path", m_followPathCommand);
-    //SmartDashboard.putData("Follow Path", m_followPathCommand);
-
-    m_chooser.addOption("Auto Balance", m_autoBalance);
+    autoChooser.addOption("Auto Balance", m_autoBalance);
     SmartDashboard.putData("Auto Balance", m_autoBalance);
 
-    m_chooser.addOption("Auto Path", m_autoPath);
-    m_chooser.setDefaultOption("Auto Path", m_autoPath);
+    autoChooser.addOption("Auto Path", m_autoPath);
+    autoChooser.setDefaultOption("Auto Path", m_autoPath);
     SmartDashboard.putData("Auto Path", m_autoPath);
 
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData(autoChooser);
     SmartDashboard.putData(CommandScheduler.getInstance());
 
     // Configure the trigger bindings
@@ -222,8 +228,9 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
+    return autoChooser.getSelected();
 
-    return m_chooser.getSelected();
+    //return m_chooser.getSelected();
 
     // An example command will be run in autonomous
     //return drivebase.getAutonomousCommand("New Auto");
