@@ -9,12 +9,6 @@
           "data": {
             "pathName": "Position1(R3)Coral1"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Test Command"
-          }
         }
       ]
     }
