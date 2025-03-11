@@ -118,6 +118,13 @@ public class RobotContainer
    */
   public RobotContainer()
     {
+
+    // Configure the trigger bindings
+    configureBindings();
+    DriverStation.silenceJoystickConnectionWarning(true);
+    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    NamedCommands.registerCommand("Test Command", new TestCommand());
+
     /**
      * Creates a SendableChooser with all PathPlanner Autos Automatically Added
      */
@@ -149,11 +156,7 @@ public class RobotContainer
      //SmartDashboard.putData(CommandScheduler.getInstance());
 
 
-    // Configure the trigger bindings
-    configureBindings();
-    DriverStation.silenceJoystickConnectionWarning(true);
-    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("Test Command", new TestCommand());
+    
   }
 
   /**
