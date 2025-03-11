@@ -10,6 +10,6 @@ public class TestCommand extends Command
     public TestCommand()
     {
         System.out.println("It worked!");
-        DriverStation.reportError(getName(), null);
+        //DriverStation.reportError(getName(), null);
     }
 }

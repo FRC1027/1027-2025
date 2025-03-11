@@ -11,9 +11,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Test Command"
+            "pathName": "Test Path"
           }
         }
       ]
