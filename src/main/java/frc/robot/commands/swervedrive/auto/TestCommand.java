@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 public class TestCommand extends Command
 {
-    public Command TestCommandAuto()        
+    public static Command TestCommandAuto()        
     {
         //System.out.println("It worked!");
-        //DriverStation.reportError(getName(), null);
-        new PrintCommand("Maybe?");
+        DriverStation.reportError("Maybe?", true);
+        //new PrintCommand("Maybe?");
         try{
             // Load the path you want to follow using its name in the GUI
-            PathPlannerPath path = PathPlannerPath.fromPathFile("Position1(R3)Coral1");
+            PathPlannerPath path = PathPlannerPath.fromPathFile("Test Path");
     
             // Create a path following command using AutoBuilder. This will also trigger event markers.
             return AutoBuilder.followPath(path);
@@ -25,7 +25,8 @@ public class TestCommand extends Command
             DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
             return Commands.none();
         } finally {
-            new PrintCommand("It worked!");
+            DriverStation.reportError("It Worked!", true);
+            //new PrintCommand("It worked!");
         }
     }
 }
