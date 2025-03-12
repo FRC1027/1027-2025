@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Test Command"
+            "name": "TestCommand"
           }
         }
       ]
