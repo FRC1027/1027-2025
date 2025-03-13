@@ -100,10 +100,10 @@ public class RobotContainer
    * Autonomous Chooser for Robot Commands and PathPlanner Auto Paths 
    *
    * In order to add a new command to the Smart Dashboard, establish a new variable that 
-   * references the desired command file and give it a name with the following format: m_insertNameHere 
+   * references the desired command file
    * 
    * Variable Format: 
-   * private final Command m_insertNameHere = new CommandFileName(); 
+   * CommandFileName commandFileName = new CommandFileName(); 
    */ 
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
@@ -111,7 +111,8 @@ public class RobotContainer
    
    // Add Variables Here:
 
-   
+   TestCommand testCommand = new TestCommand();
+
 
  /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -152,11 +153,8 @@ public class RobotContainer
       * 
       * autoChooser.setDefaultOption("Name of Command", m_insertNameHere);
       */
- 
-     //SmartDashboard.putData(CommandScheduler.getInstance());
 
-
-    
+      autoChooser.addOption("TestCommandAuto", testCommand);
   }
 
   /**
