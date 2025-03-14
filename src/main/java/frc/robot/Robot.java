@@ -42,9 +42,8 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-
+    // Adds a live camera feed to the SmartDashboard
     CameraServer.startAutomaticCapture("photonvision", 0);
-    
 
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
