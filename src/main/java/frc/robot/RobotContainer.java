@@ -96,22 +96,24 @@ public class RobotContainer
                                                                                    0));
 
   
-  /** 
-   * Autonomous Chooser for Robot Commands and PathPlanner Auto Paths 
-   *
-   * In order to add a new command to the Smart Dashboard, establish a new variable that 
-   * references the desired command file
-   * 
-   * Variable Format: 
-   * CommandFileName commandFileName = new CommandFileName(); 
-   */ 
+  /**
+    * The area where the robot's subsystems are initialized. In order to create a new initialization,
+    * establish a new variable that has the following format:
+    * 
+    * CommandFileName commandFileName = new CommandFileName(); 
+    */
+
+   // Add Variables Here:
+   private final TestCommand testCommand = new TestCommand();
+
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
    private final SendableChooser<Command> autoChooser; 
-   
-   // Add Variables Here:
 
-   TestCommand testCommand = new TestCommand();
+
+  // Creates a second controller
+   final         CommandXboxController mechXbox = new CommandXboxController(1);
+
 
 
  /**
@@ -120,30 +122,26 @@ public class RobotContainer
   public RobotContainer()
     {
 
-    // Configure the trigger bindings
+    // Configure/register any and all future commands here
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    //NamedCommands.registerCommand("TestCommand", TestCommand.TestCommandAuto());
+    NamedCommands.registerCommand("TestCommand", TestCommand.TestCommandAuto());
 
-    /**
-     * Creates a SendableChooser with all PathPlanner Autos Automatically Added
-     */
 
+     // Creates a SendableChooser that adds all of the PathPlanner Autos to the SendableChooser 
+     // in the Smart Dashboard
      autoChooser = AutoBuilder.buildAutoChooser();
+     SmartDashboard.putData("Auto Chooser", autoChooser);
 
      // This option allows you to specify the default PlathPlanner Auto by its name. If this code
      // is used, comment out the above line of code.
      // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
- 
-     // Adds all of the PathPlanner Autos to the SendableChooser in the Smart Dashboard
-     SmartDashboard.putData("Auto Chooser", autoChooser);
- 
+     
  
      /**
-      * Adding Individual Commmads to Smart Dashboard (Not PathPlanner Related)
-      * 
-      * Add the command to the Smart Dashboard with the following lines of code:
+      * Adding Individual Commmads to Smart Dashboard (Not PathPlanner Related). Add the command
+      * to the Smart Dashboard with the following lines of code:
       * 
       * autoChooser.addOption("Name of Command", m_insertNameHere);
       * SmartDashboard.putData("Insert Name Here", autoChooser)
@@ -154,7 +152,7 @@ public class RobotContainer
       * autoChooser.setDefaultOption("Name of Command", m_insertNameHere);
       */
 
-      autoChooser.addOption("TestCommandAuto", testCommand);
+      autoChooser.addOption("TestCommand", testCommand);
   }
 
   /**
