@@ -28,6 +28,17 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -35,6 +46,24 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
+  SparkMax eleMotor;
+  SparkMax armMotor;
+
+  public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
+                
+      static {
+        elevator1Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+              }
+  
+  public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
+                
+      static {
+        elevator1Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+              }
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
@@ -121,7 +150,11 @@ public class RobotContainer
    */
   public RobotContainer()
     {
-
+      eleMotor = new SparkMax(3, MotorType.kBrushless);
+      eleMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      armMotor = new SparkMax(5, MotorType.kBrushless);
+      armMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
     // Configure/register any and all future commands here
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -154,6 +187,23 @@ public class RobotContainer
 
       //autoChooser.addOption("TestCommand", testCommand);
   }
+
+  public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
+    double deadbandreturn;
+        if (JoystickValue<DeadbandCutOff&&JoystickValue>(DeadbandCutOff*(-1))) {
+        deadbandreturn=0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
+    }
+    else {
+      deadbandreturn=(JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
+      (Math.abs(JoystickValue)/JoystickValue // 1 if JoystickValue > 0, -1 if JoystickValue < 0 (abs(x)/x); could use Math.signum(JoystickValue) instead
+       *DeadbandCutOff // multiply by the sign so that for >0, it comes out to - (DeadBandCutOff), and for <0 it comes to - (-DeadBandCutOff)
+      )
+     ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
+     /(1-DeadbandCutOff); // scale to [0,1] or -1,0]
+    }
+    
+        return deadbandreturn;
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -229,6 +279,11 @@ public class RobotContainer
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
     }
+
+    double upElevator = -mechXbox.getLeftY();
+    double forwardArm = -mechXbox.getRightY();
+    eleMotor.set(deadbandreturn(upElevator, 0.1));
+    armMotor.set(deadbandreturn(forwardArm, 0.1));
 
   }
 
