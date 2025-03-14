@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.swervedrive.auto.TestCommand;
+//import frc.robot.commands.swervedrive.auto.TestCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -104,7 +104,7 @@ public class RobotContainer
     */
 
    // Add Variables Here:
-   private final TestCommand testCommand = new TestCommand();
+   //private final TestCommand testCommand = new TestCommand();
 
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
@@ -126,7 +126,7 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("TestCommand", TestCommand.TestCommandAuto());
+    //NamedCommands.registerCommand("TestCommand", TestCommand.TestCommandAuto());
 
 
      // Creates a SendableChooser that adds all of the PathPlanner Autos to the SendableChooser 
@@ -152,7 +152,7 @@ public class RobotContainer
       * autoChooser.setDefaultOption("Name of Command", m_insertNameHere);
       */
 
-      autoChooser.addOption("TestCommand", testCommand);
+      //autoChooser.addOption("TestCommand", testCommand);
   }
 
   /**

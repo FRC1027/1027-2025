@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
 
@@ -28,10 +29,10 @@ public class Elevator extends SubsystemBase {
     private State currentState;
     
 
-    public Elevator(int elevatorMotor1Port) {
-        this.elevatorMotor1 = new SparkMax(elevatorMotor1Port, MotorType.kBrushless);
-        elevatorMotor1.configure(Configs.Elevator.elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        elevatorPIDController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
+    public Elevator() {
+        this.elevatorMotor1 = new SparkMax(10, MotorType.kBrushless);
+        elevatorMotor1.configure(Constants.Elevator.elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        elevatorPIDController = new PIDController(0.0001, 0, 0);
         profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(180, 240));
         elevatorPosSetpoint = 0;
         elevatorPower = 0;
@@ -58,22 +59,13 @@ public class Elevator extends SubsystemBase {
         elevatorProfileTimer.restart();
     }
 
-    public void setElevatorPosition(elevatorPositions position) {
-        setElevatorPosition(position.getPosition());
-    }
-
     public void stopElevator() {
         elevatorPower = 0;
         elevatorManual = true;
     }
     @Override
     public void periodic(){
-        //System.out.println(elevatorMotor1.getEncoder().getPosition());
-        //System.out.println(elevatorMotor1.getOutputCurrent());
-        // SmartDashboard.putBoolean("Detected Limit Switch", elevatorBottomLimitSwitch.isTriggered());
-        // SmartDashboard.putNumber("Elevator 1 Encoder", this.getElevatorPosition());
         if(elevatorManual) {
-            //System.out.println("Manual");
             elevatorMotor1.set(elevatorPower);
         }
         else {
@@ -109,14 +101,6 @@ public class Elevator extends SubsystemBase {
 
     public void setElevatorEncoderPosition(double position) {
         elevatorEncoderOffset = position - elevatorMotor1.getEncoder().getPosition();
-    }
-
-    // public LimitSwitch getElevatorTopLimitSwitch() {
-    //     return elevatorTopLimitSwitch;
-    // }
-    
-    public LimitSwitch getElevatorBottomLimitSwitch() {
-        return elevatorBottomLimitSwitch;
     }
     
 }
