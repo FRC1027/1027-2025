@@ -1,5 +1,5 @@
 package frc.robot.commands;
 
-public class Climb {
+public class Elevator {
     
 }
