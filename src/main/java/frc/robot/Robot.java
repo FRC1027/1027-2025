@@ -4,12 +4,20 @@
 
 package frc.robot;
 
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -18,6 +26,26 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot
 {
+  SparkMax eleMotor;
+  SparkMax armMotor;
+    // Creates a second controller
+   final public        CommandXboxController mechXbox = new CommandXboxController(1);
+
+  public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
+                
+      static {
+        elevator1Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+              }
+  
+  public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
+                
+      static {
+      arm1Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+              }
 
   private static Robot   instance;
   private        Command m_autonomousCommand;
@@ -25,6 +53,23 @@ public class Robot extends TimedRobot
   private RobotContainer m_robotContainer;
 
   private Timer disabledTimer;
+
+  public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
+    double deadbandreturn;
+        if (JoystickValue<DeadbandCutOff&&JoystickValue>(DeadbandCutOff*(-1))) {
+        deadbandreturn=0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
+    }
+    else {
+      deadbandreturn=(JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
+      (Math.abs(JoystickValue)/JoystickValue // 1 if JoystickValue > 0, -1 if JoystickValue < 0 (abs(x)/x); could use Math.signum(JoystickValue) instead
+       *DeadbandCutOff // multiply by the sign so that for >0, it comes out to - (DeadBandCutOff), and for <0 it comes to - (-DeadBandCutOff)
+      )
+     ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
+     /(1-DeadbandCutOff); // scale to [0,1] or -1,0]
+    }
+    
+        return deadbandreturn;
+    }
 
   public Robot()
   {
@@ -42,6 +87,10 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
+      eleMotor = new SparkMax(3, MotorType.kBrushless);
+      eleMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      armMotor = new SparkMax(5, MotorType.kBrushless);
+      armMotor.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     CameraServer.startAutomaticCapture("photonvision", 0);
     
@@ -146,6 +195,10 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
+    double upElevator = -mechXbox.getLeftY();
+    double forwardArm = -mechXbox.getRightY();
+    eleMotor.set(deadbandreturn(upElevator, 0.1));
+    armMotor.set(-deadbandreturn(forwardArm, 0.1)/6);
   }
 
   @Override
