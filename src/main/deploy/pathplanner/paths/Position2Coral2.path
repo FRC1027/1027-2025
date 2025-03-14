@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.121823770491803,
-        "y": 4.007
+        "x": 7.247564102564103,
+        "y": 6.1303846153846155
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1218237704918024,
-        "y": 4.007
+        "x": 8.247564102564102,
+        "y": 6.1303846153846155
       },
       "isLocked": false,
       "linkedName": "Blue2Waypoint"
@@ -48,7 +48,7 @@
   "folder": "Position2Coral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.5144541699919
   },
   "useDefaultConstraints": true
 }
