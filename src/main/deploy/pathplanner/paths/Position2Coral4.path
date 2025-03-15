@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 11.41928541403951,
-        "y": 10.170241172761665
+        "x": 7.264968890724486,
+        "y": 2.659722801453257
       },
       "isLocked": false,
       "linkedName": "Blue2Waypoint"
     },
     {
       "anchor": {
-        "x": 6.185655737704918,
-        "y": 4.00701844262295
+        "x": 6.533299180327869,
+        "y": 4.04298155737705
       },
       "prevControl": {
-        "x": 6.305532786885245,
-        "y": 4.510502049180328
+        "x": 6.400945845489525,
+        "y": 4.300881843304499
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.14490260373321
   },
   "reversed": false,
   "folder": "Position2Coral",

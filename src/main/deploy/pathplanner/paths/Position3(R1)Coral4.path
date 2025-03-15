@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2,
-        "y": 2.1
+        "x": 7.036782786885246,
+        "y": 5.013985655737705
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.604679487181205,
-        "y": 0.9957051282053164
+        "x": 7.2895111427165755,
+        "y": 5.034055473881914
       },
       "isLocked": false,
       "linkedName": "BlueStartingPoint3"
     },
     {
       "anchor": {
-        "x": 6.37032051282223,
-        "y": 4.0766025641027515
+        "x": 6.617213114754098,
+        "y": 4.078944672131147
       },
       "prevControl": {
-        "x": 7.010192307694025,
-        "y": 1.8576923076924947
+        "x": 6.459695124000386,
+        "y": 3.8805962186517817
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Position3Coral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.19307054489764
   },
   "useDefaultConstraints": false
 }
