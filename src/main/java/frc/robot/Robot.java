@@ -87,9 +87,9 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-      eleMotor = new SparkMax(3, MotorType.kBrushless);
+      eleMotor = new SparkMax(23, MotorType.kBrushless);
       eleMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      armMotor = new SparkMax(5, MotorType.kBrushless);
+      armMotor = new SparkMax(25, MotorType.kBrushless);
       armMotor.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     CameraServer.startAutomaticCapture("photonvision", 0);
