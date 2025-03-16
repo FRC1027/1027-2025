@@ -93,7 +93,7 @@ public class Robot extends TimedRobot
       armMotor.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
-    // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard  
+    // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
     CameraServer.startAutomaticCapture("photonvision", 0);
     
 
