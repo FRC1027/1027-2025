@@ -197,7 +197,7 @@ public class Robot extends TimedRobot
   {
     double upElevator = -mechXbox.getLeftY();
     double forwardArm = -mechXbox.getRightY();
-    eleMotor.set(deadbandreturn(upElevator, 0.1));
+    eleMotor.set(-deadbandreturn(upElevator, 0.1));
     armMotor.set(-deadbandreturn(forwardArm, 0.1)/6);
   }
 
