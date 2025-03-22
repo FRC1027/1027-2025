@@ -138,7 +138,7 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    //NamedCommands.registerCommand("TestCommand", TestCommand.TestCommandAuto());
+    //NamedCommands.registerCommand("Test Command", TestCommand.TestCommandAuto());
 
 
      // Creates a SendableChooser that adds all of the PathPlanner Autos to the SendableChooser 
