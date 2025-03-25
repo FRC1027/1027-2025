@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -30,13 +32,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class Robot extends TimedRobot
 {
-  /**
-   *  Variables for automatic alignment to April Tags using PhotonVision
-   */
 
+  /**
+   *  Variables for automatic April Tag alignment with PhotonVision
+   */
   // Constants such as camera and target height stored. Change per robot and goal!
-  final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(8.5);
-  final double TARGET_HEIGHT_METERS = Units.inchesToMeters(8);
+  final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(8);
+  final double TARGET_HEIGHT_METERS = Units.inchesToMeters(8.5);
   // Angle between horizontal and the camera.
   final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
 
@@ -56,13 +58,12 @@ public class Robot extends TimedRobot
   PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
 
 
-
   SparkMax eleMotor;
   SparkMax armMotor;
     
   // Creates a second controller
    //final public        CommandXboxController mechXbox = new CommandXboxController(1);
-   XboxController mechXbox = new XboxController(1);
+   final public XboxController mechXbox = new XboxController(1);
 
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
                 
@@ -242,11 +243,17 @@ public class Robot extends TimedRobot
     double rotationSpeed;
 
     if (mechXbox.getAButton()) {
+
+      System.out.println("A Button Works!");
+
       // Vision-alignment mode
       // Query the latest result from PhotonVision
       var result = camera.getLatestResult();
 
       if (result.hasTargets()) {
+
+        System.out.println("Target Detected!");
+
         // Calculate angular turn power
         // -1.0 required to ensure positive PID controller effort _increases_ yaw
         rotationSpeed = -turnController.calculate(result.getBestTarget().getYaw(), 0);
