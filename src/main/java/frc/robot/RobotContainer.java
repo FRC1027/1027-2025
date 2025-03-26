@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.drivebase.AimPhoton;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.swervedrive.Vision.Cameras;
 import java.io.File;
 import org.photonvision.PhotonCamera;
 import swervelib.SwerveInputStream;
@@ -192,7 +193,8 @@ public class RobotContainer
         driveDirectAngleKeyboard);
 
     //AButton.onTrue(new InstantCommand(() -> System.out.println("YAY!")));
-    AButton.onTrue(new InstantCommand(() -> SwerveSubsystem.aimAtTarget(Cameras.camera)));
+    AButton.onTrue(new InstantCommand(() -> SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
+    //BButton.onTrue(new InstantCommand(() -> Command.AimPhoton()));
 
     if (RobotBase.isSimulation())
     {
