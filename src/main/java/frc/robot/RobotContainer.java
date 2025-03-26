@@ -113,6 +113,9 @@ public class RobotContainer
                                                                                    0));
 
   private final JoystickButton AButton = new JoystickButton(mechXbox, XboxController.Button.kA.value);
+  private final JoystickButton XButton = new JoystickButton(mechXbox, XboxController.Button.kX.value);
+  private final JoystickButton YButton = new JoystickButton(mechXbox, XboxController.Button.kY.value);
+  private final JoystickButton BButton = new JoystickButton(mechXbox, XboxController.Button.kB.value);
   
   /**
     * The area where the robot's subsystems are initialized. In order to create a new initialization,
@@ -189,7 +192,8 @@ public class RobotContainer
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
 
-    AButton.onTrue(new InstantCommand(() -> System.out.println("YAY!")));
+    //AButton.onTrue(new InstantCommand(() -> System.out.println("YAY!")));
+    AButton.onTrue(new InstantCommand(() -> SwerveSubsystem.aimAtTarget(Cameras.camera)));
 
     if (RobotBase.isSimulation())
     {
