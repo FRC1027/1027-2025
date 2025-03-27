@@ -27,6 +27,8 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class Elevator extends SubsystemBase{
     
+    final public XboxController mechXbox = new XboxController(1);
+
     SparkMax eleMotor;
     SparkMax armMotor;
 
@@ -36,17 +38,33 @@ public class Elevator extends SubsystemBase{
     private Timer disabledTimer;
 
     public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
+
+    public static final SparkMaxConfig elevator2Config = new SparkMaxConfig();
                 
       static {
         elevator1Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
               }
+
+      static {
+        elevator2Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+              }
   
     public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
+
+    public static final SparkMaxConfig arm2Config = new SparkMaxConfig();
                 
       static {
-      arm1Config
+        arm1Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+              }
+
+      static {
+        arm2Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
               }
@@ -67,10 +85,12 @@ public class Elevator extends SubsystemBase{
         return deadbandreturn;
     }
 
+    /*
     public Robot()
     {
         instance = this;
     }
+    */
 
     public static Robot getInstance()
     {
@@ -84,9 +104,13 @@ public class Elevator extends SubsystemBase{
     public void robotInit()
     {
         eleMotor = new SparkMax(23, MotorType.kBrushless);
+        eleMotor = new SparkMax(0, MotorType.kBrushless);
         eleMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        eleMotor.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         armMotor = new SparkMax(25, MotorType.kBrushless);
+        armMotor = new SparkMax(0, MotorType.kBrushless);
         armMotor.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        armMotor.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
@@ -133,5 +157,33 @@ public class Elevator extends SubsystemBase{
         {
             m_autonomousCommand.schedule();
         }
+    }
+
+
+    public void teleopInit()
+    {
+        // This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
+        if (m_autonomousCommand != null)
+        {
+        m_autonomousCommand.cancel();
+        } else
+        {
+        CommandScheduler.getInstance().cancelAll();
+        }
+    }
+
+
+    /**
+     * This function is called periodically during operator control.
+     */
+    public void teleopPeriodic()
+    {
+        double upElevator = -mechXbox.getLeftY();
+        double forwardArm = -mechXbox.getRightY();
+        eleMotor.set(-deadbandreturn(upElevator, 0.1));
+        armMotor.set(-deadbandreturn(forwardArm, 0.1)/6);
     }
 }
