@@ -59,8 +59,10 @@ public class Robot extends TimedRobot
 
 
 
-  SparkMax eleMotor;
-  SparkMax armMotor;
+  SparkMax eleMotor1;
+  SparkMax eleMotor2;
+  SparkMax armMotor1;
+  SparkMax armMotor2;
   
   // Creates a second controller
   //final public        CommandXboxController mechXbox = new CommandXboxController(1);
@@ -139,14 +141,14 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-      eleMotor = new SparkMax(23, MotorType.kBrushless);
-      eleMotor = new SparkMax(0, MotorType.kBrushless);
-      eleMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      eleMotor.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      armMotor = new SparkMax(25, MotorType.kBrushless);
-      armMotor = new SparkMax(0, MotorType.kBrushless);
-      armMotor.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      armMotor.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      eleMotor1 = new SparkMax(25, MotorType.kBrushless);
+      eleMotor2 = new SparkMax(27, MotorType.kBrushless);
+      eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      armMotor1 = new SparkMax(23, MotorType.kBrushless);
+      armMotor2 = new SparkMax(29, MotorType.kBrushless);
+      armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
@@ -255,8 +257,10 @@ public class Robot extends TimedRobot
   {
     double upElevator = -mechXbox.getLeftY();
     double forwardArm = -mechXbox.getRightY();
-    eleMotor.set(-deadbandreturn(upElevator, 0.1));
-    armMotor.set(-deadbandreturn(forwardArm, 0.1)/6);
+    eleMotor1.set(-deadbandreturn(upElevator, 0.1));
+    eleMotor2.set(deadbandreturn(upElevator, 0.1));
+    armMotor1.set(-deadbandreturn(forwardArm, 0.1));
+    armMotor2.set(-deadbandreturn(forwardArm, 0.1));
 
 
     /**
