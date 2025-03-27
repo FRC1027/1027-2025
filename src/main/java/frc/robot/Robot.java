@@ -58,28 +58,46 @@ public class Robot extends TimedRobot
   PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
 
 
+
   SparkMax eleMotor;
   SparkMax armMotor;
-    
+  
   // Creates a second controller
-   //final public        CommandXboxController mechXbox = new CommandXboxController(1);
-   final public XboxController mechXbox = new XboxController(1);
+  //final public        CommandXboxController mechXbox = new CommandXboxController(1);
+  final public XboxController mechXbox = new XboxController(1);
+   
 
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
+
+  public static final SparkMaxConfig elevator2Config = new SparkMaxConfig();
                 
       static {
         elevator1Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
               }
+
+      static {
+        elevator2Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+             }
   
   public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
+
+  public static final SparkMaxConfig arm2Config = new SparkMaxConfig();
                 
       static {
       arm1Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
               }
+
+      static {
+      arm2Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+      }
 
   private static Robot   instance;
   private        Command m_autonomousCommand;
