@@ -32,33 +32,6 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
  */
 public class Robot extends TimedRobot
 {
-
-  /**
-   *  Variables for automatic April Tag alignment with PhotonVision
-   */
-  // Constants such as camera and target height stored. Change per robot and goal!
-  final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(8);
-  final double TARGET_HEIGHT_METERS = Units.inchesToMeters(8.5);
-  // Angle between horizontal and the camera.
-  final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
-
-  // How far from the target we want to be
-  final double GOAL_RANGE_METERS = Units.feetToMeters(3);
-
-  // Change this to match the name of your camera
-  PhotonCamera camera = new PhotonCamera("photonvision");
-
-  // PID constants should be tuned per robot
-  final double LINEAR_P = 0.0005;
-  final double LINEAR_D = 0.0;
-  PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
-
-  final double ANGULAR_P = 0.0012;
-  final double ANGULAR_D = 0.0;
-  PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
-
-
-
   SparkMax eleMotor1;
   SparkMax eleMotor2;
   SparkMax armMotor1;
@@ -261,36 +234,6 @@ public class Robot extends TimedRobot
     eleMotor2.set(deadbandreturn(upElevator, 0.1));
     armMotor1.set(-deadbandreturn(forwardArm, 0.1));
     armMotor2.set(-deadbandreturn(forwardArm, 0.1));
-
-
-    /**
-     *  Automatic alignment to April Tags using PhotonVision
-     */
-    double rotationSpeed;
-
-    if (mechXbox.getAButton()) {
-
-      System.out.println("A Button Works!");
-
-      // Vision-alignment mode
-      // Query the latest result from PhotonVision
-      var result = camera.getLatestResult();
-
-      if (result.hasTargets()) {
-
-        System.out.println("Target Detected!");
-
-        // Calculate angular turn power
-        // -1.0 required to ensure positive PID controller effort _increases_ yaw
-        rotationSpeed = -turnController.calculate(result.getBestTarget().getYaw(), 0);
-      } else {
-        // If we have no targets, stay still.
-        rotationSpeed = 0;
-      }
-    } else {
-      // Manual Driver Mode
-      rotationSpeed = mechXbox.getLeftX();
-    }
   }
 
   @Override
