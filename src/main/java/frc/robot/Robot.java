@@ -36,6 +36,7 @@ public class Robot extends TimedRobot
   SparkMax eleMotor2;
   SparkMax armMotor1;
   SparkMax armMotor2;
+  SparkMax intake;
   
   // Creates a second controller
   //final public        CommandXboxController mechXbox = new CommandXboxController(1);
@@ -70,6 +71,14 @@ public class Robot extends TimedRobot
 
       static {
       arm2Config
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+      }
+
+  public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
+
+      static {
+      intakeConfig
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
       }
@@ -122,6 +131,8 @@ public class Robot extends TimedRobot
       armMotor2 = new SparkMax(29, MotorType.kBrushless);
       armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      intake = new SparkMax(28, MotorType.kBrushless);
+      intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
@@ -230,10 +241,14 @@ public class Robot extends TimedRobot
   {
     double upElevator = -mechXbox.getLeftY();
     double forwardArm = -mechXbox.getRightY();
+    double inVal = mechXbox.getRightTriggerAxis();
+    double outVal = mechXbox.getLeftTriggerAxis();
     eleMotor1.set(-deadbandreturn(upElevator, 0.1));
     eleMotor2.set(deadbandreturn(upElevator, 0.1));
     armMotor1.set(-deadbandreturn(forwardArm, 0.1));
     armMotor2.set(-deadbandreturn(forwardArm, 0.1));
+    intake.set(deadbandreturn(inVal, 0.1));
+    intake.set(deadbandreturn(outVal, 0.1));
   }
 
   @Override

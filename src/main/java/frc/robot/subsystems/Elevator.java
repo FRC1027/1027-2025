@@ -20,8 +20,11 @@
     
 //     final public XboxController mechXbox = new XboxController(1);
 
-//     SparkMax eleMotor;
-//     SparkMax armMotor;
+//     SparkMax eleMotor1;
+//     SparkMax eleMotor2;
+//     SparkMax armMotor1;
+//     SparkMax armMotor2;
+//     SparkMax intake;
 
 //     private static Robot   instance;
 //     private        Command m_autonomousCommand;
@@ -64,6 +67,14 @@
 //           .smartCurrentLimit(50);
 //               }
 
+//    public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
+
+//      static {
+//        intakeConfig
+//          .idleMode(IdleMode.kBrake)
+//          .smartCurrentLimit(50);
+//              }
+
     
 //     /*
 //      * Controller Deadband Auto Calibrator
@@ -96,14 +107,16 @@
 //      */
 //     public void robotInit()
 //     {
-//         eleMotor = new SparkMax(23, MotorType.kBrushless);
-//         eleMotor = new SparkMax(0, MotorType.kBrushless);
-//         eleMotor.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-//         eleMotor.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-//         armMotor = new SparkMax(25, MotorType.kBrushless);
-//         armMotor = new SparkMax(0, MotorType.kBrushless);
-//         armMotor.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-//         armMotor.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+//         eleMotor1 = new SparkMax(23, MotorType.kBrushless);
+//         eleMotor2 = new SparkMax(0, MotorType.kBrushless);
+//         eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+//         eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+//         armMotor1 = new SparkMax(25, MotorType.kBrushless);
+//         armMotor2 = new SparkMax(0, MotorType.kBrushless);
+//         armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+//         armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+//         intake = new SparkMax(28, MotorType.kBrushless);
+//         intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 //         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
 //         // autonomous chooser on the dashboard.
@@ -176,7 +189,13 @@
 //     {
 //         double upElevator = -mechXbox.getLeftY();
 //         double forwardArm = -mechXbox.getRightY();
-//         eleMotor.set(-deadbandreturn(upElevator, 0.1));
-//         armMotor.set(-deadbandreturn(forwardArm, 0.1)/6);
+//         double inVal = mechXbox.getRightTriggerAxis();
+//         double outVal = mechXbox.getLeftTriggerAxis();
+//         eleMotor1.set(-deadbandreturn(upElevator, 0.1));
+//         eleMotor2.set(deadbandreturn(upElevator, 0.1));
+//         armMotor1.set(-deadbandreturn(forwardArm, 0.1));
+//         armMotor2.set(-deadbandreturn(forwardArm, 0.1));
+//         intake.set(deadbandreturn(inVal, 0.1));
+//         intake.set(deadbandreturn(outVal, 0.1));
 //     }
 // }
