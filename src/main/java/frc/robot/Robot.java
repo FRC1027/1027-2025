@@ -32,8 +32,8 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
  */
 public class Robot extends TimedRobot
 {
-  SparkMax eleMotor1;
-  SparkMax eleMotor2;
+  SparkMax eleMotor1;  //Black side
+  SparkMax eleMotor2;  //white side
   SparkMax armMotor1;
   SparkMax armMotor2;
   SparkMax intake;
@@ -242,12 +242,14 @@ public class Robot extends TimedRobot
     double upElevator = -mechXbox.getLeftY();
     double forwardArm = -mechXbox.getRightY();
     double inVal = mechXbox.getRightTriggerAxis();
-    double outVal = mechXbox.getLeftTriggerAxis();
+    double outVal = -mechXbox.getLeftTriggerAxis();
     eleMotor1.set(-deadbandreturn(upElevator, 0.1));
     eleMotor2.set(deadbandreturn(upElevator, 0.1));
-    armMotor1.set(-deadbandreturn(forwardArm, 0.1));
+    armMotor1.set(deadbandreturn(forwardArm, 0.1));
     armMotor2.set(-deadbandreturn(forwardArm, 0.1));
     intake.set(deadbandreturn(inVal, 0.1));
+    //THIS NEEDS TO BE FIXED. I BELIEVE ITS DUE TO SAME MOTOR INTAKE BEING USED.
+    //MAY NEED TO USE AN IF/THEN TYPE LOGIC. outVal does NOT work.
     intake.set(deadbandreturn(outVal, 0.1));
   }
 
