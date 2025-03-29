@@ -6,8 +6,10 @@ package frc.robot;
 
 import org.photonvision.PhotonCamera;
 
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -82,6 +84,9 @@ public class Robot extends TimedRobot
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
       }
+
+  //SparkClosedLoopController m_ele1Controller = eleMotor1.getClosedLoopController();
+  //SparkClosedLoopController m_ele2COntroller = eleMotor2.getClosedLoopController();
 
   private static Robot   instance;
   private        Command m_autonomousCommand;
@@ -245,6 +250,9 @@ public class Robot extends TimedRobot
     double inVal = mechXbox.getRightTriggerAxis();
     double outVal = -mechXbox.getLeftTriggerAxis();
     eleMotor1.set(-deadbandreturn(upElevator, 0.1));
+
+    //m_ele1Controller.setReference(10, ControlType.kPosition);
+
     eleMotor2.set(deadbandreturn(upElevator, 0.1));
     armMotor1.set(deadbandreturn(forwardArm, 0.1));
     armMotor2.set(-deadbandreturn(forwardArm, 0.1));
@@ -256,9 +264,6 @@ public class Robot extends TimedRobot
     if (mechXbox.getRightTriggerAxis() > 0.1){
       intake.set(deadbandreturn(inVal, 0.1));
     }
-
-    //THIS NEEDS TO BE FIXED. I BELIEVE ITS DUE TO SAME MOTOR INTAKE BEING USED.
-    //MAY NEED TO USE AN IF/THEN TYPE LOGIC. outVal does NOT work.
   }
 
   @Override

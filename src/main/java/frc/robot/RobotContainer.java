@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.subsystems2024.shooter.ShooterArm;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -126,7 +126,7 @@ public class RobotContainer
 
    // Add Variables Here:
    //private final TestCommand testCommand = new TestCommand();
-   private final Elevator m_elevator = new Elevator();
+   //private final Elevator m_elevator = new Elevator();
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
    private final SendableChooser<Command> autoChooser; 
@@ -145,8 +145,7 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("autoScore", m_elevator.scoreCommand());
-
+    //NamedCommands.registerCommand("autoScore", m_elevator.scoreCommand());
     
 
      // Creates a SendableChooser that adds all of the PathPlanner Autos to the SendableChooser 

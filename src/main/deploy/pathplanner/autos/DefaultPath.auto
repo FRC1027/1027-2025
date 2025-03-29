@@ -9,6 +9,12 @@
           "data": {
             "pathName": "DefaultPath"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoScore"
+          }
         }
       ]
     }
