@@ -254,7 +254,7 @@ public class Robot extends TimedRobot
 
     //m_ele1Controller.setReference(10, ControlType.kPosition);
 
-    eleMotor2.set(deadbandreturn(upElevator, 0.1));
+    eleMotor2.set(-deadbandreturn(upElevator, 0.1));
     armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
     armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
     
