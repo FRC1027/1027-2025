@@ -280,6 +280,7 @@ public class Robot extends TimedRobot
     Timer.delay(3);
     eleMotor1.stopMotor();
     eleMotor2.stopMotor();
+    
   }
     
   public Command inputLevelCommand(){
