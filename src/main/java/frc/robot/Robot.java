@@ -262,29 +262,13 @@ public class Robot extends TimedRobot
       intake.set(deadbandreturn(outVal, 0.1));
     }
 
+    if (mechXbox.getLeftTriggerAxis() < 0.1){
+      intake.set(0);
+    }
+
     if (mechXbox.getRightTriggerAxis() > 0.1){
       intake.set(deadbandreturn(inVal, 0.1));
-    }
-  }
-
-
-  /*
-   * Command to Raise Elevator to Intake Height for Coral
-   */
-  public void inputLevel(){
-    //m_ele1Controller.setReference(10, ControlType.kPosition);
-    //m_ele2COntroller.setReference(10, ControlType.kPosition);
-
-    eleMotor1.set(1);
-    eleMotor2.set(1);
-    Timer.delay(3);
-    eleMotor1.stopMotor();
-    eleMotor2.stopMotor();
-    
-  }
-    
-  public Command inputLevelCommand(){
-    return new InstantCommand(this::inputLevel);
+    } 
   }
 
 
