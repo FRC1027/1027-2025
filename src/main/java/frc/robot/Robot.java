@@ -250,13 +250,13 @@ public class Robot extends TimedRobot
     double forwardArm = -mechXbox.getRightY();
     double inVal = mechXbox.getRightTriggerAxis();
     double outVal = -mechXbox.getLeftTriggerAxis();
-    eleMotor1.set(-deadbandreturn(upElevator, 0.1));
+    eleMotor1.set(deadbandreturn(upElevator, 0.1));
 
     //m_ele1Controller.setReference(10, ControlType.kPosition);
 
     eleMotor2.set(deadbandreturn(upElevator, 0.1));
-    armMotor1.set(deadbandreturn(forwardArm, 0.1));
-    armMotor2.set(-deadbandreturn(forwardArm, 0.1));
+    armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
+    armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
     
     if (mechXbox.getLeftTriggerAxis() > 0.1){
       intake.set(deadbandreturn(outVal, 0.1));
