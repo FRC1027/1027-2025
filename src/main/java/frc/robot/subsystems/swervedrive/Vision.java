@@ -379,9 +379,19 @@ public class Vision
                VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
 
     /**
-     * photonvision Camera
+     * photonvision Camera 1
      */
-    PHOTONVISION_CAM("photonvision",
+    PHOTONVISION_CAM1("photonvision1",
+               new Rotation3d(0, Units.degreesToRadians(18), 0),
+               new Translation3d(Units.inchesToMeters(-4.628),
+                                 Units.inchesToMeters(-10.687),
+                                 Units.inchesToMeters(16.129)),
+               VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
+    
+    /**
+     * photonvision Camera 1
+     */
+    PHOTONVISION_CAM2("photonvision2",
                new Rotation3d(0, Units.degreesToRadians(18), 0),
                new Translation3d(Units.inchesToMeters(-4.628),
                                  Units.inchesToMeters(-10.687),

@@ -136,8 +136,9 @@ public class Robot extends TimedRobot
 
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
-    CameraServer.startAutomaticCapture("photonvision", 0);
+    CameraServer.startAutomaticCapture("photonvision1", 0);
     
+    CameraServer.startAutomaticCapture("photonvision2", 1);
 
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
