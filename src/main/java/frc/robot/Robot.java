@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -265,6 +266,26 @@ public class Robot extends TimedRobot
       intake.set(deadbandreturn(inVal, 0.1));
     }
   }
+
+
+  /*
+   * Command to Raise Elevator to Intake Height for Coral
+   */
+  public void inputLevel(){
+    //m_ele1Controller.setReference(10, ControlType.kPosition);
+    //m_ele2COntroller.setReference(10, ControlType.kPosition);
+
+    eleMotor1.set(1);
+    eleMotor2.set(1);
+    Timer.delay(3);
+    eleMotor1.stopMotor();
+    eleMotor2.stopMotor();
+  }
+    
+  public Command inputLevelCommand(){
+    return new InstantCommand(this::inputLevel);
+  }
+
 
   @Override
   public void testInit()
