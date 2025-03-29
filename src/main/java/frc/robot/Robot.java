@@ -247,10 +247,17 @@ public class Robot extends TimedRobot
     eleMotor2.set(deadbandreturn(upElevator, 0.1));
     armMotor1.set(deadbandreturn(forwardArm, 0.1));
     armMotor2.set(-deadbandreturn(forwardArm, 0.1));
-    intake.set(deadbandreturn(inVal, 0.1));
+    
+    if (mechXbox.getLeftTriggerAxis() > 0.1){
+      intake.set(deadbandreturn(outVal, 0.1));
+    }
+
+    if (mechXbox.getRightTriggerAxis() > 0.1){
+      intake.set(deadbandreturn(inVal, 0.1));
+    }
+
     //THIS NEEDS TO BE FIXED. I BELIEVE ITS DUE TO SAME MOTOR INTAKE BEING USED.
     //MAY NEED TO USE AN IF/THEN TYPE LOGIC. outVal does NOT work.
-    intake.set(deadbandreturn(outVal, 0.1));
   }
 
   @Override
