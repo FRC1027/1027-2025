@@ -666,8 +666,5 @@ public class Vision
         }
       }
     }
-
-
   }
-
 }

@@ -90,6 +90,4 @@ public class AbsoluteFieldDrive extends Command
   {
     return false;
   }
-
-
 }
