@@ -11,9 +11,8 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-
-import java.io.IOException;
 import java.util.Optional;
+
 
 /**
  * PhotonCamera-based Pose Estimator.

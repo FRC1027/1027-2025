@@ -2,7 +2,6 @@ package frc.robot;
 
 import java.util.EnumSet;
 import java.util.function.Consumer;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;

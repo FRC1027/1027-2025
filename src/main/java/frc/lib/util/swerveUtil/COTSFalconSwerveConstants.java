@@ -2,6 +2,7 @@ package frc.lib.util.swerveUtil;
 
 import edu.wpi.first.math.util.Units;
 
+
 /* Contains values and required settings for common COTS swerve modules. */
 public class COTSFalconSwerveConstants {
     public final double wheelDiameter;
