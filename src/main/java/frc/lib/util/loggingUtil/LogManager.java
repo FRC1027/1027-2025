@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.DataLogManager;
  * View logs using MechanicalAdvantage's advantage scope (https://github.com/Mechanical-Advantage/AdvantageScope)
  */
 public class LogManager {
-
   private static DataLog log = DataLogManager.getLog();
 
   // These are array lists of log entry classes from WPI. appending to a log entry automatically adds to the log file.
@@ -38,8 +37,6 @@ public class LogManager {
   private static HashMap<String, DoubleArrayLogEntry> individualDoubleArrayLogs = new HashMap<>();
   private static HashMap<String, BooleanLogEntry> individualBooleanLogs = new HashMap<>();
   private static HashMap<String, IntegerLogEntry> individualIntegerLogs = new HashMap<>();
-
-  
 
   /**
    * @deprecated Use {@link #addDouble(String, double)} with a single value instead.

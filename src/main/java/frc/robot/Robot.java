@@ -35,10 +35,8 @@ public class Robot extends TimedRobot
   // Creates a second controller
   //final public        CommandXboxController mechXbox = new CommandXboxController(1);
   final public XboxController mechXbox = new XboxController(1);
-   
-
+  
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
-
   public static final SparkMaxConfig elevator2Config = new SparkMaxConfig();
                 
       static {
@@ -54,7 +52,6 @@ public class Robot extends TimedRobot
              }
   
   public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
-
   public static final SparkMaxConfig arm2Config = new SparkMaxConfig();
                 
       static {
@@ -77,14 +74,9 @@ public class Robot extends TimedRobot
           .smartCurrentLimit(50);
       }
 
-  //SparkClosedLoopController m_ele1Controller = eleMotor1.getClosedLoopController();
-  //SparkClosedLoopController m_ele2COntroller = eleMotor2.getClosedLoopController();
-
   private static Robot   instance;
   private        Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
-
   private Timer disabledTimer;
 
   public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
@@ -100,8 +92,7 @@ public class Robot extends TimedRobot
      ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
      /(1-DeadbandCutOff); // scale to [0,1] or -1,0]
     }
-    
-        return deadbandreturn;
+      return deadbandreturn;
     }
 
   public Robot()
@@ -131,19 +122,14 @@ public class Robot extends TimedRobot
       intake = new SparkMax(28, MotorType.kBrushless);
       intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
     CameraServer.startAutomaticCapture("photonvision1", 0);
-    
     CameraServer.startAutomaticCapture("photonvision2", 1);
 
-
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
-    // immediately when disabled, but then also let it be pushed more 
+    // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
 
     if (isSimulation())
@@ -218,10 +204,8 @@ public class Robot extends TimedRobot
   @Override
   public void teleopInit()
   {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
+    // This makes sure that the autonomous stops running when teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove this line or comment it out.
     if (m_autonomousCommand != null)
     {
       m_autonomousCommand.cancel();
@@ -242,9 +226,6 @@ public class Robot extends TimedRobot
     double inVal = mechXbox.getRightTriggerAxis();
     double outVal = -mechXbox.getLeftTriggerAxis();
     eleMotor1.set(deadbandreturn(upElevator, 0.1));
-
-    //m_ele1Controller.setReference(10, ControlType.kPosition);
-
     eleMotor2.set(-deadbandreturn(upElevator, 0.1));
     armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
     armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
@@ -261,7 +242,6 @@ public class Robot extends TimedRobot
       intake.set(deadbandreturn(inVal, 0.1));
     } 
   }
-
 
   @Override
   public void testInit()

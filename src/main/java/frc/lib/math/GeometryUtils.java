@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Twist2d;
 public class GeometryUtils {
   private static final double kEps = 1E-9;
 
-
   public static Pose2d exp(final Twist2d delta) {
     double sin_theta = Math.sin(delta.dtheta);
     double cos_theta = Math.cos(delta.dtheta);

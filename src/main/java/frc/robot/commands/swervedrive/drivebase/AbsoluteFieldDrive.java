@@ -22,7 +22,6 @@ import swervelib.math.SwerveMath;
  */
 public class AbsoluteFieldDrive extends Command
 {
-
   private final SwerveSubsystem swerve;
   private final DoubleSupplier  vX, vY, heading;
 
@@ -60,9 +59,7 @@ public class AbsoluteFieldDrive extends Command
   @Override
   public void execute()
   {
-
     // Get the desired chassis speeds based on a 2 joystick module.
-
     ChassisSpeeds desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
                                                          new Rotation2d(heading.getAsDouble() * Math.PI));
 
@@ -76,7 +73,6 @@ public class AbsoluteFieldDrive extends Command
 
     // Make the robot move
     swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true);
-
   }
 
   // Called once the command ends or is interrupted.

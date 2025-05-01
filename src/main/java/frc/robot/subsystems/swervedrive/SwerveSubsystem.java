@@ -59,20 +59,21 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase
 {
-
   /**
    * Swerve drive object.
    */
   private final SwerveDrive         swerveDrive;
+
   /**
    * AprilTag field layout.
    */
   private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
-  //private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+
   /**
    * Enable vision odometry updates while driving.
    */
   private final boolean             visionDriveTest     = false;
+
   /**
    * PhotonVision class to keep an accurate odometry.
    */
@@ -106,7 +107,7 @@ public class SwerveSubsystem extends SubsystemBase
                                                0.1); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
     swerveDrive.setModuleEncoderAutoSynchronize(false,
                                                 1); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
-//    swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
+//  swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
     if (visionDriveTest)
     {
       setupPhotonVision();
@@ -161,7 +162,6 @@ public class SwerveSubsystem extends SubsystemBase
       swerveDrive.updateOdometry();
       vision.updatePoseEstimation(swerveDrive);
     }
-
     updateVisionOdometry();
   }
 
@@ -175,8 +175,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void setupPathPlanner()
   {
-    // Load the RobotConfig from the GUI settings. You should probably
-    // store this in your Constants file
+    // Load the RobotConfig from the GUI settings. You should probably store this in your Constants file
     RobotConfig config;
     try
     {
@@ -236,7 +235,7 @@ public class SwerveSubsystem extends SubsystemBase
       e.printStackTrace();
     }
 
-    //Preload PathPlanner Path finding
+    // Preload PathPlanner Path finding
     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
     PathfindingCommand.warmupCommand().schedule();
   }
@@ -248,7 +247,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command aimAtTarget(Cameras camera)
   {
-
     return run(() -> {
       Optional<PhotonPipelineResult> resultO = camera.getBestResult();
       if (resultO.isPresent())
@@ -328,7 +326,6 @@ public class SwerveSubsystem extends SubsystemBase
                                         newSetpoint.feedforwards().linearForces());
                       prevSetpoint.set(newSetpoint);
                       previousTime.set(newTime);
-
                     });
   }
 
@@ -344,7 +341,6 @@ public class SwerveSubsystem extends SubsystemBase
     {
       return driveWithSetpointGenerator(() -> {
         return ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds.get(), getHeading());
-
       });
     } catch (Exception e)
     {
@@ -352,7 +348,6 @@ public class SwerveSubsystem extends SubsystemBase
     }
     return Commands.none();
   }
-
 
   /**
    * Command to characterize the robot drive motors using SysId
@@ -520,7 +515,6 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveDrive.drive(velocity);
   }
-
 
   /**
    * Get the swerve drive kinematics object.

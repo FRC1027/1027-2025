@@ -49,31 +49,32 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 
 public class Vision
 {
-
   /**
    * April Tag Field Layout of the year.
    */
-  public static final AprilTagFieldLayout fieldLayout                     = AprilTagFieldLayout.loadField(
-      //AprilTagFields.k2025Reefscape);
+  public static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(
       AprilTagFields.k2025ReefscapeAndyMark);
-      //AprilTagFields.k2025ReefscapeWelded);
 
   /**
    * Ambiguity defined as a value between (0,1). Used in {@link Vision#filterPose}.
    */
   private final       double              maximumAmbiguity                = 0.25;
+
   /**
    * Photon Vision Simulation
    */
   public              VisionSystemSim     visionSim;
+
   /**
    * Count of times that the odom thinks we're more than 10meters away from the april tag.
    */
   private             double              longDistangePoseEstimationCount = 0;
+
   /**
    * Current pose from the pose estimator using wheel odometry.
    */
   private             Supplier<Pose2d>    currentPose;
+
   /**
    * Field from {@link swervelib.SwerveDrive#field}
    */
@@ -100,7 +101,6 @@ public class Vision
       {
         c.addToVisionSim(visionSim);
       }
-
       openSimCameraViews();
     }
   }
@@ -303,7 +303,6 @@ public class Vision
    */
   public void updateVisionField()
   {
-
     List<PhotonTrackedTarget> targets = new ArrayList<PhotonTrackedTarget>();
     for (Cameras c : Cameras.values())
     {
@@ -326,7 +325,6 @@ public class Vision
         poses.add(targetPose);
       }
     }
-
     field2d.getObject("tracked targets").setPoses(poses);
   }
 
@@ -344,6 +342,7 @@ public class Vision
                                Units.inchesToMeters(10.981),
                                Units.inchesToMeters(8.44)),
              VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
+
     /**
      * Right Camera
      */
@@ -353,6 +352,7 @@ public class Vision
                                 Units.inchesToMeters(-10.981),
                                 Units.inchesToMeters(8.44)),
               VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
+
     /**
      * Center Camera
      */
@@ -387,42 +387,52 @@ public class Vision
      * Latency alert to use when high latency is detected.
      */
     public final  Alert                        latencyAlert;
+
     /**
      * Camera instance for comms.
      */
     public final  PhotonCamera                 camera;
+
     /**
      * Pose estimator for camera.
      */
     public final  PhotonPoseEstimator          poseEstimator;
+
     /**
      * Standard Deviation for single tag readings for pose estimation.
      */
     private final Matrix<N3, N1>               singleTagStdDevs;
+
     /**
      * Standard deviation for multi-tag readings for pose estimation.
      */
     private final Matrix<N3, N1>               multiTagStdDevs;
+
     /**
      * Transform of the camera rotation and translation relative to the center of the robot
      */
     private final Transform3d                  robotToCamTransform;
+
     /**
      * Current standard deviations used.
      */
     public        Matrix<N3, N1>               curStdDevs;
+
     /**
      * Estimated robot pose.
      */
     public        Optional<EstimatedRobotPose> estimatedRobotPose = Optional.empty();
+
     /**
      * Simulated camera instance which only exists during simulations.
      */
     public        PhotonCameraSim              cameraSim;
+
     /**
      * Results list to be updated periodically and cached to avoid unnecessary queries.
      */
     public        List<PhotonPipelineResult>   resultsList       = new ArrayList<>();
+
     /**
      * Last read from the camera timestamp to prevent lag due to slow data fetches.
      */
@@ -470,7 +480,6 @@ public class Vision
         // The average and standard deviation in milliseconds of image data latency.
         cameraProp.setAvgLatencyMs(35);
         cameraProp.setLatencyStdDevMs(5);
-
         cameraSim = new PhotonCameraSim(camera, cameraProp);
         cameraSim.enableDrawWireframe(true);
       }

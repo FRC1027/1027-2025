@@ -36,7 +36,6 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class RobotContainer
 {
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
   final public XboxController mechXbox = new XboxController(1);
@@ -77,6 +76,7 @@ public class RobotContainer
                                                                     .deadband(OperatorConstants.DEADBAND)
                                                                     .scaleTranslation(0.8)
                                                                     .allianceRelativeControl(true);
+  
   // Derive the heading axis with math!
   SwerveInputStream driveDirectAngleKeyboard     = driveAngularVelocityKeyboard.copy()
                                                                                .withControllerHeadingAxis(() ->
@@ -109,39 +109,25 @@ public class RobotContainer
     * 
     * CommandFileName commandFileName = new CommandFileName(); 
     */
-
-   // Add Variables Here:
-   //private final TestCommand testCommand = new TestCommand();
-   //private final Elevator m_elevator = new Elevator();
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
    private final SendableChooser<Command> autoChooser; 
 
-
- /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /**
+    * The container for the robot. Contains subsystems, OI devices, and commands.
+    */
   public RobotContainer()
     {
-
     // Configure/register any and all future commands here
     //  NamedCommands.registerCommand("exampleCommand", exampleSubsystem.exampleCommand());
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    //NamedCommands.registerCommand("autoScore", m_elevator.scoreCommand());
     
+    // Creates a SendableChooser that adds all of the PathPlanner Autos to the SendableChooser in the Smart Dashboard
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
-     // Creates a SendableChooser that adds all of the PathPlanner Autos to the SendableChooser 
-     // in the Smart Dashboard
-     autoChooser = AutoBuilder.buildAutoChooser();
-     SmartDashboard.putData("Auto Chooser", autoChooser);
-
-     // This option allows you to specify the default PlathPlanner Auto by its name. If this code
-     // is used, comment out the above line of code.
-     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-     
- 
      /**
       * Adding Individual Commmads to Smart Dashboard (Not PathPlanner Related). Add the command
       * to the Smart Dashboard with the following lines of code:

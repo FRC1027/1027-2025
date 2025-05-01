@@ -23,7 +23,6 @@ import swervelib.math.SwerveMath;
  */
 public class AbsoluteDriveAdv extends Command
 {
-
   private final SwerveSubsystem swerve;
   private final DoubleSupplier  vX, vY;
   private final DoubleSupplier  headingAdjust;
