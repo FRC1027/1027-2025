@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -98,10 +97,6 @@ public class RobotContainer
                                                                                .translationHeadingOffset(Rotation2d.fromDegrees(
                                                                                    0));
 
-  private final JoystickButton AButton = new JoystickButton(mechXbox, XboxController.Button.kA.value);
-  private final JoystickButton XButton = new JoystickButton(mechXbox, XboxController.Button.kX.value);
-  private final JoystickButton YButton = new JoystickButton(mechXbox, XboxController.Button.kY.value);
-  private final JoystickButton BButton = new JoystickButton(mechXbox, XboxController.Button.kB.value);
   
   /**
     * The area where the robot's subsystems are initialized. In order to create a new initialization,
@@ -153,16 +148,9 @@ public class RobotContainer
    */
   private void configureBindings()
   {
-    Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-    Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
-    Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
-        driveDirectAngle);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
-    Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
-    Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
-        driveDirectAngleKeyboard);
-
+    
     //AButton.onTrue(new InstantCommand(() -> System.out.println("YAY!")));
     //AButton.onTrue(new InstantCommand(() -> SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
     //BButton.onTrue(new InstantCommand(() -> Command.AimPhoton()));
