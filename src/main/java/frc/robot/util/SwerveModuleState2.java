@@ -60,6 +60,7 @@ public class SwerveModuleState2 extends SwerveModuleState
      * @param moduleSteerFeedForwardClosedLoop The module feed forward closed loop for the angle motor.
      * @return Optimized swerve module state.
      */
+    @SuppressWarnings("deprecation")
     public static SwerveModuleState2 optimize(SwerveModuleState2 desiredState, Rotation2d currentAngle,
                                               SwerveModuleState2 lastState, double moduleSteerFeedForwardClosedLoop)
     {
