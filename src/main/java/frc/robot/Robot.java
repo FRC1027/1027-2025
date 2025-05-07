@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
  * described in the TimedRobot documentation. If you change the name of this class or the package after creating this
@@ -25,42 +26,42 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot
 {
+  // Establishes the elevators, arms, and intake as objects
   SparkMax eleMotor1;  //Black side
   SparkMax eleMotor2;  //white side
   SparkMax armMotor1;
   SparkMax armMotor2;
   SparkMax intake;
+  SparkMax turret;
   
-  // Creates a second controller
-  //final public        CommandXboxController mechXbox = new CommandXboxController(1);
+  // Creates a second controller for the mechanisms
+  //final public CommandXboxController mechXbox = new CommandXboxController(1);
   final public XboxController mechXbox = new XboxController(1);
    
-
+  // Defines the configures for the elevators, arms, and intake mechanisms.
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
-
   public static final SparkMaxConfig elevator2Config = new SparkMaxConfig();
                 
       static {
         elevator1Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
-              }
+      }
 
       static {
         elevator2Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
-             }
+      }
   
   public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
-
   public static final SparkMaxConfig arm2Config = new SparkMaxConfig();
                 
       static {
       arm1Config
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
-              }
+      }
 
       static {
       arm2Config
@@ -75,21 +76,25 @@ public class Robot extends TimedRobot
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
       }
+  
+  public static final SparkMaxConfig turretConfig = new SparkMaxConfig();
 
-  //SparkClosedLoopController m_ele1Controller = eleMotor1.getClosedLoopController();
-  //SparkClosedLoopController m_ele2COntroller = eleMotor2.getClosedLoopController();
+      static {
+        turretConfig
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50);
+      }
 
   private static Robot   instance;
-  private        Command m_autonomousCommand;
-
+  private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-
   private Timer disabledTimer;
 
+  // A method in which any unintended effects from controller deadband is mitigated
   public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
     double deadbandreturn;
-        if (JoystickValue<DeadbandCutOff&&JoystickValue>(DeadbandCutOff*(-1))) {
-        deadbandreturn=0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
+      if (JoystickValue<DeadbandCutOff&&JoystickValue>(DeadbandCutOff*(-1))) {
+      deadbandreturn=0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
     }
     else {
       deadbandreturn=(JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
@@ -99,8 +104,7 @@ public class Robot extends TimedRobot
      ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
      /(1-DeadbandCutOff); // scale to [0,1] or -1,0]
     }
-    
-        return deadbandreturn;
+      return deadbandreturn;
     }
 
   public Robot()
@@ -119,25 +123,26 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-      eleMotor1 = new SparkMax(25, MotorType.kBrushless);
-      eleMotor2 = new SparkMax(27, MotorType.kBrushless);
-      eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      armMotor1 = new SparkMax(23, MotorType.kBrushless);
-      armMotor2 = new SparkMax(29, MotorType.kBrushless);
-      armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      intake = new SparkMax(28, MotorType.kBrushless);
-      intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+    // These set the motors assigned to each mechanism with certian parameters. 
+    // They also configure them with the defined configurations above.
+    eleMotor1 = new SparkMax(25, MotorType.kBrushless);
+    eleMotor2 = new SparkMax(27, MotorType.kBrushless);
+    eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    armMotor1 = new SparkMax(23, MotorType.kBrushless);
+    armMotor2 = new SparkMax(29, MotorType.kBrushless);
+    armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    intake = new SparkMax(28, MotorType.kBrushless);
+    intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    turret = new SparkMax(23, MotorType.kBrushless);
+    turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
     CameraServer.startAutomaticCapture("photonvision1", 0);
-    
     CameraServer.startAutomaticCapture("photonvision2", 1);
 
-
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
@@ -236,18 +241,22 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
+    // Variables that defines which imputs on the controller triggers each mechanism.
     double upElevator = -mechXbox.getLeftY();
     double forwardArm = -mechXbox.getRightY();
     double inVal = mechXbox.getRightTriggerAxis();
     double outVal = -mechXbox.getLeftTriggerAxis();
+    double leftTurret = mechXbox.getLeftX();
+    double rightTurret = mechXbox.getRightX();
+    
+    // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     eleMotor1.set(deadbandreturn(upElevator, 0.1));
-
-    //m_ele1Controller.setReference(10, ControlType.kPosition);
-
     eleMotor2.set(-deadbandreturn(upElevator, 0.1));
     armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
     armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
+    turret.set(deadbandreturn(leftTurret, 0.1));
     
+    // A series of if statements that 
     if (mechXbox.getLeftTriggerAxis() > 0.1){
       intake.set(deadbandreturn(outVal, 0.1));
     }
