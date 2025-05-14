@@ -125,16 +125,16 @@ public class Robot extends TimedRobot
   {
     // These set the motors assigned to each mechanism with certian parameters. 
     // They also configure them with the defined configurations above.
-    eleMotor1 = new SparkMax(25, MotorType.kBrushless);
-    eleMotor2 = new SparkMax(27, MotorType.kBrushless);
-    eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    armMotor1 = new SparkMax(23, MotorType.kBrushless);
-    armMotor2 = new SparkMax(29, MotorType.kBrushless);
-    armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    intake = new SparkMax(28, MotorType.kBrushless);
-    intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //eleMotor1 = new SparkMax(25, MotorType.kBrushless);
+    //eleMotor2 = new SparkMax(27, MotorType.kBrushless);
+    //eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //armMotor1 = new SparkMax(23, MotorType.kBrushless);
+    //armMotor2 = new SparkMax(29, MotorType.kBrushless);
+    //armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //intake = new SparkMax(28, MotorType.kBrushless);
+    //intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     turret = new SparkMax(23, MotorType.kBrushless);
     turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -247,26 +247,26 @@ public class Robot extends TimedRobot
     double inVal = mechXbox.getRightTriggerAxis();
     double outVal = -mechXbox.getLeftTriggerAxis();
     double leftTurret = mechXbox.getLeftX();
-    double rightTurret = mechXbox.getRightX();
+    //double rightTurret = mechXbox.getRightX();
     
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
-    eleMotor1.set(deadbandreturn(upElevator, 0.1));
-    eleMotor2.set(-deadbandreturn(upElevator, 0.1));
-    armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
-    armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
+    //eleMotor1.set(deadbandreturn(upElevator, 0.1));
+    //eleMotor2.set(-deadbandreturn(upElevator, 0.1));
+    //armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
+    //armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
     turret.set(deadbandreturn(leftTurret, 0.1));
     
     // A series of if statements that 
     if (mechXbox.getLeftTriggerAxis() > 0.1){
-      intake.set(deadbandreturn(outVal, 0.1));
+      //intake.set(deadbandreturn(outVal, 0.1));
     }
 
     if (mechXbox.getLeftTriggerAxis() < 0.1){
-      intake.set(0);
+      //intake.set(0);
     }
 
     if (mechXbox.getRightTriggerAxis() > 0.1){
-      intake.set(deadbandreturn(inVal, 0.1));
+      //intake.set(deadbandreturn(inVal, 0.1));
     } 
   }
 
