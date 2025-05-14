@@ -52,6 +52,7 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+  // Elevator configuration - needs to be revised (previously mentioned at comp)??
     public static final class Elevator {
       public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
                 
