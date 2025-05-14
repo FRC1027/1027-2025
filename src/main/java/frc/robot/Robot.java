@@ -247,7 +247,6 @@ public class Robot extends TimedRobot
     double inVal = mechXbox.getRightTriggerAxis();
     double outVal = -mechXbox.getLeftTriggerAxis();
     double leftTurret = mechXbox.getLeftX();
-    //double rightTurret = mechXbox.getRightX();
     
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     //eleMotor1.set(deadbandreturn(upElevator, 0.1));
@@ -256,7 +255,7 @@ public class Robot extends TimedRobot
     //armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
     turret.set(deadbandreturn(leftTurret, 0.1));
     
-    // A series of if statements that 
+    // A series of if statements that check the returned deadband of the intake mechanism
     if (mechXbox.getLeftTriggerAxis() > 0.1){
       //intake.set(deadbandreturn(outVal, 0.1));
     }
