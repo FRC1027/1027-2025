@@ -53,6 +53,11 @@ public class TestSubsystem extends SubsystemBase {
     turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
+  public Command spinTurret() {
+    return this.startEnd(
+        () -> this.turret.set(0.5), () -> this.turret.set(0.0));
+  }
+
   /**
    * Example command factory method.
    *

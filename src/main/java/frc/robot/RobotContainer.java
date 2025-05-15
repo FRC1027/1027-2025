@@ -19,9 +19,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.TestSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -42,6 +44,8 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
+  
+  private final TestSubsystem m_turret = new TestSubsystem();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -150,9 +154,9 @@ public class RobotContainer
   {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
-    
-    //AButton.onTrue(new InstantCommand(() -> System.out.println("YAY!")));
-    //AButton.onTrue(new InstantCommand(() -> SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
+
+    mechXbox.getLeftX().whileTrue(m_turret.spinTurret());
+    //AButton.onTrue(new InstantCommand(()  SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
     //BButton.onTrue(new InstantCommand(() -> Command.AimPhoton()));
 
     if (RobotBase.isSimulation())
