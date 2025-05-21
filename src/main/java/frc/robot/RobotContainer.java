@@ -28,6 +28,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 /**
@@ -39,12 +40,14 @@ public class RobotContainer
 {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
-  final public XboxController mechXbox = new XboxController(1);
+  //final public XboxController mechXbox = new XboxController(1);
+  final CommandXboxController mechXbox = new CommandXboxController(1);
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
   
+  // Defining the Test Subsystem
   private final TestSubsystem m_turret = new TestSubsystem();
 
   /**
@@ -155,6 +158,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
 
+    m_turret.leftStick().whileTrue(m_turret.spinTurret());
     mechXbox.getLeftX().whileTrue(m_turret.spinTurret());
     //AButton.onTrue(new InstantCommand(()  SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
     //BButton.onTrue(new InstantCommand(() -> Command.AimPhoton()));
