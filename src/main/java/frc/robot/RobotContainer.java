@@ -158,7 +158,9 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
 
-    mechXbox.getLeftX().whileTrue(m_turret.spinTurret());
+    if (mechXbox.getLeftX() > 0); {
+      m_turret.spinTurret();
+    }
     //AButton.onTrue(new InstantCommand(()  SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
     //BButton.onTrue(new InstantCommand(() -> Command.AimPhoton()));
 
