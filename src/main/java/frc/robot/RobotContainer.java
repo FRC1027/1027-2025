@@ -39,8 +39,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer
 {
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  final         CommandXboxController driverXbox = new CommandXboxController(0);
-  final public XboxController mechXbox = new XboxController(1);
+  public static final CommandXboxController driverXbox = new CommandXboxController(0);
+  public static final XboxController mechXbox = new XboxController(1);
   //final CommandXboxController mechXbox = new CommandXboxController(1);
 
   // The robot's subsystems and commands are defined here...
