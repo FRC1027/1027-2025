@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
-public class TestSubsystem extends SubsystemBase {
+public class TurretSubsystem extends SubsystemBase {
   // Establishes the turret as a SparkMax Object
   SparkMax turret;
 
@@ -23,25 +23,25 @@ public class TestSubsystem extends SubsystemBase {
             .smartCurrentLimit(50);
     }
   
-  // A Method in Which Any Unintended Effects From Controller Deadband is Mitigated
+  /* A method in which any unintended effects from controller deadband is mitigated */
   public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
     double deadbandreturn;
-      if (JoystickValue<DeadbandCutOff&&JoystickValue>(DeadbandCutOff*(-1))) {
-      deadbandreturn=0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
+      if (JoystickValue<DeadbandCutOff && JoystickValue > (DeadbandCutOff * (-1))) {
+      deadbandreturn = 0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
     }
     else {
-      deadbandreturn=(JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
-      (Math.abs(JoystickValue)/JoystickValue // 1 if JoystickValue > 0, -1 if JoystickValue < 0 (abs(x)/x); could use Math.signum(JoystickValue) instead
-       *DeadbandCutOff // multiply by the sign so that for >0, it comes out to - (DeadBandCutOff), and for <0 it comes to - (-DeadBandCutOff)
+      deadbandreturn = (JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
+      (Math.abs(JoystickValue) / JoystickValue // 1 if JoystickValue > 0, -1 if JoystickValue < 0 (abs(x)/x); could use Math.signum(JoystickValue) instead
+       * DeadbandCutOff // multiply by the sign so that for >0, it comes out to - (DeadBandCutOff), and for <0 it comes to - (-DeadBandCutOff)
       )
      ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
-     /(1-DeadbandCutOff); // scale to [0,1] or -1,0]
+     /(1 - DeadbandCutOff); // scale to [0,1] or -1,0]
     }
       return deadbandreturn;
     }
 
-  /** Creates a new ExampleSubsystem. */
-  public TestSubsystem() {
+  /** Creates the TurretSubsystem. */
+  public TurretSubsystem() {
     turret = new SparkMax(23, MotorType.kBrushless);
     turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
@@ -79,7 +79,6 @@ public class TestSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double leftTurret = RobotContainer.mechXbox.getLeftX();
-
     turret.set(deadbandreturn(leftTurret, 0.1));
   }
 

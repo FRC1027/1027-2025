@@ -19,16 +19,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.TestSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 /**
@@ -41,14 +39,14 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static final CommandXboxController driverXbox = new CommandXboxController(0);
   public static final XboxController mechXbox = new XboxController(1);
-  //final CommandXboxController mechXbox = new CommandXboxController(1);
+  //public static final CommandXboxController mechXbox = new CommandXboxController(1);
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
   
   // Defining the Test Subsystem
-  private final TestSubsystem m_turret = new TestSubsystem();
+  private final TurretSubsystem m_turret = new TurretSubsystem();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -158,6 +156,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
 
+    /* Controls the turret via the left joystick */
     if (mechXbox.getLeftX() > 0); {
       m_turret.spinTurret();
     }
