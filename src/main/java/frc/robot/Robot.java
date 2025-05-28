@@ -14,7 +14,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -32,11 +31,6 @@ public class Robot extends TimedRobot
   SparkMax armMotor1;
   SparkMax armMotor2;
   SparkMax intake;
-  SparkMax turret;
-  
-  // Creates a second controller for the mechanisms
-  //final public CommandXboxController mechXbox = new CommandXboxController(1);
-  final public XboxController mechXbox = new XboxController(1);
    
   // Defines the configures for the elevators, arms, and intake mechanisms.
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
@@ -73,14 +67,6 @@ public class Robot extends TimedRobot
 
       static {
       intakeConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50);
-      }
-  
-  public static final SparkMaxConfig turretConfig = new SparkMaxConfig();
-
-      static {
-        turretConfig
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
       }
@@ -135,8 +121,6 @@ public class Robot extends TimedRobot
     //armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     //intake = new SparkMax(28, MotorType.kBrushless);
     //intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //turret = new SparkMax(23, MotorType.kBrushless);
-    //turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
     CameraServer.startAutomaticCapture("photonvision1", 0);
@@ -242,29 +226,27 @@ public class Robot extends TimedRobot
   public void teleopPeriodic()
   {
     // Variables that defines which imputs on the controller triggers each mechanism.
-    double upElevator = -mechXbox.getLeftY();
-    double forwardArm = -mechXbox.getRightY();
-    double inVal = mechXbox.getRightTriggerAxis();
-    double outVal = -mechXbox.getLeftTriggerAxis();
-    double leftTurret = mechXbox.getLeftX();
+    double upElevator = -RobotContainer.mechXbox.getLeftY();
+    double forwardArm = -RobotContainer.mechXbox.getRightY();
+    double inVal = RobotContainer.mechXbox.getRightTriggerAxis();
+    double outVal = -RobotContainer.mechXbox.getLeftTriggerAxis();
     
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     //eleMotor1.set(deadbandreturn(upElevator, 0.1));
     //eleMotor2.set(-deadbandreturn(upElevator, 0.1));
     //armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
     //armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
-    //turret.set(deadbandreturn(leftTurret, 0.1));
     
     // A series of if statements that check the returned deadband of the intake mechanism
-    if (mechXbox.getLeftTriggerAxis() > 0.1){
+    if (RobotContainer.mechXbox.getLeftTriggerAxis() > 0.1){
       //intake.set(deadbandreturn(outVal, 0.1));
     }
 
-    if (mechXbox.getLeftTriggerAxis() < 0.1){
+    if (RobotContainer.mechXbox.getLeftTriggerAxis() < 0.1){
       //intake.set(0);
     }
 
-    if (mechXbox.getRightTriggerAxis() > 0.1){
+    if (RobotContainer.mechXbox.getRightTriggerAxis() > 0.1){
       //intake.set(deadbandreturn(inVal, 0.1));
     } 
   }
