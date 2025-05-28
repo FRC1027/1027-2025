@@ -6,20 +6,13 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class TestSubsystem extends SubsystemBase {
   // Establishes the turret as a SparkMax Object
   SparkMax turret;
-  
-  // Creates the mechanism controller
-  final public XboxController mechXbox = new XboxController(1);
 
   // Configures the turret motor controls
   public static final SparkMaxConfig turretConfig = new SparkMaxConfig();
@@ -85,7 +78,7 @@ public class TestSubsystem extends SubsystemBase {
   /* This Method Will be Called Once Per Scheduler Run */
   @Override
   public void periodic() {
-    double leftTurret = mechXbox.getLeftX();
+    double leftTurret = RobotContainer.mechXbox.getLeftX();
 
     turret.set(deadbandreturn(leftTurret, 0.1));
   }
