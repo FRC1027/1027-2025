@@ -240,13 +240,19 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command aimAtTarget(Cameras camera)
   {
+    System.out.println("Start of aimAtTarget");
+
     return run(() -> {
       Optional<PhotonPipelineResult> resultO = camera.getBestResult();
       if (resultO.isPresent())
       {
+        System.out.println("Result is Present");
+
         var result = resultO.get();
         if (result.hasTargets())
         {
+          System.out.println("Has Target");
+
           drive(getTargetSpeeds(0,
                                 0,
                                 Rotation2d.fromDegrees(result.getBestTarget()

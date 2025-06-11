@@ -27,6 +27,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.swervedrive.Vision;
 
 
 /**
@@ -101,14 +102,6 @@ public class RobotContainer
                                                                                .translationHeadingOffset(true)
                                                                                .translationHeadingOffset(Rotation2d.fromDegrees(
                                                                                    0));
-
-  
-  /**
-    * The area where the robot's subsystems are initialized. In order to create a new initialization,
-    * establish a new variable that has the following format:
-    * 
-    * CommandFileName commandFileName = new CommandFileName(); 
-    */
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
    private final SendableChooser<Command> autoChooser; 
@@ -160,8 +153,9 @@ public class RobotContainer
     if (mechXbox.getLeftX() > 0); {
       m_turret.spinTurret();
     }
-    //AButton.onTrue(new InstantCommand(()  SwerveSubsystem.aimAtTarget(PhotonCamera.camera)));
-    //BButton.onTrue(new InstantCommand(() -> Command.AimPhoton()));
+
+    /* Controls alignment with apriltags with limelight/photonvision cameras via 'a' button */
+    driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
 
     if (RobotBase.isSimulation())
     {
