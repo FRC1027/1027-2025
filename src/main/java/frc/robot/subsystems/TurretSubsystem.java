@@ -6,8 +6,11 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
 
 public class TurretSubsystem extends SubsystemBase {
@@ -22,7 +25,9 @@ public class TurretSubsystem extends SubsystemBase {
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(50);
     }
-  
+  private static final double MAX_TURRET_SPEED = 0.5; // max speed [-0.5, 0.5]
+
+
   /* A method in which any unintended effects from controller deadband is mitigated */
   public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
     double deadbandreturn;
@@ -74,13 +79,52 @@ public class TurretSubsystem extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
+  public Command trackTargetCommand() {
+    return run(() -> trackTargetWithLimelight());
+  }
+  
+  public void trackTargetWithLimelight() {
+    double tx = LimelightHelpers.getTX("limelight");
+    boolean tv = LimelightHelpers.getTV("limelight");
+    double tid = LimelightHelpers.getFiducialID("limelight");
+
+    if (tv && tid == 4) {
+      double kP = 0.02;
+      double minCommand = 0.05;
+      double turretPower = kP * tx;
+    
+      if (Math.abs(tx) > 1.0) {
+        double output = turretPower + Math.copySign(minCommand, tx);
+        double clampedOutput = MathUtil.clamp(output, -MAX_TURRET_SPEED, MAX_TURRET_SPEED);
+        turret.set(clampedOutput);
+        System.out.printf("Auto-Aligning: tx=%.2f, tid=%.0f, raw=%.2f, clamped=%.2f%n", tx, tid, output, clampedOutput);
+      } else {
+        turret.set(0);
+      }
+    } else {
+      turret.set(0);
+    }
+  }
 
   /* This Method Will be Called Once Per Scheduler Run */
+  //@Override
+  //public void periodic() {
+  //  double leftTurret = RobotContainer.mechXbox.getLeftX();
+  //  turret.set(deadbandreturn(leftTurret, 0.1));
+  //}
   @Override
   public void periodic() {
-    double leftTurret = RobotContainer.mechXbox.getLeftX();
-    turret.set(deadbandreturn(leftTurret, 0.1));
+    double trigger = RobotContainer.mechXbox.getRightTriggerAxis(); // Right trigger
+    double leftTurret = RobotContainer.mechXbox.getLeftX();         // Manual control
+
+    if (trigger > 0.5) {
+      trackTargetWithLimelight(); // Auto-align if trigger held
+      System.out.println("Auto-aligning to tag 4");
+  } else {
+      turret.set(deadbandreturn(leftTurret, 0.1)); // Manual control
   }
+}
+
 
   /* This Method Will be Called Once Per Scheduler Run During Simulation */
   @Override

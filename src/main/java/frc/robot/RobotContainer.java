@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.TurretSubsystem;
@@ -155,7 +156,9 @@ public class RobotContainer
     }
 
     /* Controls alignment with apriltags with limelight/photonvision cameras via 'a' button */
-    driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
+    //driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
+    driverXbox.a().whileTrue(m_turret.trackTargetCommand());
+
 
     if (RobotBase.isSimulation())
     {
