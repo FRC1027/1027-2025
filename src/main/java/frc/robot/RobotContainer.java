@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -148,17 +149,21 @@ public class RobotContainer
 
   public int a_val = 0;
 
-  private Command configure_a() 
-  {
-    if (a_val == 0) {
-      a_val = 1;
-      System.out.println(a_val);
-    } else {
-      a_val = 0;
-      System.out.println(a_val);
-    }
-        return null;
+  private Command configure_a() {
+  if (a_val == 0) {
+    a_val = 1;
+    System.out.println(a_val);
+  } else {
+    a_val = 0;
+    System.out.println(a_val);
   }
+
+  // Return a no-op command or some action
+  return new InstantCommand(() -> {
+    // You could put something meaningful here if needed
+    System.out.println("configure_a triggered");
+  });
+}
 
   private void configureBindings()
   {
@@ -166,7 +171,7 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
 
     /* Controls the turret via the left joystick */
-    if (mechXbox.getLeftX() > 0); {
+    if (mechXbox.getLeftX() > 0) {
       m_turret.spinTurret();
     }
 
