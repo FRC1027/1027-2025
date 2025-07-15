@@ -145,6 +145,21 @@ public class RobotContainer
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
+
+  public int a_val = 0;
+
+  private Command configure_a() 
+  {
+    if (a_val == 0) {
+      a_val = 1;
+      System.out.println(a_val);
+    } else {
+      a_val = 0;
+      System.out.println(a_val);
+    }
+        return null;
+  }
+
   private void configureBindings()
   {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
@@ -157,7 +172,7 @@ public class RobotContainer
 
     /* Controls alignment with apriltags with limelight/photonvision cameras via 'a' button */
     //driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
-    driverXbox.a().whileTrue(m_turret.trackTargetCommand());
+    driverXbox.a().onTrue(configure_a());
 
 
     if (RobotBase.isSimulation())
