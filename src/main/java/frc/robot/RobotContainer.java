@@ -150,20 +150,16 @@ public class RobotContainer
   public int a_val = 0;
 
   private Command configure_a() {
-  if (a_val == 0) {
-    a_val = 1;
-    System.out.println(a_val);
-  } else {
-    a_val = 0;
-    System.out.println(a_val);
+    return new InstantCommand(() -> {
+      if (a_val == 0) {
+        a_val = 1;
+      } else {
+        a_val = 0;
+      }
+      System.out.println(a_val);
+    });
   }
-
-  // Return a no-op command or some action
-  return new InstantCommand(() -> {
-    // You could put something meaningful here if needed
-    System.out.println("configure_a triggered");
-  });
-}
+  
 
   private void configureBindings()
   {
