@@ -33,7 +33,7 @@ public class Robot extends TimedRobot
   SparkMax armMotor2;
   SparkMax intake;
    
-  public TurretSubsystem turret = new TurretSubsystem();
+  public TurretSubsystem turret_2 = new TurretSubsystem();
 
   // Defines the configures for the elevators, arms, and intake mechanisms.
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
@@ -233,7 +233,7 @@ public class Robot extends TimedRobot
     double forwardArm = -RobotContainer.mechXbox.getRightY();
     double inVal = RobotContainer.mechXbox.getRightTriggerAxis();
     double outVal = -RobotContainer.mechXbox.getLeftTriggerAxis();
-    turret.a_tracker().schedule();
+    turret_2.a_tracker().schedule();
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     //eleMotor1.set(deadbandreturn(upElevator, 0.1));
     //eleMotor2.set(-deadbandreturn(upElevator, 0.1));
