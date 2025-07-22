@@ -147,7 +147,7 @@ public class RobotContainer
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
 
-  public int a_val = 0;
+  public static int a_val = 0;
 
   private Command configure_a() {
     return new InstantCommand(() -> {
