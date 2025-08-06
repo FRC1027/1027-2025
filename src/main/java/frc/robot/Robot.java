@@ -233,7 +233,7 @@ public class Robot extends TimedRobot
     double forwardArm = -RobotContainer.mechXbox.getRightY();
     double inVal = RobotContainer.mechXbox.getRightTriggerAxis();
     double outVal = -RobotContainer.mechXbox.getLeftTriggerAxis();
-    m_robotContainer.getTurret().a_tracker().schedule();
+    //m_robotContainer.getTurret().a_tracker().schedule();
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     //eleMotor1.set(deadbandreturn(upElevator, 0.1));
     //eleMotor2.set(-deadbandreturn(upElevator, 0.1));
