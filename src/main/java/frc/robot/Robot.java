@@ -33,7 +33,7 @@ public class Robot extends TimedRobot
   SparkMax armMotor2;
   SparkMax intake;
    
-  public TurretSubsystem turret_2 = new TurretSubsystem();
+  //public TurretSubsystem turret_2 = new TurretSubsystem();
 
   // Defines the configures for the elevators, arms, and intake mechanisms.
   public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
@@ -126,7 +126,7 @@ public class Robot extends TimedRobot
     //intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
-    CameraServer.startAutomaticCapture("photonvision1", 0);
+    //CameraServer.startAutomaticCapture("photonvision1", 0);
     //CameraServer.startAutomaticCapture("photonvision2", 1);
 
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
@@ -233,7 +233,7 @@ public class Robot extends TimedRobot
     double forwardArm = -RobotContainer.mechXbox.getRightY();
     double inVal = RobotContainer.mechXbox.getRightTriggerAxis();
     double outVal = -RobotContainer.mechXbox.getLeftTriggerAxis();
-    turret_2.a_tracker().schedule();
+    m_robotContainer.getTurret().a_tracker().schedule();
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     //eleMotor1.set(deadbandreturn(upElevator, 0.1));
     //eleMotor2.set(-deadbandreturn(upElevator, 0.1));

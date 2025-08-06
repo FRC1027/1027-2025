@@ -167,9 +167,20 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
 
     /* Controls the turret via the left joystick */
-    if (mechXbox.getLeftX() > 0) {
-      m_turret.spinTurret();
-    }
+    // if (mechXbox.getLeftX() > 0) {
+    //   m_turret.spinTurret();
+    // }
+
+    m_turret.setDefaultCommand(
+      m_turret.run(() -> {
+        if (RobotContainer.a_val == 1) {
+          m_turret.trackTargetWithLimelight();
+        } else {
+          double input = RobotContainer.mechXbox.getLeftX();
+          m_turret.manualControl(input);
+        }
+      })
+    );
 
     /* Controls alignment with apriltags with limelight/photonvision cameras via 'a' button */
     //driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
@@ -253,4 +264,10 @@ public class RobotContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
+public TurretSubsystem getTurret() {
+  return m_turret;
+}
+
+
 }

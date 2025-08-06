@@ -133,13 +133,17 @@ public class TurretSubsystem extends SubsystemBase {
   
   }
 
+public void manualControl(double input) {
+  turret.set(deadbandreturn(input, 0.1));
+}
+
 public Command a_tracker() {
-    return new InstantCommand(() -> {
+    return run(() -> {
         if (RobotContainer.a_val == 1) {
             trackTargetWithLimelight();
+        } else {
+          turret.set(0);
         }
     });
 }
-
-
 }
