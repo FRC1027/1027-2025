@@ -122,7 +122,7 @@ public class Robot extends TimedRobot
     //armMotor2 = new SparkMax(29, MotorType.kBrushless);
     //armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     //armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    intake = new SparkMax(23, MotorType.kBrushless);
+    intake = new SparkMax(33, MotorType.kBrushless);
     intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
