@@ -215,7 +215,7 @@ public class RobotContainer
       driverXbox.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
       driverXbox.button(2).whileTrue(Commands.runEnd(() -> driveDirectAngleKeyboard.driveToPoseEnabled(true),
                                                      () -> driveDirectAngleKeyboard.driveToPoseEnabled(false)));
-      driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
+      // driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
 
 //      driverXbox.b().whileTrue(
 //          drivebase.driveToPose(
@@ -233,10 +233,10 @@ public class RobotContainer
       driverXbox.back().whileTrue(drivebase.centerModulesCommand());
       driverXbox.leftBumper().onTrue(Commands.none());
       driverXbox.rightBumper().onTrue(Commands.none());
-      driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
+      // driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
     } else
     {
-      driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
+      // driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
       //driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       driverXbox.y().onTrue(Commands.runOnce(drivebase::centerModulesCommand));
