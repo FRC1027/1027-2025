@@ -122,8 +122,8 @@ public class Robot extends TimedRobot
     //armMotor2 = new SparkMax(29, MotorType.kBrushless);
     //armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     //armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //intake = new SparkMax(28, MotorType.kBrushless);
-    //intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    intake = new SparkMax(23, MotorType.kBrushless);
+    intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
     //CameraServer.startAutomaticCapture("photonvision1", 0);
@@ -231,8 +231,8 @@ public class Robot extends TimedRobot
     // Variables that defines which imputs on the controller triggers each mechanism.
     double upElevator = -RobotContainer.mechXbox.getLeftY();
     double forwardArm = -RobotContainer.mechXbox.getRightY();
-    double inVal = RobotContainer.mechXbox.getRightTriggerAxis();
-    double outVal = -RobotContainer.mechXbox.getLeftTriggerAxis();
+    double inVal = RobotContainer.driverXbox.getRightTriggerAxis();
+    double outVal = -RobotContainer.driverXbox.getLeftTriggerAxis();
     //m_robotContainer.getTurret().a_tracker().schedule();
     // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
     //eleMotor1.set(deadbandreturn(upElevator, 0.1));
@@ -241,16 +241,16 @@ public class Robot extends TimedRobot
     //armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
     
     // A series of if statements that check the returned deadband of the intake mechanism
-    if (RobotContainer.mechXbox.getLeftTriggerAxis() > 0.1){
-      //intake.set(deadbandreturn(outVal, 0.1));
+    if (RobotContainer.driverXbox.getLeftTriggerAxis() > 0.1){
+      intake.set(deadbandreturn(outVal / 4, 0.1));
     }
 
-    if (RobotContainer.mechXbox.getLeftTriggerAxis() < 0.1){
-      //intake.set(0);
+    if (RobotContainer.driverXbox.getLeftTriggerAxis() < 0.1){
+      intake.set(0);
     }
 
-    if (RobotContainer.mechXbox.getRightTriggerAxis() > 0.1){
-      //intake.set(deadbandreturn(inVal, 0.1));
+    if (RobotContainer.driverXbox.getRightTriggerAxis() > 0.1){
+      intake.set(deadbandreturn(inVal / 4, 0.1));
     } 
   }
 
