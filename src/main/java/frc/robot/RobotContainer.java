@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -48,8 +49,11 @@ public class RobotContainer
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
   
-  // Defining the Test Subsystem
+  // Defining the TurretSubsystem
   private final TurretSubsystem m_turret = new TurretSubsystem();
+
+  // Defining the ShooterSubsystem
+  private final ShooterSubsystem m_shooter = new ShooterSubsystem();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -183,9 +187,11 @@ public class RobotContainer
     );
 
     /* Controls alignment with apriltags with limelight/photonvision cameras via 'a' button */
-    //driverXbox.a().onTrue(drivebase.aimAtTarget(Vision.Cameras.PHOTONVISION_CAM1));
     driverXbox.a().onTrue(configure_a());
 
+    /* Controls a two second intake and outake of the shooter mechanism */
+    driverXbox.y().onTrue(m_shooter.twoSecondOuttake());
+    driverXbox.x().onTrue(m_shooter.twoSecondIntake());
 
     if (RobotBase.isSimulation())
     {
