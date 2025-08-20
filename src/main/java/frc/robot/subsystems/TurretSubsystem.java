@@ -9,14 +9,13 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
 
 public class TurretSubsystem extends SubsystemBase {
-  // Establishes the turret as a SparkMax Object
-  SparkMax turret;
+
+  SparkMax turret; // Motor controller for turret mechanism
 
   // Configures the turret motor controls
   public static final SparkMaxConfig turretConfig = new SparkMaxConfig();
@@ -26,26 +25,32 @@ public class TurretSubsystem extends SubsystemBase {
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(50);
     }
+  
   private static final double MAX_TURRET_SPEED = 0.5; // max speed [-0.5, 0.5]
 
-
-  /* A method in which any unintended effects from controller deadband is mitigated */
+  /**
+   * Applies a deadband to joystick input to ignore small unintended movements.
+   * If the absolute value of the joystick input is below DeadbandCutOff, returns 0.
+   * Otherwise, rescales the remaining range back to [-1, 1].
+   *
+   * @param JoystickValue the raw joystick input
+   * @param DeadbandCutOff the minimum threshold to ignore input
+   * @return the adjusted joystick value after applying deadband
+   */
   public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
     double deadbandreturn;
-      if (JoystickValue<DeadbandCutOff && JoystickValue > (DeadbandCutOff * (-1))) {
-      deadbandreturn = 0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
+    if (JoystickValue < DeadbandCutOff && JoystickValue > -DeadbandCutOff) {
+      // Inside deadband → treat as zero
+      deadbandreturn = 0;
+    } else {
+      // Outside deadband → rescale input
+      deadbandreturn = (JoystickValue -
+      (Math.abs(JoystickValue) / JoystickValue   // returns sign (+1 or -1)
+      * DeadbandCutOff))                        // subtract deadband threshold
+      / (1 - DeadbandCutOff);                   // normalize back to [-1,1]
     }
-    else {
-      deadbandreturn = (JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
-      (Math.abs(JoystickValue) / JoystickValue // 1 if JoystickValue > 0, -1 if JoystickValue < 0 (abs(x)/x); could use Math.signum(JoystickValue) instead
-       * DeadbandCutOff // multiply by the sign so that for >0, it comes out to - (DeadBandCutOff), and for <0 it comes to - (-DeadBandCutOff)
-      )
-     ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
-     /(1 - DeadbandCutOff); // scale to [0,1] or -1,0]
-    }
-      return deadbandreturn;
-    }
-
+    return deadbandreturn;
+  }
 
   /** Creates the TurretSubsystem. */
   public TurretSubsystem() {
@@ -60,28 +65,24 @@ public class TurretSubsystem extends SubsystemBase {
 
   /**
    * Example command factory method.
-   *
-   * @return a command
+   * Returns a one-time command tied to this subsystem.
    */
   public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
-          /* one-time action goes here */
+            // Example one-time action here
         });
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * Example condition method.
    *
-   * @return value of some boolean subsystem state, such as a digital sensor.
+   * @return false (placeholder)
    */
   public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
     return false;
   }
-  
+
   public Command trackTargetCommand() {
         return run(() -> trackTargetWithLimelight());
   }
