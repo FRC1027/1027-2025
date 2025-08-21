@@ -167,12 +167,7 @@ public class RobotContainer
   {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveFieldOrientedDirectAngleKeyboard      = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
-
-    /* Controls the turret via the left joystick */
-    // if (mechXbox.getLeftX() > 0) {
-    //   m_turret.spinTurret();
-    // }
-
+    
     m_turret.setDefaultCommand(
       m_turret.run(() -> {
         if (RobotContainer.a_val == 1) {

@@ -54,26 +54,6 @@ public class ShooterSubsystem extends SubsystemBase {
         intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-  /**
-   * Example command factory method.
-   * Returns a one-time command tied to this subsystem.
-   */
-  public Command exampleMethodCommand() {
-    return runOnce(
-        () -> {
-            // Example one-time action here
-        });
-  }
-
-    /**
-     * Example condition method.
-     *
-     * @return false (placeholder)
-     */
-  public boolean exampleCondition() {
-    return false;
-  }
-
     /**
      * Called once per scheduler run.
      * Reads controller trigger input and drives the intake motor accordingly.

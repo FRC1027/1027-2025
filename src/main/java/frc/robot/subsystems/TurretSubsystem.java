@@ -17,16 +17,16 @@ public class TurretSubsystem extends SubsystemBase {
 
   SparkMax turret; // Motor controller for turret mechanism
 
-  // Configures the turret motor controls
   public static final SparkMaxConfig turretConfig = new SparkMaxConfig();
 
+    // Configure motor settings: brake mode and current limiting
     static {
         turretConfig
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(50);
     }
   
-  private static final double MAX_TURRET_SPEED = 0.5; // max speed [-0.5, 0.5]
+  private static final double MAX_TURRET_SPEED = 0.5; // Max speed [-0.5, 0.5]
 
   /**
    * Applies a deadband to joystick input to ignore small unintended movements.
@@ -52,94 +52,75 @@ public class TurretSubsystem extends SubsystemBase {
     return deadbandreturn;
   }
 
-  /** Creates the TurretSubsystem. */
   public TurretSubsystem() {
+    // Initialize intake motor on CAN ID 23, brushless
     turret = new SparkMax(23, MotorType.kBrushless);
     turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
-
-  public Command spinTurret() {
-      return this.startEnd(
-          () -> this.turret.set(0.5), () -> this.turret.set(0.0));
-  }
-
-  /**
-   * Example command factory method.
-   * Returns a one-time command tied to this subsystem.
-   */
-  public Command exampleMethodCommand() {
-    return runOnce(
-        () -> {
-            // Example one-time action here
-        });
-  }
-
-  /**
-   * Example condition method.
-   *
-   * @return false (placeholder)
-   */
-  public boolean exampleCondition() {
-    return false;
-  }
-
-  public Command trackTargetCommand() {
-        return run(() -> trackTargetWithLimelight());
-  }
   
+ /**
+  * Uses Limelight vision data to auto-align the turret to fiducial tag 4.
+  * If the target is visible, calculates proportional power and clamps output.
+  */
   public void trackTargetWithLimelight() {
-    double tx = LimelightHelpers.getTX("limelight");
-    boolean tv = LimelightHelpers.getTV("limelight");
-    double tid = LimelightHelpers.getFiducialID("limelight");
+    double tx = LimelightHelpers.getTX("limelight");         // horizontal offset
+    boolean tv = LimelightHelpers.getTV("limelight");        // target valid
+    double tid = LimelightHelpers.getFiducialID("limelight"); // tag ID
 
-    if (tv && tid == 4) {
+    if (tv && tid == 4) { // target detected and correct tag
       double kP = 0.02;
       double minCommand = 0.05;
       double turretPower = kP * tx;
-    
-      if (Math.abs(tx) > 1.0) {
+
+      if (Math.abs(tx) > 1.0) { // only move if offset is significant
         double output = turretPower + Math.copySign(minCommand, tx);
         double clampedOutput = MathUtil.clamp(output, -MAX_TURRET_SPEED, MAX_TURRET_SPEED);
         turret.set(clampedOutput);
+
         System.out.printf("Auto-Aligning: tx=%.2f, tid=%.0f, raw=%.2f, clamped=%.2f%n", tx, tid, output, clampedOutput);
       } else {
-        turret.set(0);
+        turret.set(0); // small offset → stop
       }
     } else {
+      turret.set(0); // no valid target → stop
+    }
+  }
+
+  /** 
+   * Called once per scheduler run. 
+   * Allows manual control or auto-aligning depending on trigger input.
+   */
+  @Override
+  public void periodic() {
+    double trigger = RobotContainer.mechXbox.getRightTriggerAxis();   // Right trigger
+    double turretManualControl = RobotContainer.mechXbox.getLeftX();  // Manual control
+
+    if (trigger > 0.5 && Math.abs(turretManualControl) < 0.1) {
+      // Auto-align ONLY if trigger is pressed and driver isn't touching the stick
+      trackTargetWithLimelight();
+      System.out.println("Auto-aligning to tag 4");
+    } else if (Math.abs(turretManualControl) >= 0.1) {
+      // Manual control if joystick is moved
+      turret.set(deadbandreturn(turretManualControl, 0.1));
+    } else {
+      // No input → stop turret
       turret.set(0);
     }
   }
 
-  /* This Method Will be Called Once Per Scheduler Run */
-  //@Override
-  //public void periodic() {
-  //  double leftTurret = RobotContainer.mechXbox.getLeftX();
-  //  turret.set(deadbandreturn(leftTurret, 0.1));
-  //}
-  @Override
-  public void periodic() {
-    double trigger = RobotContainer.mechXbox.getRightTriggerAxis(); // Right trigger
-    double leftTurret = RobotContainer.mechXbox.getLeftX();         // Manual control
-
-    if (trigger > 0.5) {
-      trackTargetWithLimelight(); // Auto-align if trigger held
-      System.out.println("Auto-aligning to tag 4");
-  } else {
-      turret.set(deadbandreturn(leftTurret, 0.1)); // Manual control
-  }
-}
-
-  /* This Method Will be Called Once Per Scheduler Run During Simulation */
+  /** Periodically called during simulation (currently unused). */
   @Override
   public void simulationPeriodic() {
   
   }
 
-public void manualControl(double input) {
-  turret.set(deadbandreturn(input, 0.1));
-}
+  /** Manual turret control, applies deadband */
+  public void manualControl(double input) {
+    turret.set(deadbandreturn(input, 0.1));
+  }
 
-public Command a_tracker() {
+  /** Command that auto-tracks if a_val == 1, stops turret otherwise. */
+  public Command a_trackerTurretAuto() {
     return run(() -> {
         if (RobotContainer.a_val == 1) {
             trackTargetWithLimelight();
@@ -147,5 +128,5 @@ public Command a_tracker() {
           turret.set(0);
         }
     });
-}
+  }
 }
