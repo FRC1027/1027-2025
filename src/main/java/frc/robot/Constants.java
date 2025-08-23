@@ -27,6 +27,9 @@ public final class Constants
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
   public static final double MAX_SPEED  = Units.feetToMeters(14.5);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
+  public static final double SHOOTER_POWER  = 0.1027; // 0.1027 is the power used to shoot the ball
+  public static final double SHOOTER_TIME  = 2; // seconds to spin for intake/outtake
+  public static final double MAX_TURRET_SPEED = 0.5; // Max speed [-0.5, 0.5]
   public static float robotConfig = 0;
 
 //  public static final class AutonConstants

@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,66 +17,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot
 {
-  // Establishes the elevators, arms, and intake as objects
-  SparkMax eleMotor1;  //Black side
-  SparkMax eleMotor2;  //white side
-  SparkMax armMotor1;
-  SparkMax armMotor2;
-   
-  //public TurretSubsystem turret_2 = new TurretSubsystem();
-
-  // Defines the configures for the elevators, arms, and intake mechanisms.
-  public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
-  public static final SparkMaxConfig elevator2Config = new SparkMaxConfig();
-                
-      static {
-        elevator1Config
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50);
-      }
-
-      static {
-        elevator2Config
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50);
-      }
-  
-  public static final SparkMaxConfig arm1Config = new SparkMaxConfig();
-  public static final SparkMaxConfig arm2Config = new SparkMaxConfig();
-                
-      static {
-      arm1Config
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50);
-      }
-
-      static {
-      arm2Config
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50);
-      }
-
-  private static Robot   instance;
+  private static Robot instance;
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Timer disabledTimer;
-
-  // A method in which any unintended effects from controller deadband is mitigated
-  public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
-    double deadbandreturn;
-      if (JoystickValue<DeadbandCutOff&&JoystickValue>(DeadbandCutOff*(-1))) {
-      deadbandreturn=0; // if less than the deadband cutoff, return 0, if greater than the negative deadband cutoff, return 0
-    }
-    else {
-      deadbandreturn=(JoystickValue- // initially in one of two ranges: [DeadbandCutOff,1] or -1,-DeadBandCutOff]
-      (Math.abs(JoystickValue)/JoystickValue // 1 if JoystickValue > 0, -1 if JoystickValue < 0 (abs(x)/x); could use Math.signum(JoystickValue) instead
-       *DeadbandCutOff // multiply by the sign so that for >0, it comes out to - (DeadBandCutOff), and for <0 it comes to - (-DeadBandCutOff)
-      )
-     ) // now in either [0,1-DeadBandCutOff] or -1+DeadBandCutOff,0]
-     /(1-DeadbandCutOff); // scale to [0,1] or -1,0]
-    }
-      return deadbandreturn;
-    }
 
   public Robot()
   {
@@ -98,27 +38,12 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-    // These set the motors assigned to each mechanism with certian parameters. 
-    // They also configure them with the defined configurations above.
-    //eleMotor1 = new SparkMax(25, MotorType.kBrushless);
-    //eleMotor2 = new SparkMax(27, MotorType.kBrushless);
-    //eleMotor1.configure(elevator1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //eleMotor2.configure(elevator2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //armMotor1 = new SparkMax(23, MotorType.kBrushless);
-    //armMotor2 = new SparkMax(29, MotorType.kBrushless);
-    //armMotor1.configure(arm1Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //armMotor2.configure(arm2Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-    // Adds the camera feed of our photonvision/limelight cameras to the SmartDashboard as defined in Vision.java  
-    //CameraServer.startAutomaticCapture("photonvision1", 0);
-    //CameraServer.startAutomaticCapture("photonvision2", 1);
-
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
-    // immediately when disabled, but then also let it be pushed more 
+    // Create a timer to disable motor brake a few seconds after disable.
+    // This will let the robot stop immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
 
     if (isSimulation())
@@ -212,15 +137,6 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
-    // Variables that defines which imputs on the controller triggers each mechanism.
-    double upElevator = -RobotContainer.mechXbox.getLeftY();
-    double forwardArm = -RobotContainer.mechXbox.getRightY();
-    //m_robotContainer.getTurret().a_tracker().schedule();
-    // Determines the direction in which the motors spin. Adding and removing the negative sign will control this.
-    //eleMotor1.set(deadbandreturn(upElevator, 0.1));
-    //eleMotor2.set(-deadbandreturn(upElevator, 0.1));
-    //armMotor1.set(deadbandreturn(forwardArm, 0.1)/2);
-    //armMotor2.set(-deadbandreturn(forwardArm, 0.1)/2);
   }
 
 

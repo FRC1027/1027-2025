@@ -10,6 +10,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.util.Utils;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     
@@ -17,35 +19,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
 
-      // Configure motor settings: brake mode and current limiting
-      static {
-      intakeConfig
+    // Configure motor settings: brake mode and current limiting
+    static {
+        intakeConfig
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50);
-      }
-
-    /**
-     * Applies a deadband to joystick input to ignore small unintended movements.
-     * If the absolute value of the joystick input is below DeadbandCutOff, returns 0.
-     * Otherwise, rescales the remaining range back to [-1, 1].
-     *
-     * @param JoystickValue the raw joystick input
-     * @param DeadbandCutOff the minimum threshold to ignore input
-     * @return the adjusted joystick value after applying deadband
-     */
-    public double deadbandreturn(double JoystickValue, double DeadbandCutOff) {
-        double deadbandreturn;
-        if (JoystickValue < DeadbandCutOff && JoystickValue > -DeadbandCutOff) {
-            // Inside deadband → treat as zero
-            deadbandreturn = 0;
-        } else {
-            // Outside deadband → rescale input
-            deadbandreturn = (JoystickValue -
-                (Math.abs(JoystickValue) / JoystickValue   // returns sign (+1 or -1)
-                * DeadbandCutOff))                        // subtract deadband threshold
-                / (1 - DeadbandCutOff);                   // normalize back to [-1,1]
-        }
-        return deadbandreturn;
     }
 
     public ShooterSubsystem() {
@@ -66,10 +44,10 @@ public class ShooterSubsystem extends SubsystemBase {
     // Priority order: Outtake > Intake > Stop
     if (RobotContainer.driverXbox.getLeftTriggerAxis() > 0.1) {
         // Outtake (left trigger) if pressed beyond deadband
-        intake.set(deadbandreturn(outVal / 4, 0.1));
+        intake.set(Utils.deadbandReturn(outVal / 4, 0.1));
     } else if (RobotContainer.driverXbox.getRightTriggerAxis() > 0.1) {
         // Intake (right trigger) if pressed beyond deadband
-        intake.set(deadbandreturn(inVal / 4, 0.1));
+        intake.set(Utils.deadbandReturn(inVal / 4, 0.1));
     } else {
         // Neither trigger pressed → stop
         intake.set(0);
@@ -87,10 +65,10 @@ public class ShooterSubsystem extends SubsystemBase {
      *
      * @return command sequence for timed intake
      */
-  public Command twoSecondIntake() {
+  public Command TimedIntake() {
     return run(() -> {
-        intake.set(0.1027);
-    }).withTimeout(2)
+        intake.set(Constants.SHOOTER_POWER);
+    }).withTimeout(Constants.SHOOTER_TIME)
         .andThen(() -> intake.set(0));
   }
 
@@ -99,10 +77,10 @@ public class ShooterSubsystem extends SubsystemBase {
      *
      * @return command sequence for timed outtake
      */
-  public Command twoSecondOuttake() {
+  public Command TimedOuttake() {
     return run(() -> {
-        intake.set(-0.1027);
-    }).withTimeout(2)
+        intake.set(Constants.SHOOTER_POWER * -1); // Reverse intake for outtake
+    }).withTimeout(Constants.SHOOTER_TIME)
         .andThen(() -> intake.set(0));
   }
 }
