@@ -28,7 +28,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.XboxController;
-
+import frc.robot.commands.auto.AutoShootAtTag4;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -143,6 +143,21 @@ public class RobotContainer
       */
 
       //autoChooser.addOption("TestCommand", testCommand);
+      autoChooser.addOption("Shoot At Tag 4", new AutoShootAtTag4(drivebase, m_turret, m_shooter));
+      // Default Auto: Drive forward ~1 foot, then stop
+      autoChooser.setDefaultOption("Drive Forward 1ft",
+        Commands.run(() -> drivebase.drive(
+                        new Translation2d(0.25, 0.0), // forward 0.25 m/s
+                        0.0,                           // no rotation
+                        true                           // field-relative
+                    ), drivebase)
+            .withTimeout(Units.feetToMeters(1) / 0.25)    // ~1 foot distance
+            .andThen(() -> drivebase.drive(
+                        new Translation2d(0.0, 0.0),
+                        0.0,
+                        true
+                    )) // stop robot
+      );
   }
 
   /**
