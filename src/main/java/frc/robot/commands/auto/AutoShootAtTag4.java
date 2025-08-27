@@ -47,13 +47,17 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
             // Step 2: Drive toward AprilTag ID 4 until ~0.3m away
             Commands.run(() -> {
                 if (LimelightHelpers.getFiducialID("limelight") == 4) {
+                    System.out.println("tracking id 4");
                     double distance = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ();
                     if (distance > 0.3) {
+                        System.out.println(distance);
                         drivebase.drive(new Translation2d(0.25, 0.0), 0.0, true);
                     } else {
+                        System.out.println(distance);
                         drivebase.drive(new Translation2d(0.0, 0.0), 0.0, true);
                     }
                 } else {
+                    System.out.println("id not found");
                     drivebase.drive(new Translation2d(0.0, 0.0), 0.0, true);
                 }
 
