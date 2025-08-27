@@ -48,8 +48,8 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
             Commands.run(() -> {
                 if (LimelightHelpers.getFiducialID("limelight") == 4) {
                     System.out.println("tracking id 4");
-                    double distance = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getX();
-                    if (distance > 0.3) {
+                    double distance = LimelightHelpers.getTargetPose3d_CameraSpace("limelight").getX();
+                    if (distance > 0) {
                         System.out.println(distance);
                         drivebase.drive(new Translation2d(0.25, 0.0), 0.0, true);
                     } else {
