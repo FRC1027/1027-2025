@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import java.time.LocalTime;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -48,9 +50,13 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
             Commands.run(() -> {
                 if (LimelightHelpers.getFiducialID("limelight") == 4) {
                     System.out.println("tracking id 4");
-                    double distance = LimelightHelpers.getTargetPose3d_CameraSpace("limelight").getX();
-                    if (distance > 0.3) {
+                    //double distance = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ();
+                    double tzRobot = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ();
+                    double originToBumper = 0.5461;
+                    double distance = tzRobot - originToBumper;
+                    if (distance > 0.5) {
                         System.out.println(distance);
+                        System.out.println("CurrentTime: " + LocalTime.now());
                         drivebase.drive(new Translation2d(0.25, 0.0), 0.0, true);
                     } else {
                         System.out.println(distance);
