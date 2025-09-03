@@ -94,7 +94,7 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
                     // stop threshold (1.5 m from bumper)
                     double stopDistance = 1.5;
                     
-                    if (bumperToTagDist <= stopDistance) {
+                    if (bumperToTagDist >= stopDistance) {
                     //if (distance > 0.3) {
                         //System.out.println(distance);
                         System.out.println(bumperToTagDist);
