@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.time.LocalTime;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -54,12 +58,51 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
                     double tzRobot = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ();
                     double originToBumper = 0.5461;
                     double distance = tzRobot - originToBumper;
-                    if (distance > 0.5) {
-                        System.out.println(distance);
+                    
+                    NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+                    // check if a target is visible
+                    double tv = limelight.getEntry("tv").getDouble(0.0);
+                    if (tv < 1.0) {
+                        SmartDashboard.putString("LL Status", "No target");
+                        return;
+                    }
+                    // read targetpose_cameraspace -> [tx, ty, tz, roll, pitch, yaw] (usually)
+                    double[] pose = limelight.getEntry("targetpose_cameraspace").getDoubleArray(new double[0]);
+                    if (pose == null || pose.length < 3) {
+                        SmartDashboard.putString("LL Status", "No pose array");
+                        return;
+                    }
+                    
+                    double tx = pose[0];   // horizontal offset (m)
+                    double ty = pose[1];   // vertical offset (m)
+                    double tz = pose[2];   // forward distance from CAMERA to tag (m)
+                
+                    // optionally compute straight-line (euclidean) distance camera->tag
+                    double cameraToTagDist = Math.sqrt(tx*tx + ty*ty + tz*tz);
+                
+                    // convert camera->tag distance to BUMPER->tag distance by subtracting cam->bumper offset
+                    double camToBumper = 0.3302; // <--- measure this on your robot (meters)
+                    double bumperToTagDist = Math.max(0.0, cameraToTagDist - camToBumper);
+                    
+                    // debug output
+                    SmartDashboard.putNumber("LL tx (m)", tx);
+                    SmartDashboard.putNumber("LL ty (m)", ty);
+                    SmartDashboard.putNumber("LL tz (m)", tz);
+                    SmartDashboard.putNumber("LL camera->tag (m)", cameraToTagDist);
+                    SmartDashboard.putNumber("LL bumper->tag (m)", bumperToTagDist);
+
+                    // stop threshold (1.5 m from bumper)
+                    double stopDistance = 1.5;
+                    
+                    if (bumperToTagDist <= stopDistance) {
+                    //if (distance > 0.3) {
+                        //System.out.println(distance);
+                        System.out.println(bumperToTagDist);
                         System.out.println("CurrentTime: " + LocalTime.now());
                         drivebase.drive(new Translation2d(0.25, 0.0), 0.0, true);
                     } else {
-                        System.out.println(distance);
+                        //System.out.println(distance);
+                        System.out.println(bumperToTagDist);
                         drivebase.drive(new Translation2d(0.0, 0.0), 0.0, true);
                     }
                 } else {
@@ -76,13 +119,13 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
                  * drivebase.driveToPose(tagPose.toPose2d());
                  * turret.trackTargetWithLimelight(); // align turret once at tag
                  */
-            }, drivebase).withTimeout(3.0),
+            }, drivebase).withTimeout(10.0),
 
             // Step 2b: Block until distance ≤ 0.3m or 3s timeout
             new WaitUntilCommand(() ->
                 LimelightHelpers.getFiducialID("limelight") == 4 &&
                 LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ() <= 0.3
-            ).withTimeout(3.0),
+            ).withTimeout(10.0),
 
             // Step 3: Stop drivebase fully
             Commands.runOnce(() -> drivebase.drive(new Translation2d(0.0, 0.0), 0.0, true), drivebase),
