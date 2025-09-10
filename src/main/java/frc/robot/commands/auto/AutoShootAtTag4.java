@@ -17,55 +17,64 @@ import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.LimelightHelpers;
 
-// Uncomment later if using WPILib's official AprilTag layout
+// (Optional) Use WPILib’s official AprilTag field layout instead of Limelight pipeline
 // import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import edu.wpi.first.apriltag.AprilTagFields;
 // import edu.wpi.first.math.geometry.Pose3d;
 
+
 /**
- * Autonomous routine:
- * 1. Drive forward a little.
- * 2. Find AprilTag ID 4 with Limelight and drive toward it.
- * 3. Stop ~0.3m (1 foot) in front of the tag (blocking).
- * 4. Align turret so Limelight centers on ID 4 (blocking).
- * 5. Fire shooter using ShooterSubsystem.TimedOuttake().
+ * Autonomous routine to locate AprilTag ID 4 and shoot:
  *
- * Field-layout code is commented inline where steps 2–4 are.
+ * Sequence:
+ *  1. Drive forward ~1 foot to get unstuck/closer to tag view.
+ *  2. Find AprilTag ID 4 with Limelight until within ~1.5m of bumper.
+ *  3. Stop and hold position.
+ *  4. Align turret with tag using Limelight:
+ *     - Actively adjust for 2s,
+ *     - Then block until centered (|tx| < 1°) or 2s timeout.
+ *  5. Fire shooter with ShooterSubsystem.TimedOuttake().
+ *
+ * Optional: Replace Limelight logic with official WPILib AprilTag field layout.
  */
 public class AutoShootAtTag4 extends SequentialCommandGroup {
 
     public AutoShootAtTag4(SwerveSubsystem drivebase, TurretSubsystem turret, ShooterSubsystem shooter) {
         addCommands(
 
-            // Step 1: Move forward briefly (~1 foot)
+            // Step 1: Drive forward a short distance (~1 ft)
             Commands.run(() -> drivebase.drive(
-                        new Translation2d(0.25, 0.0), // forward 0.25 m/s
-                        0.0,                           // no rotation
-                        true                           // field-relative
+                        new Translation2d(0.25, 0.0),    // forward velocity of 0.25 m/s
+                        0.0,                        // no rotation
+                        true                   // field-relative
                     ), drivebase)
-                    .withTimeout(Units.feetToMeters(1) / 0.25)
-                    .andThen(() -> drivebase.drive(
+                    .withTimeout(Units.feetToMeters(1)) // run long enough to cover ~1 ft
+                    .andThen(() -> drivebase.drive(          // then stop
                         new Translation2d(0.0, 0.0),
                         0.0,
                         true
-                    )), // stop
+                    )),
 
-            // Step 2: Drive toward AprilTag ID 4 until ~0.3m away
+            // Step 2: Drive toward AprilTag ID 4 using Limelight until ~1.5m from bumper
             Commands.run(() -> {
+
+                /**
+                 * If statement that checks if Limelight ID 4 is being tracked
+                 * 
+                 * If true, finds 
+                 */
                 if (LimelightHelpers.getFiducialID("limelight") == 4) {
                     System.out.println("tracking id 4");
-                    //double distance = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ();
-                    double tzRobot = LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ();
-                    double originToBumper = 0.5461;
-                    double distance = tzRobot - originToBumper;
                     
                     NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+                    
                     // check if a target is visible
                     double tv = limelight.getEntry("tv").getDouble(0.0);
                     if (tv < 1.0) {
                         SmartDashboard.putString("LL Status", "No target");
                         return;
                     }
+                    
                     // read targetpose_cameraspace -> [tx, ty, tz, roll, pitch, yaw] (usually)
                     double[] pose = limelight.getEntry("targetpose_cameraspace").getDoubleArray(new double[0]);
                     if (pose == null || pose.length < 3) {
@@ -95,13 +104,9 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
                     double stopDistance = 1.5;
                     
                     if (bumperToTagDist >= stopDistance) {
-                    //if (distance > 0.3) {
-                        //System.out.println(distance);
                         System.out.println(bumperToTagDist);
-                        System.out.println("CurrentTime: " + LocalTime.now());
                         drivebase.drive(new Translation2d(0.25, 0.0), 0.0, true);
                     } else {
-                        //System.out.println(distance);
                         System.out.println(bumperToTagDist);
                         drivebase.drive(new Translation2d(0.0, 0.0), 0.0, true);
                     }
@@ -120,12 +125,6 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
                  * turret.trackTargetWithLimelight(); // align turret once at tag
                  */
             }, drivebase).withTimeout(10.0),
-
-            // Step 2b: Block until distance ≤ 0.3m or 3s timeout
-            new WaitUntilCommand(() ->
-                LimelightHelpers.getFiducialID("limelight") == 4 &&
-                LimelightHelpers.getTargetPose3d_RobotSpace("limelight").getZ() <= 0.3
-            ).withTimeout(10.0),
 
             // Step 3: Stop drivebase fully
             Commands.runOnce(() -> drivebase.drive(new Translation2d(0.0, 0.0), 0.0, true), drivebase),
