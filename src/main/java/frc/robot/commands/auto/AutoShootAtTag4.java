@@ -58,24 +58,24 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
             // Step 2: Drive toward AprilTag ID 4 using Limelight until ~1.5m from bumper
             Commands.run(() -> {
 
-                /**
-                 * If statement that checks if Limelight ID 4 is being tracked
-                 * 
-                 * If true, finds 
-                 */
+                
+                // If statement that checks if Limelight ID 4 is being tracked
                 if (LimelightHelpers.getFiducialID("limelight") == 4) {
                     System.out.println("tracking id 4");
                     
                     NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
                     
-                    // check if a target is visible
+                    // Read the "tv" (target valid) entry:
+                    //   - tv = 1 → Limelight has a valid target
+                    //   - tv = 0 → No valid target in view
                     double tv = limelight.getEntry("tv").getDouble(0.0);
                     if (tv < 1.0) {
                         SmartDashboard.putString("LL Status", "No target");
                         return;
                     }
                     
-                    // read targetpose_cameraspace -> [tx, ty, tz, roll, pitch, yaw] (usually)
+                    // Checks to see if the returned pose relative to camera pose [x,y,z,roll,pitch,yaw], were successfully
+                    // returned. It also checks to see if the robot is less than 3 meters from the target.
                     double[] pose = limelight.getEntry("targetpose_cameraspace").getDoubleArray(new double[0]);
                     if (pose == null || pose.length < 3) {
                         SmartDashboard.putString("LL Status", "No pose array");
@@ -86,14 +86,14 @@ public class AutoShootAtTag4 extends SequentialCommandGroup {
                     double ty = pose[1];   // vertical offset (m)
                     double tz = pose[2];   // forward distance from CAMERA to tag (m)
                 
-                    // optionally compute straight-line (euclidean) distance camera->tag
+                    // Computes straight-line distance from camera to tag (Euclidean)
                     double cameraToTagDist = Math.sqrt(tx*tx + ty*ty + tz*tz);
                 
-                    // convert camera->tag distance to BUMPER->tag distance by subtracting cam->bumper offset
+                    // Convert Camera -> Tag distance to BUMPER -> Tag distance by subtracting camToBumper offset
                     double camToBumper = 0.3302; // <--- measure this on your robot (meters)
                     double bumperToTagDist = Math.max(0.0, cameraToTagDist - camToBumper);
                     
-                    // debug output
+                    // Display camera values on the Smartdashboard (for debugging purposes)
                     SmartDashboard.putNumber("LL tx (m)", tx);
                     SmartDashboard.putNumber("LL ty (m)", ty);
                     SmartDashboard.putNumber("LL tz (m)", tz);
