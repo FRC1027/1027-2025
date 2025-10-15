@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.DriveTowardTagCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -53,6 +54,9 @@ public class RobotContainer
 
   // Defining the ShooterSubsystem
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+
+  //Defining DriveTowardTagCommand Subsystem
+  private final DriveTowardTagCommand m_DriveTowardTagCommand = new DriveTowardTagCommand(drivebase);
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -120,7 +124,7 @@ public class RobotContainer
   public RobotContainer()
     {
     // Configure/register any and all future commands here
-    //  NamedCommands.registerCommand("exampleCommand", exampleSubsystem.exampleCommand());
+
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
@@ -191,12 +195,16 @@ public class RobotContainer
       })
     );
 
-    /* Controls alignment with apriltags with limelight/photonvision cameras via 'A' button */
+    // Controls alignment with apriltags with limelight/photonvision cameras via 'A' button
     driverXbox.a().onTrue(configure_a());
 
-    /* Controls a two second intake and outake of the shooter mechanism */
+    // Controls a two second intake and outake of the shooter mechanism
     driverXbox.y().onTrue(m_shooter.TimedOuttake());
     driverXbox.x().onTrue(m_shooter.TimedIntake());
+
+    // Controls the drive DriveTowardTagCommand while ___ button is held down
+    //driverXbox.____().whileTrue(m_DriveTowardTagCommand);
+
 
     if (RobotBase.isSimulation())
     {
