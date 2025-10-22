@@ -199,11 +199,11 @@ public class RobotContainer
     driverXbox.a().onTrue(configure_a());
 
     // Controls a two second intake and outake of the shooter mechanism
-    driverXbox.y().onTrue(m_shooter.TimedOuttake());
-    driverXbox.x().onTrue(m_shooter.TimedIntake());
+    //driverXbox.y().onTrue(m_shooter.TimedOuttake());
+    //driverXbox.x().onTrue(m_shooter.TimedIntake());
 
-    // Controls the drive DriveTowardTagCommand while ___ button is held down
-    //driverXbox.____().whileTrue(m_DriveTowardTagCommand);
+    // Controls the drive DriveTowardTagCommand while b button is held down
+    driverXbox.b().whileTrue(m_DriveTowardTagCommand);
 
 
     if (RobotBase.isSimulation())

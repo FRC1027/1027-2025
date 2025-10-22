@@ -12,8 +12,8 @@ public class DriveTowardTagCommand extends Command {
     
     private final SwerveSubsystem drivebase;
     private final double CAM_TO_BUMPER = 0.33; // meters (measure this)
-    private final double STOP_DISTANCE = 1.5;  // meters from bumper to tag
-    private final double MAX_SPEED = 0.4;      // forward speed (m/s)
+    private final double STOP_DISTANCE = 0.5;  // meters from bumper to tag
+    private final double MAX_SPEED = 3;      // forward speed (m/s)
     private final double MAX_ROTATION = 0.4;   // rotation speed (rad/s)
     private final int TARGET_ID = 4;           // tag to follow
 
@@ -110,13 +110,13 @@ public class DriveTowardTagCommand extends Command {
         //  - Stop once within STOP_DISTANCE
         if (bumperToTagDist > STOP_DISTANCE) {
             forwardSpeed = MAX_SPEED * Math.min(1.0, bumperToTagDist / 4.0); // scale by distance
-        }else {
+        } else {
             forwardSpeed = 0.0;
         }
 
         // Turning control (simple proportional control)
         //  - Turn toward the tag if it's offset horizontally
-        double kP_turn = 1.0; // tuning constant — increase for snappier turning
+        double kP_turn = 5.0; // tuning constant — increase for snappier turning
         rotationSpeed = -kP_turn * tx; // negative to rotate toward target
         rotationSpeed = Math.max(-MAX_ROTATION, Math.min(MAX_ROTATION, rotationSpeed)); // clamp to limits
 
