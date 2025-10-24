@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class DriveTowardTagCommand extends Command {
+public class trackOnlyTagCommand extends Command {
     
     private final SwerveSubsystem drivebase;
     private final double CAM_TO_BUMPER = 0.33; // meters (measure this)
     private final double STOP_DISTANCE = 0.5;  // meters from bumper to tag
-    private final double MAX_SPEED = 2.0;      // forward speed (m/s)
-    private final double MAX_ROTATION = 2.0;   // rotation speed (rad/s)
+    private final double MAX_SPEED = 0.0;      // forward speed (m/s)
+    private final double MAX_ROTATION = 10.27;   // rotation speed (rad/s)
     private final int TARGET_ID = 4;           // tag to follow
 
     // --- Control logic ---
@@ -26,7 +26,7 @@ public class DriveTowardTagCommand extends Command {
     // from ending prematurely if it sees that the distance was already below the 'STOP_DISTANCE' constant.
     private double bumperToTagDist = 999.0;
 
-    public DriveTowardTagCommand(SwerveSubsystem drivebase) {
+    public trackOnlyTagCommand(SwerveSubsystem drivebase) {
         this.drivebase = drivebase;
 
         // This prevents any other command that also requires drivebase from running simultaneously. If one 
@@ -115,7 +115,7 @@ public class DriveTowardTagCommand extends Command {
             forwardSpeed = 0.0;
         }
 
-          // Turning control (simple proportional control)
+        // Turning control (simple proportional control)
         //  - Turn toward the tag if it's offset horizontally
         double kP_turn = 1.0; // tuning constant — increase for snappier turning
         rotationSpeed = -kP_turn * tx; // negative to rotate toward target
@@ -123,7 +123,6 @@ public class DriveTowardTagCommand extends Command {
 
         SmartDashboard.putNumber("LL ForwardSpeed", forwardSpeed);
         SmartDashboard.putNumber("LL RotationSpeed", rotationSpeed);
-
 
         // Send movement command to drivetrain
         drivebase.drive(new Translation2d(forwardSpeed, 0), rotationSpeed, true);

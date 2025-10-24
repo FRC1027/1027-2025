@@ -25,6 +25,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DriveTowardTagCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.trackOnlyTagCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -57,6 +58,8 @@ public class RobotContainer
 
   //Defining DriveTowardTagCommand Subsystem
   private final DriveTowardTagCommand m_DriveTowardTagCommand = new DriveTowardTagCommand(drivebase);
+
+  private final trackOnlyTagCommand m_TrackOnlyTagCommand = new trackOnlyTagCommand(drivebase);
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -196,7 +199,7 @@ public class RobotContainer
     );
 
     // Controls alignment with apriltags with limelight/photonvision cameras via 'A' button
-    driverXbox.a().onTrue(configure_a());
+    //driverXbox.a().onTrue(configure_a());
 
     // Controls a two second intake and outake of the shooter mechanism
     //driverXbox.y().onTrue(m_shooter.TimedOuttake());
@@ -204,6 +207,8 @@ public class RobotContainer
 
     // Controls the drive DriveTowardTagCommand while b button is held down
     driverXbox.b().whileTrue(m_DriveTowardTagCommand);
+
+    driverXbox.x().whileTrue(m_TrackOnlyTagCommand);
 
 
     if (RobotBase.isSimulation())
