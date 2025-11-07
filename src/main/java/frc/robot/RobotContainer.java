@@ -25,7 +25,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DriveTowardTagCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.trackOnlyTagCommand;
+import frc.robot.subsystems.AlignTagCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -56,10 +56,11 @@ public class RobotContainer
   // Defining the ShooterSubsystem
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
 
-  //Defining DriveTowardTagCommand Subsystem
+  // Defining DriveTowardTagCommand Subsystem
   private final DriveTowardTagCommand m_DriveTowardTagCommand = new DriveTowardTagCommand(drivebase);
 
-  private final trackOnlyTagCommand m_TrackOnlyTagCommand = new trackOnlyTagCommand(drivebase);
+  // Defining AlignTagCommand Subsystem 
+  private final AlignTagCommand m_AlignTagCommand = new AlignTagCommand(drivebase);
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -116,10 +117,7 @@ public class RobotContainer
                                                                                    0));
   
    // Constructs a SendableChooser variable that allows auto commands to be sent to the Smart Dashboard 
-   private final SendableChooser<Command> autoChooser; 
-  
-   // Toggle initial state for turret auto-alignment
-   public static int a_val = 0;
+   private final SendableChooser<Command> autoChooser;
 
   /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -174,28 +172,13 @@ public class RobotContainer
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
-
-   private Command configure_a() {
-    return Commands.runOnce(() -> {
-      a_val = (a_val == 0) ? 1 : 0;
-      System.out.println(a_val);
-    });
-  }
-
   private void configureBindings()
   {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveFieldOrientedDirectAngleKeyboard = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
     
     m_turret.setDefaultCommand(
-      m_turret.run(() -> {
-        if (a_val == 1) {
-          m_turret.trackTargetWithLimelight();
-        } else {
-          double input = mechXbox.getLeftX();
-          m_turret.manualControl(input);
-        }
-      })
+      m_turret.run(() -> m_turret.periodic()) // Calls periodic method in TurretSubsystem every loop
     );
 
     // Controls alignment with apriltags with limelight/photonvision cameras via 'A' button
@@ -208,7 +191,7 @@ public class RobotContainer
     // Controls the drive DriveTowardTagCommand while b button is held down
     driverXbox.b().whileTrue(m_DriveTowardTagCommand);
 
-    driverXbox.x().whileTrue(m_TrackOnlyTagCommand);
+    driverXbox.x().whileTrue(m_AlignTagCommand);
 
 
     if (RobotBase.isSimulation())

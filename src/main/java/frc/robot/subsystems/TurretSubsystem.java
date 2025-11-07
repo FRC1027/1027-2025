@@ -8,101 +8,94 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
 import frc.robot.util.Utils;
 import frc.robot.Constants;
 
+/**
+ * Subsystem that controls the turret motor, supporting both manual and
+ * Limelight-based auto-tracking modes.
+ */
 public class TurretSubsystem extends SubsystemBase {
 
-  SparkMax turret; // Motor controller for turret mechanism
+  SparkMax turret; // Motor controller for turret
 
+  // Shared motor configuration for all turret instances
   public static final SparkMaxConfig turretConfig = new SparkMaxConfig();
-
-    // Configure motor settings: brake mode and current limiting
     static {
         turretConfig
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(50);
     }
   
+  /** Creates a new TurretSubsystem with preconfigured SparkMax motor on CAN ID 23 */
   public TurretSubsystem() {
-    // Initialize intake motor on CAN ID 23, brushless
     turret = new SparkMax(23, MotorType.kBrushless);
     turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
   
- /**
-  * Uses Limelight vision data to auto-align the turret to fiducial tag 4.
-  * If the target is visible, calculates proportional power and clamps output.
-  */
+  /**
+   * Uses Limelight vision data to automatically align the turret to fiducial tag 4.
+   * If the target is visible, calculates proportional motor output and clamps it.
+   */
   public void trackTargetWithLimelight() {
-    double tx = LimelightHelpers.getTX("limelight");         // horizontal offset
-    boolean tv = LimelightHelpers.getTV("limelight");        // target valid
-    double tid = LimelightHelpers.getFiducialID("limelight"); // tag ID
+    double tx = LimelightHelpers.getTX("limelight");          // Horizontal offset
+    boolean tv = LimelightHelpers.getTV("limelight");         // Target visible
+    double tid = LimelightHelpers.getFiducialID("limelight"); // Target tag ID
 
-    if (tv && tid == 4) { // target detected and correct tag
-      double kP = 0.02;
-      double minCommand = 0.05;
-      double turretPower = kP * tx;
+    // Only track if correct tag is seen
+    if (tv && tid == 4) {
+      double kP = 0.02;             // Proportional constant
+      double minCommand = 0.05;     // Minimum correction threshold
+      double turretPower = kP * tx; // Calculate motor power based on horizontal offset and Proportional constant
 
-      if (Math.abs(tx) > 1.0) { // only move if offset is significant
+      // Only adjust if significantly misaligned
+      if (Math.abs(tx) > 1.0) {
         double output = turretPower + Math.copySign(minCommand, tx);
         double clampedOutput = MathUtil.clamp(output, -Constants.MAX_TURRET_SPEED, Constants.MAX_TURRET_SPEED);
         turret.set(clampedOutput);
 
         System.out.printf("Auto-Aligning: tx=%.2f, tid=%.0f, raw=%.2f, clamped=%.2f%n", tx, tid, output, clampedOutput);
       } else {
-        turret.set(0); // small offset → stop
+        turret.set(0); // Alignment close enough → stop
       }
+
     } else {
-      turret.set(0); // no valid target → stop
+      turret.set(0); // No valid target → hold position
     }
   }
 
-  /** 
-   * Called once per scheduler run. 
-   * Allows manual control or auto-aligning depending on trigger input.
+  /**
+   * Manual turret control with deadband.
+   * @param input joystick input value
+   */
+  public void manualControl(double input) {
+      turret.set(Utils.deadbandReturn(input, 0.1));
+  }
+
+  /**
+   * Called every scheduler cycle. Switches between auto-tracking and manual control.
    */
   @Override
   public void periodic() {
-    double trigger = RobotContainer.mechXbox.getRightTriggerAxis();   // Right trigger
-    double turretManualControl = RobotContainer.mechXbox.getLeftX();  // Manual control
+    double trigger = RobotContainer.mechXbox.getRightTriggerAxis();   // Right trigger that allows for auto-align
+    double turretManualControl = RobotContainer.mechXbox.getLeftX();  // Manual control via joystick
 
+    // Auto-align ONLY if trigger pressed and joystick is neutral
     if (trigger > 0.5 && Math.abs(turretManualControl) < 0.1) {
-      // Auto-align ONLY if trigger is pressed and driver isn't touching the stick
       trackTargetWithLimelight();
-      System.out.println("Auto-aligning to tag 4");
-    } else if (Math.abs(turretManualControl) >= 0.1) {
-      // Manual control if joystick is moved
+    } else if (Math.abs(turretManualControl) >= 0.1) { // Manual override with joystick
       turret.set(Utils.deadbandReturn(turretManualControl, 0.1));
     } else {
-      // No input → stop turret
-      turret.set(0);
+      turret.set(0); // No input → stop turret
     }
   }
 
-  /** Periodically called during simulation (currently unused). */
-  @Override
-  public void simulationPeriodic() {
-  
-  }
-
-  /** Manual turret control, applies deadband */
-  public void manualControl(double input) {
-    turret.set(Utils.deadbandReturn(input, 0.1));
-  }
-
-  /** Command that auto-tracks if a_val == 1, stops turret otherwise. */
-  public Command a_trackerTurretAuto() {
-    return run(() -> {
-        if (RobotContainer.a_val == 1) {
-            trackTargetWithLimelight();
-        } else {
-          turret.set(0);
-        }
-    });
-  }
+    /** Optional: Simulation logic (currently unused). */
+    @Override
+    public void simulationPeriodic() {
+      
+    }
 }

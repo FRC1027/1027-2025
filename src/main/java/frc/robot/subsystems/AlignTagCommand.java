@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -9,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class trackOnlyTagCommand extends Command {
+public class AlignTagCommand extends Command {
     
     private final SwerveSubsystem drivebase;
     private final double CAM_TO_BUMPER = 0.33; // meters (measure this)
@@ -26,7 +25,7 @@ public class trackOnlyTagCommand extends Command {
     // from ending prematurely if it sees that the distance was already below the 'STOP_DISTANCE' constant.
     private double bumperToTagDist = 999.0;
 
-    public trackOnlyTagCommand(SwerveSubsystem drivebase) {
+    public AlignTagCommand(SwerveSubsystem drivebase) {
         this.drivebase = drivebase;
 
         // This prevents any other command that also requires drivebase from running simultaneously. If one 
