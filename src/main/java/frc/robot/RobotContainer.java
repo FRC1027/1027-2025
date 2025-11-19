@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DriveTowardTagCommand;
+import frc.robot.subsystems.ObjectRecognition;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.AlignTagCommand;
@@ -61,6 +62,8 @@ public class RobotContainer
 
   // Defining AlignTagCommand Subsystem 
   private final AlignTagCommand m_AlignTagCommand = new AlignTagCommand(drivebase);
+
+  private final ObjectRecognition m_ObjectRecognition = new ObjectRecognition();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -192,6 +195,8 @@ public class RobotContainer
     driverXbox.b().whileTrue(m_DriveTowardTagCommand);
 
     driverXbox.x().whileTrue(m_AlignTagCommand);
+
+    driverXbox.y().onTrue(m_ObjectRecognition.recognizeObjectsCommand());
 
 
     if (RobotBase.isSimulation())

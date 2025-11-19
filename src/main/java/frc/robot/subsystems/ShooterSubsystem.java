@@ -36,8 +36,8 @@ public class ShooterSubsystem extends SubsystemBase {
      * Called once per scheduler run.
      * Reads controller trigger input and drives the intake motor accordingly.
      */
-  @Override
-  public void periodic() {
+    @Override
+    public void periodic() {
     double inVal = RobotContainer.driverXbox.getRightTriggerAxis();
     double outVal = -RobotContainer.driverXbox.getLeftTriggerAxis();
 
