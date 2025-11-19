@@ -14,16 +14,16 @@ public class ObjectRecognition extends SubsystemBase{
 
     public void recognizeObjects() {
         // Switch to pipeline 1
-        LimelightHelpers.setPipelineIndex("", 1);
+        LimelightHelpers.setPipelineIndex("limelight", 1);
 
-        LimelightResults results = LimelightHelpers.getLatestResults("");
+        LimelightResults results = LimelightHelpers.getLatestResults("limelight");
 
         // Neural network detections
         if (results.targets_Detector.length > 0) {
             LimelightTarget_Detector detection = results.targets_Detector[0];
             String className = detection.className;
-            double confidence = detection.confidence;
-            double area = detection.ta;
+            //double confidence = detection.confidence;
+            //double area = detection.ta;
 
             System.out.println(className);
 
