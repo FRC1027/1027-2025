@@ -17,6 +17,12 @@ public class ObjectRecognition extends SubsystemBase{
         LimelightHelpers.setPipelineIndex("limelight", 1);
 
         LimelightResults results = LimelightHelpers.getLatestResults("limelight");
+        
+        
+        System.out.println(results); //frc.robot.LimelightHelpers$LimelightResults@1d1f8dd
+        System.out.println(results.targets_Detector); //[Lfrc.robot.LimelightHelpers$LimelightTarget_Detector;@96b474
+        System.out.println(results.targets_Detector.length); //0
+        //System.out.println(results.targets_Detector[0].className); //crashes robot code if length is 0
 
         // Neural network detections
         if (results.targets_Detector.length > 0) {
@@ -35,6 +41,8 @@ public class ObjectRecognition extends SubsystemBase{
         } else {
             System.out.println("No object detected");
         }
+        // Switch to pipeline 0
+        LimelightHelpers.setPipelineIndex("limelight", 0);
     }
 
     public InstantCommand recognizeObjectsCommand() {
