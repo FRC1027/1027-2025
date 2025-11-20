@@ -16,8 +16,11 @@ public class ObjectRecognition extends SubsystemBase{
         // Switch to pipeline 1
         LimelightHelpers.setPipelineIndex("limelight", 1);
 
+        // wait for LL to actually process the new pipeline
+        // Limelight runs at 22ms/frame meaning 50ms wait guarantees at least 2 frames processed.
+        try { Thread.sleep(50); } catch (Exception e) {}
+
         LimelightResults results = LimelightHelpers.getLatestResults("limelight");
-        
         
         System.out.println(results); //frc.robot.LimelightHelpers$LimelightResults@1d1f8dd
         System.out.println(results.targets_Detector); //[Lfrc.robot.LimelightHelpers$LimelightTarget_Detector;@96b474
