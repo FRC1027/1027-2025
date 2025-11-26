@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.LimelightHelpers.LimelightTarget_Detector;
@@ -12,13 +14,7 @@ public class ObjectRecognition extends SubsystemBase{
 
     }
 
-    public void recognizeObjects() {
-        // Switch to pipeline 1
-        LimelightHelpers.setPipelineIndex("limelight", 1);
-
-        // wait for LL to actually process the new pipeline
-        // Limelight runs at 22ms/frame meaning 100ms wait guarantees at least 4 frames processed.
-        try { Thread.sleep(100); } catch (Exception e) {}
+    public void readDetections() {
 
         LimelightResults results = LimelightHelpers.getLatestResults("limelight");
         
@@ -29,8 +25,6 @@ public class ObjectRecognition extends SubsystemBase{
             //double confidence = detection.confidence;
             //double area = detection.ta;
 
-            System.out.println(className);
-
             if (className.equals("coral")){
                 System.out.println("Coral was detected");
             } else if (className.equals("algae")) {
@@ -39,11 +33,15 @@ public class ObjectRecognition extends SubsystemBase{
         } else {
             System.out.println("No object detected");
         }
-        // Switch to pipeline 0
-        LimelightHelpers.setPipelineIndex("limelight", 0);
     }
 
-    public InstantCommand recognizeObjectsCommand() {
-        return new InstantCommand(this::recognizeObjects, this);
+    public SequentialCommandGroup recognizeObjectsCommand() {
+        return new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight", 1))
+            .andThen(new WaitCommand(0.1))
+            .andThen(new InstantCommand(() -> readDetections()))
+            .andThen(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight", 0)))
+            .andThen(new WaitCommand(0.1));        
     }
+
+
 }
