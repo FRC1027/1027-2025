@@ -8,12 +8,22 @@ import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.LimelightHelpers.LimelightTarget_Detector;
 
+/**
+ * The ObjectRecognition subsystem uses the Limelight camera to identify game pieces.
+ * 
+ * It uses a "Neural Network" (a type of AI) to look at the camera feed and say "Coral was detected" or "Algae was detected".
+ */
 public class ObjectRecognition extends SubsystemBase{
 
     public ObjectRecognition(){
 
     }
 
+    /**
+     * Reads the latest results from the Limelight camera.
+     * 
+     * It checks if the AI detected anything. If it did, it prints the name of the object (Coral or Algae) to the console.
+     */
     public void readDetections() {
 
         LimelightResults results = LimelightHelpers.getLatestResults("limelight");

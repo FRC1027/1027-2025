@@ -15,8 +15,12 @@ import frc.robot.util.Utils;
 import frc.robot.Constants;
 
 /**
- * Subsystem that controls the turret motor, supporting both manual and
- * Limelight-based auto-tracking modes.
+ * The TurretSubsystem controls the rotating turret on top of the robot.
+ * 
+ * This allows the robot to aim at a target (like an AprilTag) without turning the whole robot body.
+ * It has two modes:
+ * Manual Mode: The driver moves the turret with a joystick.
+ * Auto-Tracking Mode: The turret automatically turns to face a vision target seen by the camera.
  */
 public class TurretSubsystem extends SubsystemBase {
 
@@ -37,8 +41,11 @@ public class TurretSubsystem extends SubsystemBase {
   }
   
   /**
-   * Uses Limelight vision data to automatically align the turret to fiducial tag 4.
-   * If the target is visible, calculates proportional motor output and clamps it.
+   * Automatically aims the turret at AprilTag #4 using the Limelight camera.
+   * 
+   * It uses a simple "Proportional Controller" (the P in PID).
+   * If the target is to the left, it turns left. If it's to the right, it turns right.
+   * The further away the target is from the center, the faster it turns.
    */
   public void trackTargetWithLimelight() {
     double tx = LimelightHelpers.getTX("limelight");          // Horizontal offset
