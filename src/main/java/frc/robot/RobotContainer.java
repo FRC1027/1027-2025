@@ -181,9 +181,6 @@ public class RobotContainer
       m_turret.run(() -> m_turret.periodic()) // Calls periodic method in TurretSubsystem every loop
     );
 
-    // Controls alignment with apriltags with limelight/photonvision cameras via 'A' button
-    // driverXbox.a().onTrue(configure_a());
-
     // Controls a two second intake and outake of the shooter mechanism
     // driverXbox.y().onTrue(m_shooter.TimedOuttake());
     // driverXbox.x().onTrue(m_shooter.TimedIntake());
@@ -191,8 +188,10 @@ public class RobotContainer
     // Controls the drive DriveTowardTagCommand while b button is held down
     driverXbox.b().whileTrue(m_DriveTowardTagCommand);
 
+    // Controls the AlignTagCommand while x button is held down
     driverXbox.x().whileTrue(m_AlignTagCommand);
 
+    // Controls the Object Recognition command when the y button is pressed
     driverXbox.y().onTrue(m_ObjectRecognition.recognizeObjectsCommand());
 
 
@@ -263,9 +262,5 @@ public class RobotContainer
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
-  }
-
-  public TurretSubsystem getTurret() {
-    return m_turret;
   }
 }

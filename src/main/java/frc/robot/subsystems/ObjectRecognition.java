@@ -52,6 +52,4 @@ public class ObjectRecognition extends SubsystemBase{
             .andThen(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight", 0)))
             .andThen(new WaitCommand(0.1));        
     }
-
-
 }
