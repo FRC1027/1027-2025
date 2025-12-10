@@ -22,10 +22,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.DriveTowardTagCommand;
+import frc.robot.subsystems.DriveTowardTagCommand;
 import frc.robot.subsystems.ObjectRecognition;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.AlignTagCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -39,9 +40,11 @@ import frc.robot.commands.auto.AutoShootAtTag4;
  */
 public class RobotContainer
 {
+  // Replace with CommandPS4Controller or CommandJoystick if needed
   // Driver and Mechanism controllers
   public static final CommandXboxController driverXbox = new CommandXboxController(0);
   public static final XboxController mechXbox = new XboxController(1);
+  //public static final CommandXboxController mechXbox = new CommandXboxController(1);
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(
@@ -54,11 +57,11 @@ public class RobotContainer
   // Defining the ShooterSubsystem
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
 
-  // Defining DriveTowardTagCommand (Drive Mode)
+  // Defining DriveTowardTagCommand Subsystem
   private final DriveTowardTagCommand m_DriveTowardTagCommand = new DriveTowardTagCommand(drivebase);
 
-  // Defining AlignTagCommand (Align Only Mode - MaxSpeed = 0)
-  private final DriveTowardTagCommand m_AlignTagCommand = new DriveTowardTagCommand(drivebase, 0.0, 2.0);
+  // Defining AlignTagCommand Subsystem 
+  private final AlignTagCommand m_AlignTagCommand = new AlignTagCommand(drivebase);
 
   private final ObjectRecognition m_ObjectRecognition = new ObjectRecognition();
 
@@ -182,17 +185,19 @@ public class RobotContainer
     );
 
     // Controls alignment with apriltags with limelight/photonvision cameras via 'A' button
-    // driverXbox.a().onTrue(configure_a());
+    //driverXbox.a().onTrue(configure_a());
 
     // Controls a two second intake and outake of the shooter mechanism
-    // driverXbox.y().onTrue(m_shooter.TimedOuttake());
-    // driverXbox.x().onTrue(m_shooter.TimedIntake());
+    //driverXbox.y().onTrue(m_shooter.TimedOuttake());
+    //driverXbox.x().onTrue(m_shooter.TimedIntake());
 
     // Controls the drive DriveTowardTagCommand while b button is held down
     driverXbox.b().whileTrue(m_DriveTowardTagCommand);
 
+    // Controls the AlignTagCommand while x button is held down
     driverXbox.x().whileTrue(m_AlignTagCommand);
 
+    // Controls the Object Recognition command when the y button is pressed
     driverXbox.y().onTrue(m_ObjectRecognition.recognizeObjectsCommand());
 
 
@@ -263,9 +268,5 @@ public class RobotContainer
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
-  }
-
-  public TurretSubsystem getTurret() {
-    return m_turret;
   }
 }
