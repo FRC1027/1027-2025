@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,11 +48,13 @@ public class ObjectRecognition extends SubsystemBase{
 
     public SequentialCommandGroup recognizeObjectsCommand() {
         return new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight", 1))
-            .andThen(new WaitCommand(0.1))
+            .andThen(Commands.waitUntil(() -> 
+                LimelightHelpers.getCurrentPipelineIndex("limelight") == 1
+            ))
             .andThen(new InstantCommand(() -> readDetections()))
             .andThen(new InstantCommand(() -> LimelightHelpers.setPipelineIndex("limelight", 0)))
-            .andThen(new WaitCommand(0.1));        
+            .andThen(Commands.waitUntil(() -> 
+                LimelightHelpers.getCurrentPipelineIndex("limelight") == 0
+            ));
     }
-
-
 }
