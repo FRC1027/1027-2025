@@ -194,10 +194,8 @@ public class RobotContainer
     // Controls the drive DriveTowardTagCommand while b button is held down
     driverXbox.b().whileTrue(m_DriveTowardTagCommand);
 
-    // Controls the AlignTagCommand while x button is held down
     driverXbox.x().whileTrue(m_AlignTagCommand);
 
-    // Controls the Object Recognition command when the y button is pressed
     driverXbox.y().onTrue(m_ObjectRecognition.recognizeObjectsCommand());
 
 
@@ -268,5 +266,9 @@ public class RobotContainer
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
+  }
+
+  public TurretSubsystem getTurret() {
+    return m_turret;
   }
 }
