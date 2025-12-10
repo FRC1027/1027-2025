@@ -13,12 +13,6 @@ import frc.robot.RobotContainer;
 import frc.robot.util.Utils;
 import frc.robot.Constants;
 
-/**
- * The ShooterSubsystem controls the robot's shooting mechanism.
- * 
- * Think of this as the "gun" of the robot. It uses a motor to spin wheels that launch game pieces (like notes).
- * It can spin forward to shoot (outtake) or backward to suck in a game piece (intake).
- */
 public class ShooterSubsystem extends SubsystemBase {
     
     SparkMax intake; // Motor controller for intake/shooter mechanism
@@ -39,31 +33,26 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     /**
-     * This method runs automatically, over and over again (about 50 times a second).
-     * 
-     * It checks the controller triggers to see if the driver wants to shoot or intake.
-     * 
-     * Left Trigger: Shoots the note out (Outtake).
-     * Right Trigger: Sucks the note in (Intake).
-     * No Trigger: Stops the motor.
+     * Called once per scheduler run.
+     * Reads controller trigger input and drives the intake motor accordingly.
      */
     @Override
     public void periodic() {
-        double inVal = RobotContainer.driverXbox.getRightTriggerAxis();
-        double outVal = -RobotContainer.driverXbox.getLeftTriggerAxis();
+    double inVal = RobotContainer.driverXbox.getRightTriggerAxis();
+    double outVal = -RobotContainer.driverXbox.getLeftTriggerAxis();
 
-        // Priority order: Outtake > Intake > Stop
-        if (RobotContainer.driverXbox.getLeftTriggerAxis() > 0.1) {
-            // Outtake (left trigger) if pressed beyond deadband
-            intake.set(Utils.deadbandReturn(outVal / 4, 0.1));
-        } else if (RobotContainer.driverXbox.getRightTriggerAxis() > 0.1) {
-            // Intake (right trigger) if pressed beyond deadband
-            intake.set(Utils.deadbandReturn(inVal / 4, 0.1));
-        } else {
-            // Neither trigger pressed → stop
-            intake.set(0);
-        }
+    // Priority order: Outtake > Intake > Stop
+    if (RobotContainer.driverXbox.getLeftTriggerAxis() > 0.1) {
+        // Outtake (left trigger) if pressed beyond deadband
+        intake.set(Utils.deadbandReturn(outVal / 4, 0.1));
+    } else if (RobotContainer.driverXbox.getRightTriggerAxis() > 0.1) {
+        // Intake (right trigger) if pressed beyond deadband
+        intake.set(Utils.deadbandReturn(inVal / 4, 0.1));
+    } else {
+        // Neither trigger pressed → stop
+        intake.set(0);
     }
+  }
 
   /** Periodically called during simulation (currently unused). */
   @Override

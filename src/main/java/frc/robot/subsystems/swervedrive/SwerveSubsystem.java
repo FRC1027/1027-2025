@@ -142,7 +142,7 @@ public class SwerveSubsystem extends SubsystemBase
         swerveDrive.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds, VecBuilder.fill(.7,.7,9999999));
       }
     } catch (Exception e) {
-      System.out.println(e);
+      // TODO: handle exception
     }
   }
 
