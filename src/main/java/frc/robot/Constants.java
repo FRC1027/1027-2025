@@ -17,54 +17,92 @@ import swervelib.math.Matter;
  * class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do
  * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants
 {
-  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
-  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  public static final double MAX_SPEED  = Units.feetToMeters(14.5);
-  // Maximum speed of the robot in meters per second, used to limit acceleration.
-  public static final double SHOOTER_POWER  = 0.1027; // 0.1027 is the power used to shoot the ball
-  public static final double SHOOTER_TIME  = 2; // seconds to spin for intake/outtake
+  private Constants() {} // Prevent instantiation
+
+  /* ================= Robot Physical Properties ================= */
+
+  /** Robot mass in kilograms (measured weight minus bumpers). */
+  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // lbs → kg
+
+  /** Center of mass used for swerve dynamics calculations. */
+  public static final Matter CHASSIS =
+      new Matter(
+          new Translation3d(0, 0, Units.inchesToMeters(8)),
+          ROBOT_MASS);
+
+  /** Control loop time (20ms driver station + 110ms Spark MAX latency). */
+  public static final double LOOP_TIME = 0.13; //sec
+
+  /** Maximum linear speed of the robot (m/s). */
+  public static final double MAX_SPEED = Units.feetToMeters(14.5);
+
+
+  /* ================= Shooter ================= */
+
+  /** Motor power used for shooting. */
+  public static final double SHOOTER_POWER = 0.1027;
+
+  /** Duration to run shooter for intake/outtake (seconds). */
+  public static final double SHOOTER_TIME = 2.0;
+
+
+  /* ================= Turret ================= */
+
+  /** Maximum turret speed (percent output). */
   public static final double MAX_TURRET_SPEED = 0.5; // Max speed [-0.5, 0.5]
-  public static float robotConfig = 0;
 
-//  public static final class AutonConstants
-//  {
-//
-//    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
-//    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
-//  }
 
-  public static final class DrivebaseConstants
-  {
-    // Hold time on motor brakes when disabled
-    public static final double WHEEL_LOCK_TIME = 10; // seconds
+  /* ================= Drivebase ================= */
+
+  public static final class DrivebaseConstants {
+
+    private DrivebaseConstants() {} // Prevent instantiation
+
+    /** Time to hold wheel lock when disabled (seconds). */
+    public static final double WHEEL_LOCK_TIME = 10.0;
   }
 
-  public static class OperatorConstants
-  {
-    // Joystick Deadband
-    public static final double DEADBAND        = 0.1;
+
+  /* ================= Operator Controls ================= */
+
+  public static class OperatorConstants {
+
+    private OperatorConstants() {} // Prevent instantiation
+
+    /** Joystick deadband to prevent drift. */
+    public static final double DEADBAND = 0.1;
+
     public static final double LEFT_Y_DEADBAND = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
-    public static final double TURN_CONSTANT    = 6;
+
+    /** Scalar applied to turning input. */
+    public static final double TURN_CONSTANT = 6.0;
   }
-  // Elevator configuration - needs to be revised (previously mentioned at comp)??
-    public static final class Elevator {
-      public static final SparkMaxConfig elevator1Config = new SparkMaxConfig();
+
+
+  /* ================= Elevator ================= */
+
+  public static final class ElevatorConstants {
+
+    private ElevatorConstants() {} // Prevent instantiation
+
+    /** Spark MAX configuration for the elevator motor. */
+    public static final SparkMaxConfig ELEVATOR_MOTOR_CONFIG = new SparkMaxConfig();
                 
-      static {
-        elevator1Config
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(60);
-        elevator1Config.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(0.1, 0.0, 0.0)
-          .outputRange(-1, 1);
-              }
+    static {
+      ELEVATOR_MOTOR_CONFIG
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(60);
+
+        ELEVATOR_MOTOR_CONFIG.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(0.1, 0.0, 0.0)
+        .outputRange(-1, 1);
     }
+  }
 }
